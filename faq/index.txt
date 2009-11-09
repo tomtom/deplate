@@ -1,0 +1,67 @@
+#TITLE:  Frequently Asked Questions
+% #AUTHOR: Thomas Link
+#DATE: today
+% #DATE: year
+% #DATE: none
+#VAR: keywords=Converter, Text, LaTeX, HTML, Docbook, Wiki, \
+Presentation, Web Publishing
+
+#VAR: noObfuscatedNoscript! subToC! floatCaptionAbove!
+% #VAR: headings=plain
+#VAR fmt=plain: ascii_width=50
+#VAR fmt=latex: codeStyle=typical
+#VAR fmt=~html: codeStyle=tomacs
+#VAR fmt=~php: codeStyle=tomacs
+% #VAR fmt=~htmls: nextKey=0 
+% #VAR fmt=~htmls: stepwiseDisplay! stepwiseBegin=2 stepwiseKey=16 
+% #VAR fmt=~htmls: stepwiseContinous!
+#VAR: baseUrl=http://deplate.sourceforge.net/faq/ baseUrlStripDir=2
+#VAR: htmlAuxUrl=../%s
+#VAR: urlIcon=remote.png mailtoIcon=mailto.png
+#VAR: tabBarAbout=../about.html
+
+#VAR: dbkVersion=4.4
+#Var if=sgml id=dbkEntities:
+<!ENTITY % ISOgrk3 PUBLIC "ISO 8879:1986//ENTITIES Greek Symbols//EN"> %ISOgrk3;
+#End
+
+#VAR: css=tabbar-right.css|screen article.css|print +serif.css
+
+#VAR: autoFileNames! autoBasename! autoindex! buttonsColour=blue buttonsHighlight!
+#VAR: refentry=deplate copyrightYear=2004-2006
+#IF: fmt==latex
+#VAR: encoding=latin9
+#Native fmt=latex type=pre slot=user_packages <<--
+\usepackage{textcomp}
+\DeclareInputText{128}{\texteuro}
+--
+#ELSE
+#VAR: encoding=latin-1
+#ENDIF
+#AUTOIDX: deplate
+
+#Native fmt=~html|php if=sfNet type=post slot=html_pageicons <<---
+<a href="http://www.vim.org"><img src="http://www.vim.org/images/vim88.png" border="0" alt="VIM Logo" /></a>
+<a href="http://deplate.sourceforge.net"><img src="http://deplate.sourceforge.net/deplate-mini.png" border="0" alt="deplate Logo" /></a>
+<a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=108085&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+---
+
+#ABBREV word=deplate: ''deplate''
+#ABBREV word=CAVEAT: __CAVEAT:__
+
+#MAKETITLE
+#LIST plain!: contents
+#IF: fmt=~htmls
+#XARG: navigation_note()
+#ENDIF
+
+#INCLUDE: integration.txt
+
+% #MAKEBIB id=TheBibliography shortcaption=Bibliography: cbib-apa-1
+% #LIST id=TheIndex shortcaption=Index: index
+
+
+% 12-Apr-2006; @Last Change: 04-Jan-2006.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

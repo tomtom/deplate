@@ -1,0 +1,939 @@
+# vim: cms=#\ %s
+# German messages {{{1
+
+Bibliography
+Literatur
+
+Figure
+Abbildung
+
+Footnotes
+Fußnoten
+
+Index
+Register
+
+List of Figures
+Abbildungsverzeichnis
+
+List of Tables
+Tabellenverzeichnis
+
+p.\ 
+S.\ 
+
+see
+siehe
+
+Table of Contents
+Inhaltsverzeichnis
+
+Contents
+Inhalt
+
+Table
+Tabelle
+
+Frontpage
+Titelseite
+
+Notes
+Anmerkungen
+
+Keywords:
+Schlüsselwörter:
+
+Note
+Anmerkung
+
+Elaborate
+Ausführen
+
+Discussion
+Diskussion
+
+Important
+Wichtig
+
+[Start]
+[Startseite]
+
+@htmlnavigation_note
+<p class="htmlnavigationnote" />
+<hr class="htmlnavigationnote" />
+<p class="htmlnavigationnote">Tipps:</p>
+<ul class="htmlnavigationnote">
+<li class="htmlnavigationnote"> Drücke &lt;a-n&gt; oder &lt;shift&gt;, 
+um zur nächsten Seite zu gelangen</li>
+<li class="htmlnavigationnote"> Drücke &lt;a-b&gt;, 
+um zur vorangegangenen Seite zu gelangen</li>
+<li class="htmlnavigationnote"> Drücke &lt;a-h&gt;, um zur Titelseite  
+zu gelangen</li>
+<li class="htmlnavigationnote"> Es hängt vom verwendeten Browser ab, 
+ob der Verweis tatsächlich aktiviert (z.B. Mozilla) oder nur ausgewählt 
+(z.B. MS IE) wird -- in diesem Fall drücke &lt;enter&gt;</li>
+</ul>
+
+@htmlnavigation_tabbar_note
+<p class="htmlnavigationnote" />Um das Menü zu fixieren, klicke auf das Quadrat links oben.</p>
+
+
+
+################################## Bibliography {{{1
+
+Ed.
+Hg.
+
+Eds.
+Hg.
+
+Edition
+Auflage
+
+Chapter
+Kapitel
+
+Available online at:
+Online verfügbar unter:
+
+Available online at (%s):
+Online verfügbar unter (letzter Zugriff am: %s):
+
+January
+Januar
+
+February
+Februar
+
+March
+März
+
+April
+April
+
+May
+Mai
+
+June
+Juni
+
+July
+Juli
+
+August
+August
+
+September
+September
+
+October
+Oktober
+
+November
+November
+
+December
+Dezember
+
+
+################################## Day times {{{1
+Day
+Tag
+
+Night
+Nacht
+
+Evening
+Abend
+
+Morning
+Morgen
+
+
+################################## General messages {{{1
+
+About this page
+Über diese Seite
+
+Already required package with different options
+LaTeX-Package wurde bereits mit anderen Optionen angefordert
+
+Anonymous
+Anonym
+
+Argument parse error
+Fehler beim Aufschlüsseln der Argumente
+
+Assuming the use of deprecated list separators
+Vermutete Verwendung veralteter Listentrennzeichen
+
+Bad language definition
+Falsche Sprachangabe
+
+Bad range definition
+Falsche Angabe einer Spannweite
+
+Body is empty
+Textkörper ist leer
+
+Empty element
+Leeres Element
+
+Call with agent
+Aufruf mit Agenten
+
+Calling service failed
+Fehler beim Aufruf eines Dienstes
+
+Cannot attach caption to a LaTeX fragment marked as inline
+Kann Überschrift nicht an ein als "inline" gekennzeichnetes LaTeX-Fragment anhängen
+
+Cannot attach caption to
+Kann Überschrift nicht anhängen
+
+Cannot copy css file
+Kann CSS Datei nicht kopieren
+
+Cannot determine image dimensions
+Kann die Bilddimensionen nicht bestimmen
+
+Cannot include remote images in current document
+Dieses Dokument kann keine entfernten Bilder beinhalten
+
+Cannot parse date
+Kann Datumsangabe nicht aufschlüsseln
+
+Cannot refer to id
+Kann nicht auf ID verweisen
+
+Cancel
+Abbrechen
+
+Character should be preceded by a backslash
+Dem Zeichen sollte ein Backslash vorangestellt werden
+
+Clip is nil, which is quite strange and most likely deplate's error but as I haven't had the time yet to track this down this error still occurs.
+Das Textstück ist nil, was ziemlich seltsam und vermutlich ein wirrer Fehler in der Programmlogik ist
+
+Code: ''highlight'' can't create output for this formatter!
+Code: ''highlight'' kann für dieses Format keine Ausgabe erzeugen!
+
+Code: ''highlight'' doesn't support docbook!
+Code: ''highlight'' unterstützt DocBook nicht!
+
+Code: No syntax defined!
+Code: Fehlende Syntaxangabe!
+
+Code: You need to copy highlight's style definition
+Code: Du musst evtl. die Stildefinition ins Ausgabeverzeichnis kopieren
+
+Command
+Kommando
+
+Command already defined
+Kommando existiert bereits
+
+Comment
+Kommentar
+
+Configuration directory
+Konfigurationsorder
+
+Conflicting arguments
+Widersprüchliche Argumente
+
+Copy css file
+Kopiere CSS Datei
+
+Copy file
+Kopiere Datei
+
+Creating directory
+Erzeuge Verzeichnis
+
+Defer label
+Verschiebe Zuordnung der Marke
+
+Directory doesn't exist
+Verzeichnis existiert nicht
+
+Duplicate label
+Marke doppelt definiert
+
+Deleting file database. Files will be re-scanned on next run.
+Lösche Dateienverzeichnis. Dateien werden beim nächsten Start neu registriert.
+
+Deleting
+Lösche
+
+Deprecated syntax
+Veraltete Syntax
+
+Deprecated region syntax: Use argument instead
+Veraltete Syntax für Regionen: Verwende besser ein Argument
+
+Deprecated text style
+Veralteter Textstil
+
+Destination directory doesn't exist
+Ausgabeverzeichnis nicht vorhanden
+
+# DIR
+
+Disabled ruby command
+Nicht ausgewertetes Ruby Fragment
+
+Disabled
+Nicht ausgewertet
+
+Doc variable has wrong type
+Variable hat einen falschen Typ
+
+Document encoding does not match message encoding
+Textkodierung des Dokuments entspricht nicht der des Nachrichtenkatalogs
+
+Don't know how to format an object of this class
+Keine Ahnung, wie ich etwas von dieser Klasse formatieren soll
+
+Don't know how to insert linebreaks
+Keine Ahnung, wie ich da Zeilenumbrüche einfügen soll
+
+Dropped!
+Wurde weggelassen!
+
+Dropping
+Wird weggelassen
+
+E-Mail
+E-Mail
+
+Element already has a caption
+Element hat bereits eine Überschrift
+
+ELSE without IF
+ELSE ohne IF
+
+ELSEIF without IF
+ELSEIF ohne IF
+
+Empty body ... skipping
+Leerer Textkörper ... Übersprungen
+
+ENDIF without IF
+ENDIF ohne IF
+
+Error in module
+Fehler in Modul
+
+Error in ruby code
+Fehler in Ruby Fragment
+
+Error when running command
+Fehler beim Aufruf eines Kommandos
+
+Error when running gvim
+Fehler beim Aufruf von GVIM
+
+Error when writing file
+Dateischreibefehler
+
+Exec
+Ausführen
+
+Expected exactly one element of type Table
+Da sollte nur genau ein Element vom Type "Table" sein
+
+Expected something of a different class
+Da sollte etwas einer anderen Klasse sein
+
+File in lib
+Datei in lib
+
+File in CWD
+Datei in CWD
+
+File not found
+Datei nicht gefunden
+
+File already exists
+Datei ist bereits vorhanden
+
+Files exist! Using
+Bereits vorhandene Datei wird wiederverwendet
+
+Flushing formatted elements
+Abschluss der Ausgabeformatierung
+
+Footer ignored
+Fußzeile wird ignoriert
+
+Formatting elements
+Ausgabeformatierung der Blockelemente
+
+Formatting failed
+Fehler bei der Ausgabeformatierung
+
+Formatting object failed because of unknown variable
+Fehler bei der Ausgabeformatierung wegen einer unbekannten Variable
+
+Formatting on LIST failed
+Fehler bei Ausgabeformatierung von LIST
+
+GET: Clip not found
+GET: Unbekanntes Textstück
+
+Header must contain only 1 element (a paragraph or a table)
+Kopfzeile darf nur 1 Blockelement beinhalten (Absatz oder Tabelle)
+
+Here we go ...
+Und los geht's ...
+
+Hide comment
+Verberge Kommentar
+
+ID mismatch
+Widersprüchliche IDs
+
+ID with the same name already exists
+ID bereits vorhanden
+
+Imprint
+Impressum
+
+Inadequate formatter
+Unpassendes Ausgabeformat
+
+Including from STDIN
+Lese von STDIN
+
+Including
+Lese
+
+Index: Neither file nor level defined: dropping
+Index: Weder Datei noch Stufe ist definiert ... wird weggelassen
+
+Initializing formatter
+Initialisiere Ausgabeformatierung
+
+Initializing modules
+Initialisiere Programmmodule
+
+Initializing symbols
+Initialisiere Symbole
+
+Internal error
+Interner Programmfehler
+
+Internal error: Bad log text
+Interner Programmfehler: Schlecht definierter Protokolleintrag
+
+Internal error: No @elt
+Interner Programmfehler: Kein @elt
+
+Internal error: No ID
+Interner Programmfehler: Keine ID
+
+Internal error in #output_file_name
+Interner Programmfehler in #output_file_name
+
+Internal error: No output file
+Interner Programmfehler: Keine Ausgabedatei
+
+Internal error: Unknown level
+Interner Programmfehler: Unbekannte Abschnittsnummer
+
+Invalid ID
+Ungültige ID
+
+Invoking method failed
+Fehler bei Methodenaufruf
+
+Is no file
+Ist keine Datei
+
+Label already defined
+Marke bereits definiert
+
+Library file not found
+Datei aus Bibliothek nicht gefunden
+
+Loading module failed
+Fehler beim Laden von Programmmodul
+
+Loading
+Lade
+
+Macro already defined
+Makro existiert bereits
+
+Malformed command
+Fehlerhafter Befehl
+
+Malformed condition
+Fehlerhafte Bedingung
+
+Malformed configuration line
+Fehlerhafte Konfigurationsangabe
+
+Malformed doc option on command line
+Fehlerhafte Variablendefinition auf der Kommandozeilen
+
+Malformed list hierarchy
+Fehlerhafte Listenhierarchie
+
+Malformed list or internal error
+Ungültige Listendefinition oder Programmfehler
+
+Malformed macro
+Ungültige Makrodefinition
+
+Malformed range
+Ungültige Bereichsangabe
+
+Malformed ruler definition (<)
+Ungültige Liniendefinition (<)
+
+Malformed ruler definition (^)
+Ungültige Liniendefinition (^)
+
+Malformed ruler definition
+Ungültige Liniendefinition
+
+Malformed variable name
+Ungültiger Variablenname
+
+Missing arguments
+Fehlendes Argument
+
+Name
+Name
+
+Negative indentation level
+Negatives Einrückniveau
+
+Neither block element nor inline text particle
+Weder Blockelement noch Fließtext
+
+Neither element nor particle
+Weder Blockelement noch Fließtext
+
+New anchor
+Neue Sprungmarke
+
+New element
+Neues Element
+
+Next page?
+Nächste Seite?
+
+No arguments
+Kein Argument
+
+No bib entry type given
+Fehlender BIBTEX-Eintragstyp
+
+No element given
+Fehlendes Blockelement
+
+No filename
+Fehlender Dateiname
+
+No footnote ID
+Fehlende Fußnoten-ID
+
+No ID given
+Keine ID
+
+No input! Skip
+Keine Eingabe! Übersprungen
+
+No label
+Fehlende Marke
+
+No log destination given!
+Fehlender Ausgabeort für Protokoll!
+
+No more input on STDIN
+Keine weitere Eingabe auf STDIN
+
+No object with that ID
+Unbekannte Objekt-ID
+
+No or unknown formatter
+Fehlendes oder unbekanntes Ausgabeformat
+
+No output file
+Keine Ausgabedatei
+
+No pattern specified
+Fehlendes Muster
+
+No permission
+Fehlende Berechtigung
+
+No programm name given!
+Fehlender Programmname
+
+No separator
+Fehlendes Trennungszeichen
+
+No slot
+Fehlende Ausgabeposition
+
+No template defined
+Fehlende Angabe einer Schablone
+
+Not yet implemented!
+Noch nicht implementiert!
+
+Nothing to register
+Kein Element, um es zu registrieren
+
+Object has no label
+Objekt hat keine Marke
+
+Obsolete use of native regions. Please use
+Hinfällige Verwendungsweise einer unbehandelten Region. Verwende stattdessen
+
+Only the header's first row will be used
+Es wird nur die erste Zeile der Kopfzeile verwendet
+
+Option clash: both id and xid provided
+Widersprüchliche Angabe von id sowie xid
+
+Output at
+Ausgabe bei
+
+Output exists and source matches
+Ausgabedatei bereits vorhanden; Inhalt stimmt überein
+
+Output needs updating
+Ausgabedatei muss erneuert werden
+
+Output not found
+Ausgabedatei nicht gefunden
+
+Please contact us
+Kontaktieren Sie bitte den Autor
+
+Please consider contributing a message catalog for your language
+Sie könnten selbst einen Nachrichtenkatalog für Ihre Sprache beisteuern
+
+Please refer to slots by their names
+Die Ausgabeposition sollte per Namen angesprochen werden
+
+Possible use of deprecated list separators
+Mögliche Verwendung veralteter Listentrennzeichen
+
+PREMATTER: No content found
+PREMATTER: Kein Text
+
+Preparing formatting
+Vorbereiten der Ausgabeformatierung
+
+Processing elements
+Verarbeite Textelemente
+
+Program call failed
+Fehler beim Programmaufruf
+
+# CWD
+# R xtable: post
+# R xtable: pre
+# R xtable: row
+
+R yielded no output
+R ergab keine Ausgabe
+
+Reference to unknown label
+Verweis auf unbekannte Marke
+
+Regexp error when parsing
+Regexp-Fehler bei der Textanalyse
+
+Region already defined
+Region existiert bereits
+
+Register heading
+Registriere Überschrift
+
+Register ID
+Registriere ID
+
+Require failed
+Fehler beim Anfordern eines Programmteils
+
+Require formatter
+Anfordern der Ausgabeformatierung
+
+Require module
+Anfordern von Modul
+
+Reset output
+Zurücksetzen der Ausgabe
+
+Formatter already loaded
+Ausgabeformatierung bereits geladen
+
+Retrieving doc variable failed
+Fehler beim Auslesen der Variable
+
+Use the -X command line option to enable external commands
+Verwende die -X Kommandozeilenoption, um den Aufruf externer Programme zu erlauben
+
+Running identify failed
+Fehler beim Aufruf von identify
+
+Running R
+Starte R
+
+Save output
+Speichere Ausgabe
+
+Saving metadata
+Speichere Metadaten
+
+# Serving array failed because no separator was defined
+# ???
+
+# Serving object failed because of unknown object
+# ???
+
+Set top heading
+Setze Seitenüberschrift
+
+Setting up formatter
+Einrichten der Ausgabeformatierung
+
+Setting up text scanner
+Einrichten des Einlesemoduls
+
+Setting variable
+Setze Variable
+
+Should be excluded
+Soll nicht eingelesen werden
+
+Should be included
+Soll eingelesen werden
+
+Shouldn't be here
+Das sollte gar nicht sein
+
+Size of stacked macro's element != 2
+Falsche Argumentzahl (!= 2) für das stacked-Makro
+
+Skip
+Überspringe
+
+Slot is zero, which is most likely an error
+Ausgabeposition ist Null, was vermutlich ein Programmfehler ist
+
+Source has changed
+Text hat sich geändert
+
+Source not found; assume that output is okay
+Kein Quelltext gefunden; nehme an, dass die Ausgabe aktuell ist
+
+Subject
+Betreff
+
+Submit
+Senden
+
+Table: Cannot join with above cell
+Tabelle: Kann Zelle nicht mit der darüberliegenden vereinen
+
+Table: Cannot join with left cell
+Tabelle: Kann Zelle nicht mit der linken vereinen
+
+Template definition error
+Fehler bei der Schablonendefinition
+
+Template error
+Fehler vei der Schablonenverarbeitung
+
+Template not found
+Unbekannte Schablone
+
+TODO
+ZU ERLEDIGEN
+
+Undefined label
+Unbekannte Marke
+
+Undefined slot
+Unbekannte Ausgabeposition
+
+Unexpected argument
+Unerwartetes Argument
+
+Unexpected number of output files
+Unerwartete Anzahl von Ausgabedateien
+
+Unexpected R output (Please check the output for errors!)
+Unerwartete Ausgabe von R (Bitte prüfe die Ausgabedatei auf Fehler!)
+
+Unexpected R output (too many elements)
+Unerwartete Ausgabe von R (zu viele Elemente)
+
+Unknown bib entry
+Unbekannter Bibliographieeintrag
+
+Unknown clip
+Unbekanntes Textstück
+
+Unknown command
+Unbekanntes Kommando
+
+Unknown counter
+Unbekannter Zähler
+
+Unknown doc variable
+Unbekannte Variable
+
+Unknown element
+Unbekanntes Blockelement
+
+Unknown footnote
+Unbekannte Fußnote
+
+Unknown formatter
+Unbekanntes Ausgabeformat
+
+Unknown formatting agent
+Unbekannter Formatierungsagent
+
+Unknown ID
+Unbekannte Kennung
+
+Unknown indentation mode
+Unbekannter Einrückungsmodus
+
+Unknown input format
+Unbekanntes Eingabeformat
+
+Unknown InterWiki name
+Unbekannter InterWiki-Name
+
+Unknown list
+Unbekannte Liste
+
+Unknown LIST type
+Unbekannter Typ für LIST
+
+Unknown list type
+Unbekannter Listentyp
+
+Unknown macro
+Unbekanntes Makro
+
+Unknown marker
+Unbekannter Markierungstyp
+
+Unknown or unhandled directive
+Unbekannte oder nicht gehandhabte Anweisung
+
+Unknown region class
+Unbekannte Regionenklasse
+
+Unknown service
+Unbekannter Dienst
+
+Unknown skeleton
+Unbekannte Textschablone
+
+Unknown smiley
+Unbekannter Smiley
+
+Unknown style
+Unbekannter Stil
+
+Unknown suffix
+Unbekannte Dateiendung
+
+Unknown template
+Unbekannte Schablone
+
+Unknown theme
+Unbekanntes Thema
+
+Unknown variable
+Unbekannte Variable
+
+Unknown variable or option
+Unbekannte Variable oder Option
+
+Unsupported advice type
+Nicht unterstützer Typ eines Advice
+
+Unsupported encoding
+Nicht unterstütze Textkodierung
+
+User initialization
+Benutzerspefizische Konfiguration
+
+Using template
+Benutze Schablone
+
+Using file cache
+Benutze gespeicherten Dateikatalog
+
+Create file cache
+Erzeuge Dateikatalog
+
+Old file cache
+Dateikatalog ist möglicherweise obsolet
+
+Variable already set
+Variable bereits gesetzt
+
+We shouldn't be here. If you can track down when this happens, please send an example to the author.
+Das sollte nicht sein. Wenn du herausfinden kannst, unter welchen Bedingungen diese Meldung erscheint, lass es mich bitte wissen.
+
+Whitespace
+Leerraum
+
+Wiki name as url
+Wikiname als URL
+
+Wiki reference to unknown anchor
+Wikiverweis auf unbekannte Sprungmarke
+
+Writing file
+Schreibe Datei
+
+Writing output file(s)
+Schreibe Ausgabedatei(en)
+
+Writing Makefile
+Schreibe Makefile
+
+Wrong index
+Falscher Index
+
+Guesslanguage: Switch to
+Guesslanguage: Sprachwechsel zu
+
+Guesslanguage: Ignore switch
+Guesslanguage: Übergehe Sprachwechsel
+
+Guesslanguage: Possible conflict
+Guesslanguage: Möglicher Konflikt
+
+XMLRPC: Starting server
+XMLRPC: Starte Server
+
+XMLRPC: Fileset is locked
+XMLRPC: Dateienset ist blockiert
+
+XMLRPC: No writable temporary directory
+XMLRPC: Kein schreibbares temporäres Verzeichnis
+
+
+################################## Module: linkmap {{{1
+
+Malformed LinkMap entry
+Ungültiger LinkMap-Eintrag
+
+

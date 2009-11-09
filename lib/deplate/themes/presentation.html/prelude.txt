@@ -1,0 +1,19 @@
+#IF: fmt==latex
+#MOD fmt=latex: koma
+% #VAR: suppl=standardseite
+#Header <<--
+{pagenumber} -- {get: author}: {val: shorttitle}
+--
+#Footer <<--
+|  | {get: authornote} |  |
+--
+#ENDIF
+
+% #MAKETITLE
+% #LIST plain! max=2: toc
+
+
+% 2007-01-12; @Last Change: 2008-12-04.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

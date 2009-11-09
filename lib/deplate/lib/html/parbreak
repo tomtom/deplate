@@ -1,0 +1,3 @@
+#DefElement id=ParBreak: ^\s+~{3}\s*$ <<
+***
+\#PP: style=parbreak

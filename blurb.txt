@@ -1,0 +1,54 @@
+deplate is a [[http://www.ruby-lang.org][ruby]]-based tool that converts 
+wiki-like markup to LaTeX, HTML, \DocBook, or really plain text. It 
+currently supports the following input formats:
+
+    - "native" viki/deplate markup with variations: full, restricted, 
+      template, play, headings (~~outline)
+    - ruby's [[http://rdoc.sourceforge.net/][rdoc]]
+
+It currently supports the following output formats:
+
+    - HTML: single page, chunked (small website, HTML-based slideshow)
+    - PHP = HTML + extras
+    - LaTeX: standard document classes, koma, dramatist
+    - \DocBook: article, book, man/ref
+    - Really plain text
+
+The "native" viki/deplate markup supports page templates, embedded LaTeX 
+code, footnotes, citations, bibliographies, semi-automatic index 
+generation, table of contents etc.
+It is suitable for writing articles, books, plays (for screen or stage), 
+or for creating small websites. By means of LaTeX or \DocBook, it is 
+possible to create PDF or RTF documents.
+From a user perspective, viki/deplate is an intermediary format that can 
+replace LaTeX. deplate's LaTeX output is intended to be readable and 
+well formatted. Because of the tight integration with LaTeX, you still 
+get most of its features but with fewer quirks and support for more 
+output formats. At least, that's the idea. :-)
+
+''deplate'' __aims__ to be modular and easily extensible. It is the 
+accompanying converter for the
+[[http://www.vim.org/scripts/script.php?script_id=861][Vim viki plugin]].
+% For the records: In the family of wiki markups/engines, the viki/deplate 
+% markup originated from 
+% [[http://www.emacswiki.org/cgi-bin/wiki/EmacsWikiMode][emacs-wiki]]. 
+% Although the default markup has changed since its first release, it 
+% still includes a module that is supposed to convert emacs-wiki markup as 
+% of 2003.
+#IDX: LaTeX|latex; HTML|html; htmlslides; Markup|markup
+#IDX: Doc\Book|\DocBook|Docbook|docbook|dbk
+#IDX: Emacs|emacs; viki; Vim|VIM|vim
+
+A note on code quality: This is a personal pet project and the result of 
+a series of early morning pre-coffee plumbing. It originally served two 
+purposes: learn ruby, convert 
+[[http://www.emacswiki.org/cgi-bin/wiki/EmacsWikiMode][emacs-wiki]] 
+pages without emacs. It has improved since then but not always in the 
+most advantageous manner. It works for me though and has proven quite 
+useful.
+
+
+% 2007-09-16; @Last Change: 2008-07-22.
+% vi: ft=viki:tw=72:ts=4:spell:spelllang=en
+% Local Variables:
+% End:

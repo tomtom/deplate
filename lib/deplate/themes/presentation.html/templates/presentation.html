@@ -1,0 +1,26 @@
+#Mingle type=pre slot=css:
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="website-ie.css" media="screen">
+<![endif]-->
+#End
+#PREMATTER
+
+<div id="pageFrame">
+    <div id="pageNavigation">
+        #XARG: navigationBar(top!)
+    </div>
+    <div id="pageBodyFrame">
+        <div id="pageBodyText">
+            <img width="600px" height="1px" src="spacer.png" alt="" />
+            #BODY
+        </div>
+</div>
+<div type="FOOTER" class="footer">
+<p class="footer">{author}</span></a>, last updated {date: today}</p>
+    </div>
+    #XARG: navigationKeys()
+    #XARG: stepwiseDisplay()
+    #XARG: navigationHandleKeys()
+</div>
+
+#POSTMATTER

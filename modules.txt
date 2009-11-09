@@ -1,0 +1,655 @@
+% vi: ft=viki:tw=72
+% @Last Change: 2008-11-29.
+
+* Modules
+#OPT: id=Modules
+#LIST fmt=html plain! sub!: toc
+
+** Localization: lang-en, lang-de, lang-ru-koi8-r, lang-zh_CN
+
+With these modules, messages like "Bibliography", "Table of Contents" 
+are translated to a localized equivalent.
+
+Available localizations are:
+
+    de :: German
+        - In LaTeX output, this module makes use of the "german" package
+
+    ru-koi8-r :: Russian (kindly contributed by Maxim Komar)
+
+    zh_CN :: Chinese (kindly contributed by Jjgod Jiang)
+        - When used with LaTeX output, this module uses the following 
+          packages: CJK, CJKnumb, indentfirst; the text is set in a CJK* 
+          environment
+        - Like in the CJK* environment in LaTeX, a tilde denotes a space 
+          between an English and non-English word (in HTML, this will 
+          become a normal space, though)
+            - Wiki names should not contain tildes but only normal space
+        - Spaces and newlines will be swallowed
+        - The following document variables can be used to parametize 
+          this module
+            - cjk_family (default: gbsn)
+            - cjk_encoding (default: GB)
+
+          In LaTeX output, the CJK* environment will be: 
+          ''\\begin{CJK*}{ENCODING}{FAMILY}''
+
+          In order to change these variables permanently, add something  
+          like ''variables["cjk_encoding"] = "GBK"'' to your 
+          definition of 
+          [[usage.txt#user_initialize][Deplate#user_initialize]].
+        - If you want to keep blanks as they appear in the document, you 
+          have to set ''Deplate::Formatter.cjk_smart_blanks'' to true or 
+          set the document option ''noSmartBlanks''. If you want to 
+          change this setting for some modes only, add your settings to 
+          ''~/.deplate/after/fmt/FORMATTER.rb''.
+
+    zh_CN-autospace :: Like zh_CN but tries to figure out which spaces 
+      it should set and which ones it should swallow
+        - this module requires the encoding to be gb2312 or, to be more 
+          precise, it requires an encoding where CJK-characters are made 
+          up of double byte characters in the range 0xA1-0xFE
+        - what was said about ''Deplate::Formatter.cjk_smart_blanks'' 
+          for ''zh_CN'' applies too
+
+|| Input: zh_CN || Input: zh_CN-autospace || Output: HTML || Output: LaTeX         ||
+| C C            | C C                     | CC            | CC or C C{fn: zh_CN1}  |
+| C\\nC          | C\\nC                   | CC            | CC or C C              |
+| C~a            | C a                     | C a           | C~a                    |
+| a~C            | a C                     | a C           | a~C                    |
+| C\\n~a         | C\\na                   | C a           | C~a                    |
+| a~\\nC         | a\\nC                   | a C           | a~C                    |
+#CAP: How the zh_CN modules set spaces
+
+#Fn: zh_CN1 <<--
+Only the autospace variant maintains spaces between Chinese characters in 
+LaTeX output. These spaces are swallowed by the LaTeX CJK* environment.
+--
+
+
+*** guesslanguage: Guess the locale
+The algorithm of this plugin is based on 
+[[http://xxx.uni-augsburg.de/format/cond-mat/0108530]\
+[D Benedetto & E Caglioti & V Loreto "Language Trees and Zipping"]]. 
+It's a direct port of 
+[[http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/355807]\
+[Dirk Holtwick's "Guess language of text using ZIP"]].
+
+In order to make this work, you'll have to save some sample files as 
+''~/.deplate/locale/LANG.ENCODING_data''. I.e., in order to enable 
+autodetection for German documents, find some German sample, save it as 
+''de.latin1_data'', and make sure the guesslanguage module gets loaded.  
+You'll also have to allow ''l'' (see{ref: configuration} and{ref: 
+allow}).
+
+If you want to see your locale/language supported, send me translations 
+of the message file and freely distributable text samples.
+
+
+** General
+*** anyword: Turn specified words into hyperlinks
+
+A list of words that should be turned into wiki names can be defined via 
+the document options:
+
+    anyword_list    :: a list a names separated by ","
+    anyword_catalog :: a file name that contains automatically generated 
+      wiki names one per line
+    anyword_pattern :: a glob file pattern
+    anyword_suffix  :: remove this suffix from file names to get the 
+      corresponding wiki names
+
+If no wiki names are defined, all files in the source files' directories 
+will be used.
+
+
+*** code-coderay: Highlight #Code regions using \
+[[http://coderay.rubychan.de][coderay]]
+#coderay
+Requires you to install the [[http://coderay.rubychan.de][coderay]] gem 
+by Kornelius Kalnbach.
+
+Supported languages:
+    - ruby
+    - c
+    - delphi
+    - html
+    - rhtml
+    - xhtml
+
+
+*** code-gvim, code-gvim71: Highlight #Code regions using gvim
+#codeGvim
+
+This modules make use of gvim to highlight code regions for html output. 
+The ''code-gvim71'' is suitable for newer versions of gvim (7.1+).
+
+__NOTE:__ This module relies on an external program. You thus have to 
+allow ''deplate'' to run programs, e.g. by using the ''-X'' command line 
+switch.
+
+
+*** code-highlight: Highlight #Code regions using gvim
+#codeHighlight
+
+This modules make use of [[http://www.andre-simon.de/][André Simon's 
+highlight]] to highlight code regions for html, xhtml, and LaTeX output.
+
+Type ''highlight --list-langs'' to get a list of supported languages.
+
+The style information is currently not included in the output itself. 
+You have to save the style definition in an auxiliary file -- 
+''highlight-#{STYLE}.css'' for HTML output, ''highlight-#{STYLE}.sty'' 
+for LaTeX. Consequently, it's only possible to use one style per file, 
+which is why you should probably set the style via the ''codeStyle'' 
+document variable. If no style is defined, the file names are 
+''highlight.css'' and ''highlight.sty''.
+
+__NOTE:__ This module relies on an external program. You thus have to 
+allow ''deplate'' to run programs, e.g. by using the ''-X'' command line 
+switch.
+
+
+*** endnotes: Turn footnotes into endnotes
+
+This module turns footnotes into endnotes that can be listed using the 
+command:
+
+#Verb <<---
+#LIST: endnotes
+---
+
+The module uses the "endnotes" package in LaTeX format.
+
+
+*** entities-decode: Insert characters as entities
+This module makes it possible to insert characters as entities.
+
+#EXAMPLE: Entities
+#Verb <<---------
+#VAR: encoding=utf8
+
+alpha &#945; and beta &beta;.
+---------
+
+The entities are stored as tab-separated tables (3 columns: printable 
+character, named, numbered) in:
+    - ents/NAME-FORMATTER_ENCODING.entities
+    - ents/NAME-ENCODING.entities
+
+NAME is given by the ''entities'' variable. If undefined, use 
+''general''.
+
+Currently, only UTF-8 encoded entities files are provided.
+
+
+*** entities-encode: Insert characters as entities
+The opposite of ''entities-decode''. Encode special characters.
+
+
+*** iconv: Convert text between encodings
+
+The source encoding is defined in the ''encoding'' variable (default: 
+"latin1"), the target encoding in the ''recodeEncoding'' variable 
+(default: "utf-8"). So, your input text file can be in latin-1 and your 
+docbook output in utf-8.
+
+
+*** imgurl: Insert urls/links to images as images
+
+Insert urls/links to images as images and not as references.
+
+
+*** linkmap: Define labels refering to URLs
+Jeff Barczewski took the idea of markdown to not include URLs in the 
+text but labels that are replaced with the URLs and adapted it for 
+deplate.
+
+This module also modifies the ref macro (see{ref: refMacro}) to use 
+these labels.
+
+#Example: Use linkmap to define labels that refer to URLs <<--
+Syntax for using links in map (any of following):
+    - [[Example]]
+    - [[Example][This example]]
+    - [[Example][Example in a box]*], i.e. in a new window
+    - [[Example]$] no follow rel
+
+or to embed raw URL using macro{ref: Example} foo.
+
+Use the ref macro but display the URL{ref p!: Example}.
+
+Use the ref macro but display a different name{ref name=this example: 
+Example}.
+
+#LinkMap <<---
+Example: http://www.example.com/foo.php&bar=123#abc
+---
+--
+
+NOTE: The ''LinkMap'' environment can be located anywhere in the current 
+source. Labels are effective only in the current source unless 
+''global!'' is set.
+
+
+*** makefile: Create Makefiles
+
+This module creates a Makefile and exits from the current run. The 
+Makefile should be suitable for most tasks.
+
+#EXAMPLE: The makefile module
+First run:
+#Verb <<---------
+deplate -m makefile -m de -m html-obfuscate-email index.txt
+---------
+
+This will create Makefile and Makefile.config. Then, you can run, e.g.,
+
+#Verb <<---------
+make website
+---------
+
+to create a multi-page website (HTML output, using the htmlsite 
+formatter).
+
+NOTE: In case you want to create new make goals, put them into 
+Makefile.config. If you run the above command again, the Makefile will 
+be overwritten but not Makefile.config.
+
+The following goals might be of use:
+
+    cleantex :: Remove temporary LaTeX files
+    dbk      :: Create docbook output
+    dvi      :: Create dvi output (via LaTeX)
+    dviclean :: Create dvi output and remove temporary files
+    html     :: Create single-page HTML output (the default)
+    man      :: Create a man page (via \DocBook & ''xmlto'')
+    pdf      :: Create PDF output (via LaTeX)
+    pdfclean :: Create PDF output and remove temporary files
+    php      :: Create PHP output
+    sweave   :: Create Rnw output for R CMD Sweave
+    sweavepdf :: Create PDF output via R CMD Sweave
+    tex      :: Create LaTeX output
+    text     :: Create plain text output
+    website  :: Create multi-page HTML output
+
+The generated Makefile supports implicit, suffix-based rules. Example:
+
+#Verb <<---------
+make extra.html
+---------
+
+This will convert the file ''extra.txt'' (because in the above example 
+the suffix was ''txt'') and convert it to single-page HTML, using the 
+command line options defined when creating the makefile.
+
+
+*** mark-external-urls: Mark external references with icons
+
+URLs will be marked with images -- "mailto.png" or "url.png" depending 
+on the type. The image names can be redefined by setting the document 
+options "mailtoIcon" or "urlIcon". In this manual I use icons from the 
+[[http://www.matterform.com/][QBullets set]].
+
+
+*** numpara: Numbered paragraphs
+
+This module adds a running number to each formatted paragraph. The 
+paragraphs are numbered as they are formatted, which means that clipped 
+paragraphs, non-standard document slots, or pragraphs in headers of 
+footers are likely to result in a "non-linear" sequence. Add the 
+attribute/option ''noNum'' to these "out-of-order" paragraphs.
+
+#EXAMPLE: The numpara module: Don't number specific buffers
+#Verb <<---
+#Clip id=clippedParagraph <<--
+Some text that forms a paragraph.
+#OPT: noNum!
+--
+---
+
+If you want to change the way paragraphs are numbered 
+redefine the method ''Deplate::Element::Paragraph#add_number'' like in 
+this example:
+
+#EXAMPLE: The numpara module: Change numbering style
+#Code id=code_example syntax=ruby <<---
+class Deplate::Formatter
+    def numbered_paragraph(text, number)
+        return [plain_text("§"), number, " ", text].join
+    end
+end
+---
+
+
+*** particle-math: LaTeX-like $\\math$ markup
+#particleMath
+
+This module provides a particle that enables you to markup mathematical 
+text by enclosing it in dollar signs as it is used in LaTeX. This is not 
+enabled by default in order to reduce the number of special characters.  
+The text is converted as if you had used the math macro (see{ref: 
+math}).
+
+
+*** smart-dash: Insert long or short dashes depending on the context
+
+This module defines a single dash ("-") as a symbol and turns it into a 
+long dash (i.e. "--") in some situations:
+
+    - when preceding character is a digit
+    - when the next character is a digit
+    - when the preceding and the next character are wiki word characters
+
+This module also removes the double dash ''--'' (see{ref: symbols}) from 
+the symbol table. You can force long dashes by using ''`--''.
+
+
+*** smiley: Replace text smileys with images
+
+Currently only the basic smiley is being recognized.
+
+| '':-)'' | :-) |
+% | '':-('' | :-( |
+
+You can define you own smileys by adding something like this to 
+''~/.deplate/after/mod/smiley.rb'':
+
+#Verb <<--
+Deplate::Particle::Smiley.def_smiley(':-(', 'smiley_sad')
+--
+
+The suffix of the image file is controlled by the ''smileySfx'' or
+''imgSfx'' variables.
+
+
+*** utf8: Improve unicode awareness
+
+When using this module, ''deplate'' takes care of UTF-8 multibyte 
+sequences when sorting the index and similar occassions. This module 
+also sets the output encoding to "UTF-8".
+
+
+*** xmlrpc: Work as a xmlrpc server
+
+This modules makes ''deplate'' work as an xmlrpc server. The xmlrpc 
+server could run in an protected context and make deplate formatting 
+capabilities available in an unsafe environment.
+
+This module is experimental and not well tested. The module takes no 
+precautions with respect to concurrent formatting requests.
+
+The xmlrpc server knows the following handlers/methods:
+
+    ''convert(format, text)'' :: return the converted string
+    ''convert_string(format, text)'' :: same as above
+    ''convert_file(format, filename)'' :: convert the file FILENAME and 
+      return the name of the output file (this requires the server and 
+      the client to work on a shared directory
+    ''string_to_fileset(format, filename, text)'' :: convert text and 
+      return a hash (or whatever) that contains filenames and their 
+      contents; this hash comprises auxiliary files too; it's up to the 
+      client to save them in a proper place; cross-references assume 
+      that these files reside in the same directory
+    ''fileset_to_fileset(format, main_filename, fileset_as_hash)'' :: 
+      convert a fileset (a hash of names and contents) to a fileset
+
+__NOTE:__
+The xmlrpc server creates a new converter for each request unless the 
+''xmlrpcReuseInterpreter'' variable ist defined, which will make it 
+reuse the previous converter (the consequence of which is that 
+abbreviations, indexes and the like from earlier documents are still 
+active). This was the default behaviour before version 0.7.3.
+
+__NOTE:__
+This module isn't available in the win32-exe distribution. You have to 
+use the source distribution or the ruby gem.
+
+#EXAMPLE: Invoke as a xmlrpc server
+
+The server (we must give a file name as argument so that ''deplate'' doesn't 
+complain about missing arguments):
+#Verb <<--
+a> deplate -m xmlrpc -
+[2005-01-28 20:02:15] INFO  WEBrick 1.3.1
+[2005-01-28 20:02:15] INFO  ruby 1.8.1 (2003-12-25) [i386-cygwin]
+[2005-01-28 20:02:15] INFO  WEBrick::HTTPServer#start: pid=2536 port=2000
+[...]
+--
+
+A client:
+#Verb <<--
+b> irb
+irb(main):001:0> require 'xmlrpc/client'
+irb(main):002:0> deplate = XMLRPC::Client.new("localhost", "/deplate", 2000)
+irb(main):003:0> puts deplate.call("convert", "html", "Some text ...")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+[...]
+irb(main):004:0> puts deplate.call("convert", "latex", "Some text ...")
+\documentclass[11pt,a4paper,english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[]{suppl}
+[...]
+--
+
+There are some variables to change the port and the path:
+
+    xmlrpcAllow :: a space separated list of IP addresses or regular 
+      expressions matching valid IP addresses
+    xmlrpcPort  :: default is 2000
+    xmlrpcPath  :: default is "/deplate"
+
+
+** Syntax
+*** syntax-region-alt: Alternative syntax for regions
+
+This module provides an alternative Syntax for regions.
+
+#EXAMPLE: The syntax-region-alt module
+#Verb <<--
+====== Region options: args
+content
+====== Optional Comment
+--
+
+There have to be at least 4 equal signs at the beginning of the line.  
+The number of equal signs in the end statement has to match the number 
+in the begin statement.
+
+
+*** markup-1: Re-enable pre0.6 text styles
+
+Since 0.6 the markup for textstyles was changed in order to choose 
+characters that are less likely to be appearing in ordinary text for 
+markup. Use this module to re-enable the old pre 0.6 markup:
+
+    Emphasize :: ''*word*'', ''**any text**''
+    Typewriter, Code :: ''=word='', ''==any text==''
+
+
+** LaTeX
+*** inlatex-compound: Compile LaTeX bits as one file
+This (still experimental) module changes the way ''deplate'' compiles 
+LaTeX bits (e.g., when using the ''ltx'' or ''math'' macros). Usually 
+''deplate'' would save each bit into one file and run this file through 
+LaTeX. This approach is simple to manage but has the disadvantage that 
+LaTeX commands defined in one bit are unknown in another.
+
+This module makes ''deplate'' collect all LaTeX bits in one file.  
+Afterwards, the resulting postscript file is split in pieces it order to 
+create one image per page.
+
+If a LaTeX bit covers more than one page, this module fails.
+
+
+*** koma: Support for the Koma-Script class
+Some support for koma script's document classes:
+    - Use ''scrartcl'' instead of article
+    - Use ''scrpage2'' for headers and footers
+
+*** latex-emph-table-head: Emphasize head rows
+Emphasize header cells and add a ruler after a header row.
+
+*** latex-verbatim-small: Print verbatim regions in small font size
+In order to make it easier for LaTeX, this module prints verbatim 
+regions in small font size.
+
+*** latex-styles: Styled LaTeX output
+This module provides the infrastructure for styling LaTeX output. 
+Currently, only a few table styles are supported. Please see{ref: tables} 
+for examples.
+
+
+** HTML
+*** soffice: Support for Star/Sun/Open\Office HTML
+Not much yet:
+    - Footnotes, headers, and footers are marked in Open\Office 
+      compatible format by default
+    - Make the pagenumber macro insert a reference to the ''PAGE'' field
+      #IDX: Page number|pagenumber|Pagenumber
+
+*** html-asciimath: Support for ASCIIMathML.js
+#asciimath
+[[http://asciimathml.sourceforge.net/][ASCIIMathML.js]] by 
+[[http://www.chapman.edu/~jipsen][Peter Jipsen]] translates plain text 
+formulas to MathML. As it happens to know some LaTeX syntax, it can be 
+used to translate the [[macros#math][math macro]] to MathML.
+
+''ASCIIMathML.js'' does the translation when viewing the document in 
+your browser which could result in some delay when viewing large files.  
+ASCIIMathML requires \JavaScript to be enabled and works with the 
+following browser:
+
+    - Internet Explorer 6 + \MathPlayer
+    - Netscape7.1/Mozilla/Firefox
+
+If you don't use this module, the LaTeX code will be embedded as image.
+
+Don't forget to copy ''ASCIIMathML.js'' to the output directory.
+
+% #Example caption=ASCIIMathML <<--
+% Foo {math: \frac{d}{dx}f(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}} bar.
+% --
+
+
+*** html-headings-navbar: Insert a navigation bar before level \
+1-headings
+#htmlHeadingsNavbar
+This module defines a style which insert a simple navigation bar with a 
+drop-down menu and forward/backward buttons before every level-1 
+heading.
+
+You can set ''headingsNavbarMaxLevel'' (default=1) in order to add a 
+navbar for deeper nested headings too.
+
+
+*** html-jsmath: Support for jsMath.js
+#jsmath
+[[http://www.math.union.edu/~dpvc/jsMath/][jsMath.js]] serves a similar 
+purpose as [[#asciimath][ASCIIMathML]].
+
+
+** html-mathml: Support for the mathml gem
+#mathmlgem
+In order to make this work, you have to
+    # install [[http://mathml.rubyforge.org][mathml]] by KURODA Hiraku
+    # use [[formats#xhtml11m][xhtml11m]] as output format.
+
+
+*** html-obfuscate-email: Obfuscate e-mail
+This module replaces e-mail adresses (but only those that have a ''mailto'' 
+prefix) with some presumably harvester-safe representation. The 
+\JavaScript representation is an array of hex chars, which is a method 
+used by several other tools. The no-script representation has the mailto 
+prefix removed and the characters ''@'' and ''.'' are replaced with 
+''AT'' and ''DOT''.
+
+
+*** html-sidebar: Display a sidebar containing a small table of contents
+If Java\Script is enabled, you can move the mouse to the left side to 
+view a small table of contents.
+
+
+*** navbar-png: Display images in the navigation bar
+This module redefines the buttons in the navigation bar for using 
+images: prev.png, home.png, next.png
+
+
+** HTML Slides
+*** htmlslides-navbar-fh: Modified navigation bar
+#htmlslides_navbar_fh
+This module, which was contributed by Fritz Heinrichmeyer, provides a 
+modified navigation bar using span tags instead of a table and is meant 
+as a replacement for the html-website formatter.
+
+If you want this navigation bar to be the default, you can either 
+require it in your ''config.rb''{idx: config.rb} file or copy/move/link it to 
+''~/.deplate/after/fmt/htmlslides/''.
+
+
+** Docbook
+*** symbols-*: Modify the representation of symbols
+If you define the document option "sgml", then the formatter won't 
+insert symbols in plain utf-8 but in something programs like ''jade'' deal 
+with more docile.
+
+When writing man pages, you might want to include the module 
+"symbols-plain" instead.
+
+
+*** noindent: Avoid insertion of spaces and newlines
+If you define the document option "sgml", the formatter will also load 
+this module which avoids inserting spaces and newlines. This make 
+programs like ''jade'' output more nicely formatted documents.
+
+
+** Miscellaneous
+*** \DeplateString
+The file ''deplate/deplate-string'' provides the class 
+''DeplateString'', which is a subclass of ''String'' and has methods 
+like #to_html, #to_latex etc. for easier use of this whole thing from 
+within another program.
+
+#Verb <<--
+puts DeplateString.new('bar __foo__ bar').to_html
+--
+
+
+*** Nukumi2
+#nukumi2
+There is a somewhat experimental support to use ''deplate'' as markup 
+language for a 
+[[http://chneukirchen.org/blog/static/projects/nukumi2.html][Nukumi2]] 
+maintained site. In order to enable ''deplate'' for Nukumi2, you have to 
+add this line to your Nukumi2 ''config.rb''{idx: config.rb}:
+
+#Verb <<--
+require 'deplate/nukumi2'
+--
+
+and maybe also, in order to enable inline LaTeX, Ruby code etc.:
+
+#Verb <<---------
+DeplateString.deplate_options.allow += ['x', 'X']
+---------
+
+A blog entry could then look like this:
+
+#Verb <<---------
+#TITLE: Deplate Test
+#DATE
+#KEYWORDS: deplate
+
+* It works!
+
+Yes, this article was converted using ''deplate''.
+---------
+
+This hack was written for Nukumi2 v0.5. It's not guaranteed to work with 
+other versions.
+
+__NOTE:__ There must be an empty line after the header section.
+
+

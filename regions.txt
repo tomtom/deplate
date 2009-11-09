@@ -1,0 +1,753 @@
+% vi: ft=viki:tw=72
+% regions.txt
+% @Author:      Tom Link (micathom AT gmail com)
+% @Created:     06-Dez-2004.
+% @Last Change: 2009-11-09.
+% @Revision:    0.250
+
+* Regions
+#OPT: id=Regions
+#regions
+#LIST fmt=html plain! sub!: toc
+
+The text marked by a region is interpreted according to the region's 
+rules. The text could be normal ''deplate'' source, but it could also be 
+''ruby'' code, ''LaTeX'', or whatsoever.
+
+Check for end pattern:
+#Verbatim <<EOV
+#Type [OPTIONS] <<----
+Text ...
+----
+EOV
+
+Match until next empty line:
+#Verbatim <<EOV
+#Type [OPTIONS] <<
+Text ...
+EOV
+
+Deprecated:
+#Verbatim <<EOV
+#Type [OPTIONS]:
+Text ...
+#End
+EOV
+
+This form can't be nested.
+
+"Type" being one of:
+    - Abstract
+    - Code
+    - Define
+    - Doc, Var
+    - Footnote, Fn
+    - For
+    - Header, Footer
+    - Img
+    - Inlatex, Ltx, Latex, LaTeX
+    - Native or the name of the chosen formatter
+    - Quote
+    - Set
+    - R (tables)
+    - Region (generic)
+    - Ruby
+    - Drop, Swallow, Skip
+    - Table
+    - Verbatim, Verb
+    - Write
+
+
+** Abstract
+#IDX: #Abstract
+
+#Example caption=Abstract <<---
+#Abstract <<EOA
+''Deplate'' is ruby script for converting wiki-like markup to latex, 
+html, or "html-slides". The markup was originally based on the 
+emacs-wiki mode.
+EOA
+---
+
+
+** Code
+#codeRegion
+#IDX: #Code
+
+This region should be used for displaying source code. Depending on the 
+your use of the corresponding highlighter modules (see{ref: 
+codeHighlight}, {ref: codeGvim}) and its capabilities, the source code 
+will be highlighted.
+
+Options:
+    id     :: Allow ''deplate'' to cache the formatted output
+    syntax :: The code's syntax
+    style  :: The style that should be used for highlighting
+
+#Example caption=Code, syntax highlighting <<--
+#Code id=Foo syntax=ruby <<---
+class Foo
+    # Return two times x
+    def bar(x)
+        x * 2
+    end
+end
+---
+--
+
+__NOTE:__ These corresponding highlighter modules rely on external 
+programs. You thus have to allow ''deplate'' to run programs, e.g. by 
+using the ''-X'' command line switch.
+
+
+** Define: ''DefRegion'', ''DefCommand'', ''DefMacro'', ''DefElement'', \
+    ''DefRegionN'', ''DefCommandN'', ''DefMacroN''
+#OPT: shortcaption=Define
+#IDX: #DefRegion; #DefCommand; #DefMacro; #DefElement
+#IDX: #DefineRegion; #DefineCommand; #DefineMacro; #DefineElement
+#IDX: #Defr; #Defc; #Defm; #Defe
+#IDX: #DefRegionN; #DefCommandN; #DefMacroN
+#IDX: #Defrn; #Defcn; #Defmn
+#defRegion
+#defCommand
+#defMacro
+
+This is still somewhat experimental and doesn't always work right.
+
+These regions provide a ''deplate'' only way to define simple 
+macros or rather mini templates. So you don't have to know ruby in order 
+to perform macro/template-expansion kind of stuff.
+
+These regions come with several synonyms:
+    \DefRegion  :: \DefineRegion, Defr
+    \DefCommand :: \DefineCommand, Defc
+    \DefMacro   :: \DefineMacro, Defm
+    \DefElement :: \DefineElement, Defe
+    DefRegionN  :: DefineRegionN, Defrn
+    DefCommandN :: DefineCommandN, Defcn
+    DefMacroN   :: DefineMacroN, Defmn
+
+The anonymous argument will temporarily (during template expansion) 
+assigned to the document option ''@body'', which can be accessed by 
+[[commands#docCmd][#VAR]], [[macros#docMacro][\{var\}]], 
+[[commands#argCmd][#ARG]], or [[macros#argMacro][\{arg\}]]. The ''doc'' 
+command/macro insert the argument as plain text, while the ''arg'' 
+command/macro parses the argument.
+#IDX: \{arg\}|\{arg; #ARG
+
+When choosing argument names, be aware that they are passed as document 
+options (see{ref: docOpt}) and that some of these arguments (e.g., id, 
+fmt, noFmt, if) are implicitely evaluated by ''deplate''. The unnamed 
+arguments ''@note'' and ''@body'' are assigned by ''deplate''.
+
+Macro templates are parsed as normal templates first (see{ref: 
+templates}). As a consequence, macro templates may contain #IF commands 
+and the like.
+
+#Verb <<--
+#Region NAMED_REGION_ARGUMENTS NAMED_TEMPLATE_ARGUMENTS: @note <<-
+@body
+-
+#Region NAMED_REGION_ARGUMENTS NAMED_TEMPLATE_ARGUMENTS <<-
+@body
+-
+
+#COMMAND NAMED_COMMAND_ARGUMENTS NAMED_TEMPLATE_ARGUMENTS: @body
+#COMMAND NAMED_COMMAND_ARGUMENTS NAMED_TEMPLATE_ARGUMENTS
+#COMMAND: @body
+
+{macro NAMED_MACRO_ARGUMENTS NAMED_TEMPLATE_ARGUMENTS: @body}
+{macro NAMED_MACRO_ARGUMENTS NAMED_TEMPLATE_ARGUMENTS}
+{macro: @body}
+--
+
+#Example caption=Define a new region <<-----
+#DefRegion id=ThingsIHaveTo <<--
+Things I have to {arg default=eat: do}:
+#XARG: @body
+--
+#DefMacro id=thing args=@body <<--
+__{xarg: @body}__
+--
+% The ''args'' argument make these keys mandatory!
+#DefCmd id=THING args=name @body <<--
+| {thing: {xarg: name}} | {xarg: @body} |
+--
+
+#ThingsIHaveTo do=buy <<---
+#THING name=Apples: 1kg
+#THING name=Peaches: 2kg
+---
+-----
+
+The examples in this document were printed with this \DefRegion:
+
+#Verb <<----
+#DefRegion id=Example <<--
+Example:
+#WITH arg=@body: Verb
+
+yields{arg default="": note}:
+
+#ARG: @body
+--
+----
+
+#Example caption=Example region <<--
+#Example note=" an example" <<---
+__Yes__, this is an example of using the #Example region.
+---
+--
+
+This regions displays its body twice: first wrapped in a ''#Verb'' and 
+then properly parsed and formatted.
+
+
+#EXAMPLE: Literate programming
+
+This can also be used for some kind of cheap literate programming 
+experience.
+
+#Verb <<---
+#DefRegion id=Source @args=file <<--
+\#WITH arg=@body: Write append! file={xarg: file}
+\#WITH arg=@body: Code id={xarg:id}
+--
+---
+
+The ''#WITH'' command is escaped with a backslash so that the template 
+input filter, which pre-processes the body, doesn't complain about an 
+unknown region (as the template input filter doesn't allow ''#WITH'' 
+commands).
+
+This region could be used as follows:
+
+#Verb <<---
+#VAR: codeSyntax=ruby codeStyle=tomacs
+
+So, you would really like to define a new class. Now?
+
+#Source id=classFooOpen file=foo.rb <<
+class Foo
+
+And then maybe even add a method?
+
+#Source id=methFoo_test file=foo.rb <<
+    def test(a)
+        p a * 2
+    end
+
+Well, it's really up to you.
+
+#Source id=classFooEnd file=foo.rb <<
+end
+---
+
+The command
+#Verb <<
+deplate --allow=w,W -m code-gvim71 test.txt
+
+would then create two files (test.html and foo.rb). In this simple 
+version the generated documentation and source files would reside in the 
+same directory though. Before re-running the command, you'd have to 
+clear the output directory.
+
+
+*** Elements
+
+Within some limitations, you can also define your own elements.
+
+#Example caption=Define an element <<----
+#DefElement rx="(\\s+)\\[ \\]\\s+(.*)" <<--
+{arg: 1}+ {arg: 2}
+{arg: 1}#OPT: style=todo
+--
+#DefElement rx="(\\s+)\\[x\\]\\s+(.*)" <<--
+{arg: 1}- {arg: 2}
+{arg: 1}#OPT: style=todo
+--
+    [ ] Something I should do 
+        but haven't done yet.
+        [ ] Something else
+    [x] Something I did,
+        maybe yesterday.
+----
+
+
+*** Particles
+
+You can also define particles if you really want to.
+
+#Example caption=Define a new particle <<----
+#DefParticle: \^(\w+?)\^ <<--
+{sup: {arg: 1}}
+--
+Test: x^2^
+----
+
+
+*** Native templates
+The *N variants of these regions define "formatter native" templates.
+
+#Example caption=Insert text literally <<-----
+#IF: fmt=~html
+#DefRegionN id=Pairs <<---
+<p><em>{arg: name}</em></p>
+<table>
+#ARG: @body
+</table>
+---
+#DefCommandN id=LISTPAIR <<---
+<tr>
+{arg: @body}
+</tr>
+---
+#DefMacroN id=pair args=name @body <<---
+<td><em>{arg: name}</em></td><td>{arg: @body}</td>
+---
+
+#Pairs name=A list of pairs <<---
+#LISTPAIR: {pair name=<test>: <Foo>}
+#LISTPAIR: {pair name=<native>: &}
+#LISTPAIR: {pair name=<define>: <Bar>}
+---
+#ELSE
+Sorry, the example is defined for HTML output only.
+#ENDIF
+-----
+
+
+** Doc, Var
+#IDX: #Doc; #Var
+
+Defining a document variable using the ''#Var'' can come handy in 
+conjunction with [[#for][#For]]. It's important to understand 
+that a variable defined by the #Var region is internally represented as 
+an array (one entry per line). If you simply insert this array into a 
+document, the result might not look like what you expected it to be. 
+Also, if you write your own modules, using the #Var region is a 
+convenient way to pass around information.
+
+
+** For
+#for
+#IDX: #For
+
+This region provides a simple way of looping through lists.
+
+Arguments:
+    id  :: The doc variables the values should be assigned to.
+    sep :: The list separator (if the argument is a string)
+    var :: The document variable, which holds the list (if this isn't 
+      defined, the text after the colon will be used)
+
+#Example caption=For <<---
+#Var: Fruits:
+1kg, apples
+2kg, peaches
+#End
+
+#For id=listentry doc=Fruits <<--
+\#For id=kg,fruit sep=, doc=listentry:
+I would like to buy \{arg: kg} of \{arg: fruit}.
+#End
+--
+---
+
+It is necessary to escape the inner ''#For'' region and the ''arg'' 
+macros with backslashes, because the body is passed through the template 
+filter. You can prevent this by using the ''noTemplate!'' argument or by 
+setting the ''legacyFor1'' variable.
+
+
+** Header, Footer
+#IDX: #Header; #Footer
+
+The argument to these regions is either a paragraph or a table with up 
+to three columns. The result of the header and footer region depends on 
+the formatter.
+
+    HTML  :: Insert the argument at the top/bottom of the document
+    LaTeX :: Ignore footer, add the header using ''\\markright{}''
+    LaTeX + koma module :: Use koma's ''scrpage2'' package to format the 
+      header and the footer; with the koma module these regions take some 
+      optional arguments
+        - center, right (only if the text is a paragraph; the default is 
+          to put the header/footer in the left column)
+        - linesep=\\d+, linesep=\\d+pt, linesep! (defaults to 0.4pt)
+            - or use the abbreviation "sep"
+
+See also notes on the [[macros#pagenumberMacro][pagenumber]] macro.
+
+
+** Img
+#IDX: #Img
+
+''deplate'' provides support for including graphics generated "on the 
+fly" by other programs.
+
+    Synonyms :: Image, Fig, Figure
+
+Options:
+    id :: the basis for the filenames (RECOMMENDED, default:
+      deplatxImgAuto%02d); if you don't provide an id, ''deplate'' uses 
+      an automatically generated one. Anyway, if you make changes to the 
+      document, it's possible that the generated graphics get messed up
+    cmd="PRG OPTIONS ..." :: the command id and command line options to 
+      be used
+        - PRG is the program name known to ''deplate'', currently
+            - dot
+            - neato
+            - R
+                - Note: Options for the R devices can be defined as 
+                  arguments to the region. In the form "DEV_OPTION" the 
+                  option is specific to a chosen device (e.g. 
+                  "png_width=700"). In the form "_OPTION", it is 
+                  applicable to all devices (e.g. "_pointsize=10"). This 
+                  is necessary as some devices expect dimensions to be 
+                  given in inches, other in pixels. Please refer to the 
+                  R manual to find out which options are applicable.
+        - The OPTIONS are pasted into the command call -- how this 
+          exactly happens depends on the calling method
+    sfx :: the graphic file's suffix
+
+The region ''Img'' returns an object of the same type as the command ''IMG'' 
+(see{ref: cmdImg}). All arguments are passed on to the resulting object.
+
+#Example caption=Image created with ''dot'' <<-----
+Using ''dot'':
+
+#Img id=dot_example: dot <<---
+digraph structs {
+    node [shape=record];
+    struct1 [shape=record,label="<f0> A|<f1> B|<f2> C"];
+    struct2 [shape=record,label="<f0> D|<f1> E"];
+    struct3 [shape=record,label="<f0> F|<here> G"];
+    struct1:f1 -> struct2:f0;
+    struct1:f2 -> struct3:here;
+}
+---
+#OPT fmt=latex: w=6cm
+#CAP: Example based on the dot manual
+
+Using ''R'':
+
+#Img id=r_geyser: R <<---
+attach(geyser)
+truehist(duration, nbins=20, xlim=c(0.5, 6), ymax=1.2)
+lines(density(duration, width="nrd"))
+---
+#OPT fmt=latex: w=6cm
+#CAP: Example plot based on Venables/Ripley{cite y!: mass4}
+-----
+
+% #Img: R <<---
+% data(cars)
+% par(mar=c(5,5,1,1))
+% plot(cars)
+% ---
+% #OPT fmt=latex: w=6cm
+% #CAP: A plot of the "cars" data set
+
+
+** Inlatex, Ltx, Latex, LaTeX
+#IDX: #Inlatex; #Ltx
+#ltxRegion
+
+''deplate'' contains primitive support for including LaTeX as graphics in 
+non-latex documents. This requires latex, dvips, and ghostscript to be 
+installed.
+
+    Synonyms :: Ltx, Latex, LaTeX
+
+Options:
+    id   :: the basis for the filenames (RECOMMENDED, default: 
+      deplateLtxAuto%02d); if you don't provide an id, ''deplate'' uses 
+      an automatically generated one. Anyway, if you make changes to the 
+      document, it's possible that the generated graphics get messed up
+    sfx  :: the suffix/device for the graphic file (default: jpeg)
+    rx   :: the resolution of the graphic file (default: 140)
+    type :: "fig" (the default) or "table"
+
+All the options if #IMG{ref: cmdImg} apply, too.
+
+By default the following packages are loaded:
+    - amsmath
+    - amsfonts
+    - amssymb
+    - mathabx
+
+If the LaTeX formatter was chosen anyway, the source is inserted 
+literally in the output document.
+
+See the ltx macro{ref: ltxMacro} for an alternative for inserting smaller pieces of 
+LaTeX-code.
+
+The id is the basis for the filenames being used during conversion. The 
+following files are generated:
+
+    - by ''deplate'': FILE.tex
+    - by ''latex'': FILE.dvi + auxiliary files
+    - by ''dvips'': FILE.ps
+    - by ''ps2ppm'': FILE.%02d.SFX
+        - this depends on the sfx option
+
+Lines that match ''/^\\\\(usepackage|input)(\\[.*\\])?\\{.+\\}$/'' are put 
+in the prematter of the latex file, the rest is put in the body.
+
+Lines ending with ''%%%'' are moved to the prematter too.
+
+#Example caption=Inline LaTeX <<---
+#Set: InlatexExampleClip <<EOC
+#Inlatex inline! id=InlatexExample sfx=jpeg bh=27 bw=79 <<EOI
+\usepackage{graphicx}
+$\sum_{i=n}^{n} \rotatebox{90}{$x_{i}$}$
+EOI
+EOC
+
+This is a test ({get: InlatexExampleClip}) of a clipped Inlatex region 
+as an inline graphic.
+
+#Inlatex id=InlatexExampleXY <<-----
+\usepackage[all]{xy}
+\parbox{5cm}{
+\xymatrix{
+U \ar@/_/[ddr]_y \ar@/^/[drr]^x
+\ar@{.>}[dr]|-{(x,y)} \\
+& X \times_Z Y \ar[d]^q \ar[r]_p
+& X \ar[d]_f \\
+& Y \ar[r]^g & Z }
+}
+-----
+#CAP: An example from the xypic-user guide
+---
+
+
+** Native
+#IDX: #Native; #Html; #Latex
+
+#Example note=(depending on the formatter) caption="Native" text <<---
+#Native fmt=html <<EON
+<p>&lt;native&gt; html</p>
+EON
+#Native fmt=latex <<EON
+Pure LaTeX. $\sum_{i=n}^{n} x_{i}$
+EON
+---
+
+
+** Quote
+#IDX: #Quote; #Qu
+
+Synonyms: Qu
+
+Options:
+    long! :: Prepare a long quotation
+
+#Example caption=Quotations <<-----
+#Quote <<---
+As I said earlier ...
+---
+-----
+
+
+** Set, Get
+#putRegion
+#IDX: #Set
+
+There are two ways of storing text for later use: clips and variables. 
+Clips should be used for moving around parsed text within the document. 
+Variables should be used for passing text to macros, commands etc.
+
+The ''Set'' region and the ''SET'' command can be used to store clips.  
+They differ in that the region results in an array of (block) elements 
+and the command in a sequence of text particles/inline elements. This is 
+important as there are also two corresponding ways to insert clips later 
+on. The ''GET'' command, which is supposed to insert a block element, 
+and the ''get'' macro, which works on the inline/text particle level.
+
+|| Level || Region || Command || Macro ||
+| Element | Set    |  GET     |         |
+| Text    |        |  SET     | get     |
+#OPT: hiCol=first
+
+#Example caption=Clip <<---
+#Set: clip <<EOC
+| clipped | table |
+#CAP: A clipped table
+EOC
+
+#GET: clip
+
+#SET id=clippedText: clipped text
+This is {get: clippedText}.
+---
+
+
+** R generated tables
+#IDX: #R
+
+Include tables generated on-the-fly using R. The region takes one 
+optional argument:
+
+    xtable :: the result is a html table as formatted with xtable; this 
+      table won't be used as such but it will be parsed and transformed 
+      into a ''deplate'' table; a ''library(xtable)'' statement is added 
+      to the R source
+
+    verb, verbatim :: insert the result verbatim
+
+    drop, swallow :: the R code doesn't produce any interesting output 
+      (data sets, variables and the like should be saved in ''.Rdata'')
+
+The default is to generate a pseudo table from the verbatim R output.
+
+Options:
+
+    skip=HEAD skip=HEAD,TAIL skip=,TAIL :: Remove the first HEAD 
+      lines and the last TAIL lines from the R output
+
+    guess! scanTable! :: Try to guess column borders
+
+
+#Example caption=Tables created with R <<----
+#R: drop <<---
+data(tli)
+x <- tli
+save.image(compress=T)
+---
+
+#R: xtable <<---
+fm1 <- aov(tlimth ~ sex + ethnicty + grade + disadvg, data=x)
+fm1.table <- xtable(fm1)
+print(fm1.table,type="html")
+---
+#CAP: An example from the xtable manual using the tli data set
+
+#R <<---
+summary(x)
+---
+#CAP: Summary of the tli data set
+
+#R guess! <<---
+summary(x)
+---
+#CAP: Summary of the tli data set (guessing cell borders)
+
+The same inserted verbatim:
+#R: verb <<---
+summary(x)
+---
+----
+
+
+** Region
+This is a generic region that can be used, e.g., to attach a style to 
+some blocks. For HTML output, this would wrap the blocks in a div and 
+define a class attribute.
+
+
+** Ruby
+#rubyRegion
+#IDX: #Ruby
+
+If a ruby region returns an array, its elements are treated as lines 
+that are joined with "\\n".
+
+Options:
+    plain!  :: reformat ruby's output as a plain text paragraph 
+      (default)
+    verb!   :: put ruby's output in a verbatim region
+    image=FILENAME :: the result is a FILENAME to be included
+    native! :: if neither the verb! nor the plain! option are given, 
+      consider the output to be already formatted.
+    context=ruby|deplate|self :: sets the context and the method 
+      that are used to evaluate the code
+        ruby    :: use ''eval''
+        deplate :: use the current instance of ''Deplate::Core''
+        self    :: use the invoking instance
+
+The ruby code is currently simply evaluated in the context of the 
+''Deplate::Core.eval_ruby'' method. Inline ruby code can thus access a 
+variable "caller" that refers to the instance, which invoked this 
+evaluation. In future releases, the evaluation of ruby code will take 
+place in a secured thread.
+
+#Example caption=Inline ruby <<-----
+#Ruby context=deplate <<---
+def a(x)
+    return x*2
+end
+
+"Evaluated for #{@formatter.formatter_name}:
+Ruby output: #{a(3)}"
+---
+-----
+
+% #Ruby image=rubyRvgTest.gif<<--- 
+% require 'rvg/rvg' 
+% include Magick 
+%  
+% rvg = RVG.new(100, 100) do |canvas| 
+%     canvas.background_color = 'white' 
+%     canvas.circle(50, 50, 40).styles(:stroke => 'black', :fill => 'none') 
+%     canvas.polyline(10,50, 90,90, 90,90).styles(:stroke => 'black', :fill => 'none') 
+% end 
+%  
+% rvg.draw.write("rubyRvgTest.gif") 
+% --- 
+
+
+** Drop, Swallow, Skip
+#IDX: #Drop, #Swallow; #Skip
+
+Drop/Swallow/Skip (= don't display) the text in this region. Process it 
+nevertheless for possible side-effect -- i.e., variables being set etc.
+
+
+** Table
+#tableRegion
+#IDX: #Table
+
+This region takes some kind of text and transforms it into a table. 
+Currently, only character/string separated tables are supported
+
+Options:
+    sep :: the cell separator regexp (default: "\\t")
+
+#Example caption=Create a table from tab-separated input <<-----
+#Table sep=\\. caption=An example of an char separated table <<---
+Foo.Bar
+1.2
+---
+-----
+
+
+** Verbatim
+
+The verbatim region inserts text as seen on the screen. Arguments:
+    wrap=N :: The wrap margin
+
+#Example caption=Verbatim <<--
+#Verbatim wrap=10 <<---
+Long long long long long long long line
+---
+--
+
+
+** Write
+
+You have to set the "w" or "W" ''allow'' flag(see{ref: allow}) in order 
+to enable this region.
+
+Write or append (append! option) an expanded template to a file.
+
+If file is "-", the body will be printed on STDOUT.
+
+#EXAMPLE: Write something to a file
+#Verb <<--
+#Write file=test.txt <<---
+Foo {arg: myvar} bar.
+---
+--
+

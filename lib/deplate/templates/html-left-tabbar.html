@@ -1,0 +1,31 @@
+#Mingle type=pre slot=css:
+<!--[if IE]>
+<style type="text/css">
+    @media screen {
+        table.tabBarLeft {
+            border-collapse: collapse;
+        }
+    }
+</style>
+<![endif]-->
+#End
+#PREMATTER
+
+<div id="tabFrame">
+    <div class="tabFrameRow">
+        <div id="tabBar" class="tabBar">
+            #ARG: tabBarLeft(progressBar! nextKey! spacer=spacer.png depth=2 depthInactive=1)
+        </div>
+        <div id="tabBodyFrame">
+            <div class="tabBody">
+                <img width="700px" height="1px" src="spacer.png" alt="" />
+                #BODY: -navbar_top -navbar_bottom
+            </div>
+        </div>
+    </div>
+    <div class="tabFrameRow">
+        #POSTMATTER: html_pageicons_beg..html_pageicons_end
+    </div>
+</div>
+
+#POSTMATTER

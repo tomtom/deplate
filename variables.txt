@@ -1,0 +1,391 @@
+% vi: ft=viki:tw=72
+% variables.txt
+% @Author:      Tom Link (micathom AT gmail com)
+% @Created:     06-Dez-2004.
+% @Last Change: 2009-11-09.
+% @Revision:    0.177
+
+* Variables and options
+#PROP: id=Variables
+#LIST fmt=html plain! sub!: toc
+
+** Document variables
+#docOpt
+
+Basically, there are two ways to set a variable:
+
+    # The ''#VAR'' command
+    # In the deplate.ini file
+
+User variables that have no special meaning should begin with an 
+underscore. In restricted input mode, setting variables not beginning 
+with an underscore is disabled.
+
+Variables with all upper-case letter names should be considered as 
+read-only variables. These are set by deplate and are not meant to be 
+modified by the user.
+
+Please see{ref: fmtArg} to find out how to set variables for specific 
+output formats only or depending on another variable's value.
+
+% It depends which effect, if any, these options have.
+% 
+%     - Common options
+%         - ''levelshift=N''
+%             - adds N to a heading's level
+%         - ''template=NAME''
+%             - set the documents template
+%         - ''tabwidth=N''
+%             - the default tab width is 4
+%             - in general, you should use soft, blank-only tabs
+%         - ''keywords=KW1, KW2, ...''
+%             - a list of keywords, separated by comma or semi-colon
+%         - ''description=SHORT DESCRIPTION''
+%             - A short, one-line description of the contents
+% 
+%     - For the HTML formatter
+%         - ''class=CLASS''
+%             - css = CLASS + ".css"
+%         - ''css=FILE'' or ''css=FILE|MEDIA'' or ''css=FILE1 FILE2|MEDIA2 
+%           ...''
+%             - If a css name is prefixed by "+", no title is given in 
+%               HTML output, e.g. ''#PROP: css=+fonts.css'' -- this keeps 
+%               Firefox/Mozilla from building a css menu
+%         - ''bodyOptions=NAME\\=VALUE''
+%     - For the html-slides formatter, the same as for html plus:
+%         - ''prevButton=HTML''
+%         - ''nextButton=HTML''
+%         - ''homeButton=HTML''
+%     - For the LaTeX formatter
+%         - ''class'' (documentclass, default: article)
+%         - ''classOptions'' (arguments for documentclass, default: 
+%           12pt,a4paper)
+%         - ''encoding'' (inputenc, default: latin1)
+%           {idx: latin-1}
+
+#EXAMPLE: Defining variables
+
+Define a baseUrl but only when generating multi-file html output:
+#Verb <<---
+#VAR fmt=~html(site|slides): baseUrl=http://deplate.sourceforge.net/ baseUrlStripDir=1
+---
+
+Define some stuff that should go to the html css section:
+#Code id=Var_example syntax=html <<---
+#Var fmt=~html: cssExtra <<--
+<style type="text/css">
+    <!--
+    @media print {
+        #tabBar {
+            visibility: hidden;
+            max-height:0;
+        }
+    }
+    -->
+</style>
+--
+---
+
+
+*** Pre-defined variables
+    env :: The environment variables (HASH)
+
+The following list mentions most variables that can be used to fine-tune 
+some aspect of deplate's behaviour. Please see{ref: 
+commandLineOptionD},{ref: configuration} or{ref: docCmd} to see how to 
+set these variables.
+
+#deplateVariables
+#INCLUDE embeddedTextRx="^; ": deplate.ini
+
+
+** Strings, booleans, arrays, and hashes
+
+A variable can be either a string, a boolean, an array, or a hash. The 
+type is defined by the way how it is defined.
+
+Using booleans actually makes only sense in conjunction with ''if'' 
+clauses as, in other situations, the value will be represented as the 
+strings "true"/"false".
+
+String:
+#Verb <<--
+#VAR: var=value
+--
+
+Boolean:
+#Verb <<--
+#VAR: var!
+#VAR: noVar!
+#VAR: var=true
+#VAR: var=false
+--
+
+Array:
+#Verb <<--
+#Var: id=var <<---
+Value 1
+Value 2
+---
+
+#VAR: var[]=value1
+#VAR: var[]=value2
+--
+
+Hash:
+#Verb <<--
+#VAR: var[field1]=value1
+#VAR: var[field2]=value2
+--
+
+The values can be retrieved using the ''var'' or ''val'' macro.
+
+#Example caption=Variable types <<--
+#VAR: stringVar=Foo
+
+#VAR: boolVar1!
+#VAR: noBoolVar2!
+#VAR: boolVar3=true
+#VAR: boolVar4=false
+#VAR: isNoBoolVar1=\true
+#VAR: isNoBoolVar2=\false
+
+#Var id=arrayVar1 <<---
+Foo
+Bar
+---
+
+#VAR: arrayVar2[]=foo
+#VAR: arrayVar2[]=bar
+
+#VAR: hashVar[field1]=Foo
+#VAR: hashVar[field2]=Bar
+
+| stringVar =       | {val: stringVar}                 | {stringVar!} |
+| boolVar1 =        | {val: boolVar1}                  | {boolVar1!} |
+| boolVar2 =        | {val: boolVar2}                  | {boolVar2!} |
+| boolVar3 =        | {val: boolVar3}                  | {boolVar3!} |
+| boolVar4 =        | {val: boolVar4}                  | {boolVar4!} |
+| isNoBoolVar1 =    | {val: isNoBoolVar1}              | {isNoBoolVar1!} (this is a string) |
+| isNoBoolVar2 =    | {val: isNoBoolVar2}              | {isNoBoolVar2!} (this is a string) |
+| arrayVar1 =       | {val: arrayVar1}                 | {arrayVar1!} |
+| arrayVar2 =       | {val join=", ": arrayVar2}       | {arrayVar2!} |
+| hashVar =         | {val join=", " values!: hashVar} | {hashVar!} |
+| arrayVar1[0] =    | {val: arrayVar1[0]}              | {arrayVar1[0]!} |
+| arrayVar2[1] =    | {val: arrayVar2[1]}              | {arrayVar2[1]!} |
+| hashVar[field1] = | {val: hashVar[field1]}           | {hashVar[field1]!} |
+--
+
+
+** Template "services"
+
+Some option names have a special meaning in that the content is 
+dynamically generated. Most of them are specific to some output format.
+
+"Services" are meant to generate small, atomic data. Calling a "service" 
+can be distinguished from accessing a variable by adding braces at the 
+end of the service name -- which makes it look like a function call in 
+many programming language, which could lead to the question, why I 
+didn't call it template functions but ... heck.
+
+"Services" are provided by the formatter. I.e. they are some kind of 
+formatter specific commands that can be used in templates.
+
+You can use camel case names and underscores according to your liking. 
+''someService'' and ''some_service'' do the same thing.
+
+Syntax:
+#Verb:
+serviceName()
+serviceName(KEY1=VALUE KEY2! ...)
+#End
+
+Standard services:
+    - html
+        navigation_bar :: Returns a simple navigation bar with a menu 
+          and formard/backward buttons (see{ref: htmlHeadingsNavbar}).
+
+    - html-slides
+        tabBarLeft, tabBarRight, tabBarTop, tabBarBottom :: returns a tab 
+          bar with the table of contents
+        progressPercent :: insert the progress as a numeric value
+        progressBar, progressBarHorizontal, progressBarVertical :: 
+          returns a simple progress bar
+
+These services are most useful for designing templates. The following 
+example contains the template for the HTML online documentation.
+
+#EXAMPLE: Templates
+
+#Code id=template_example syntax=html:
+#PREMATTER
+
+<div id="tabBar" class="tabBar">
+    #ARG: tabBarLeft(progressBar! depth=2 depthInactive=1)
+</div>
+<div class="tabBodyFrame">
+    <div class="tabBody">
+        #BODY: -navbar_top -navbar_bottom
+    </div>
+    #POSTMATTER: html_pageicons_beg..html_pageicons_end
+</div>
+
+#POSTMATTER
+#End
+
+
+
+** Element properties
+#optCmd
+
+Using the ''#PROP'' command, you can attach some metainformation to the 
+previous element.
+
+#Verb:
+* Heading
+#PROP: id=myHeading
+#End
+
+    - when collapsing elements (e.g. compiling list items to one 
+      list), later options overwrite previous ones with the same 
+      name
+
+For commands and regions, these options are part of the definition:
+
+#Verb:
+#COMMAND optionA=ValueA optionB=ValueB: foo
+
+#Region optionA=ValueA optionB=ValueB <<--
+--
+#End
+
+So why is there an ''#PROP'' command, anyway? It's there to add more 
+flexibility to elements that are defined in wiki-like markup.
+
+For macros and particles (inline elements), the situation similar. The 
+following two text lines are equivalent:
+
+
+
+*** Global properties
+#globalProperties
+
+Global properties can be defined in a global hash variable.
+
+#EXAMPLE: Global properties
+The following will tag the heading "Foo" as "heading" and the text in 
+foo.txt with "secondLevel".
+
+#Verb <<--
+#VAR: $ElementHeading[tag]=heading
+#VAR: $INC[tag]=secondLevel
+
+* Foo
+#INC: foo.txt
+--
+
+
+
+** Tags and filters
+#efilter
+The global variable ''efilter'' defines which elements to include in the 
+output. Untagged elements use an implicit ''any'' tag.
+
+In the following example, we include text stored in a variable in order 
+not to mess up (by filtering elements) the formatting of the main 
+document.
+
+#Example caption=Tags and filters <<--
+#Var id=tagsExampleInput <<---
+* Foo
+#PROP: tag=heading
+
+Bar says barly "Bar".
+#PROP: tag=bar
+
+Boo says booly "Boo".
+#PROP: tag=boo
+
+Foo says fooly "Foo".
+#PROP: tag=foo
+
+Something else.
+---
+
+#INC $levelshift=2 $efilter=heading,foo,any var=tagsExampleInput
+--
+
+
+
+** Special arguments
+#commonOption
+
+The following arguments usually have special meanings. You shouldn't use 
+these names for macro arguments and the like.
+
+    ''id=NAME'' :: The element's ID
+    ''style=STYLE1,STYLE2,...'' :: The element's style
+    ''swallow!'' :: Don't print
+    ''add!'' or ''add=SEPARATOR'' :: the following options will be 
+      appended to already existing options of this name using SEPARATOR 
+      or a blank (add!)
+        - the following example sets the element option "test" to "1,2"
+        - Example (which is equivalent to the ''#PUSH'' command):
+            - ''#VAR add=,: test=1''
+            - ''#VAR add=,: test=2''
+    ''type=[body|preMatter|postMatter]'' :: The document section where 
+      the element will be put
+    ''slot=N'' :: The slot where the element will be put
+      #slotOpt
+        - If N is negative, the text will be put at the slot's first 
+          position
+        - See also{ref: docstructure}.
+    ''indentation=[auto|none]'' :: If an element is embedded in a list, 
+      you can change the way it is indented in the output.
+        auto :: Let the formatter decide
+        none :: Print left aligned
+
+The ''fmt'' and the ''if'' options are special in that they are 
+interpreted by ''deplate'' and prevent an element from being printed if 
+they are not true:
+#fmtArg
+#ifArg
+
+    ''fmt=FORMATTER'' :: Print the element/particle only if the current 
+      output formatter's name is FORMATTER
+        - Variants: ''fmt=~FORMATTER'', ''nofmt=UNMATCHED FORMATTER'', 
+          ''nofmt=~UNMATCHED FORMATTER''
+        - Example:
+            - ''#VAR fmt=html:  class=mycss''
+            - ''#VAR fmt=latex: class=report''
+    ''if=VAR'' :: Print the element/particle only if the test evaluates 
+      to true
+        - Variants: ''if=noVAR'', ''if=(VAR==VALUE)'', 
+          ''if=(VAR!=VALUE)'', ''if=(VAR=~VALUE)'', ''if=(VAR!=~VALUE)''
+        - the if clause should be put in parentheses or double quotes in 
+          order to avoid parse errors
+        - the element/particle will be inserted only if the document 
+          variable VAR is set or matches/doesn't match VALUE
+        - if the docoption begins with "no" and the next letter is in 
+          upper case, the docoption's name will be converted to lower 
+          case and tested against its non-presence; see{ref: 
+          cmdExamples} for an example
+        - Example:
+            - ''#TITLE if=(outcome==good): Hurray!''
+
+
+** Clips
+#clips
+
+Clips are formatted text that were saved for later use. In opposition to 
+variables, which are formatted after insertion, clips are formatted 
+independently from where they are used.
+    !!! It's possible that "clips" will disappear in a future release.
+
+Some command generate clips automatically. These auto-created clips are:
+
+    author     :: The document's author
+    authornote :: A note about the author
+    title      :: The document's title
+    date       :: The document's creation date
+

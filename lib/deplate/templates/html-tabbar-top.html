@@ -1,0 +1,35 @@
+#Mingle type=pre slot=css:
+<!--[if IE]>
+<style type="text/css">
+    @media screen {
+        table.tabBarTop {
+            border-collapse: collapse;
+        }
+    }
+</style>
+<![endif]-->
+#End
+
+#PREMATTER
+<center />
+    
+<div id="tabFrame">
+    <div id="tabBodyFrame" class="tabBodyFrame">
+        <div id="tabBar" class="tabBar">
+            #IF: tabBarPos==top
+            #XARG: tabBarTop()
+            #ELSEIF: tabBarPos==right
+            #XARG: tabBarRight(progressBar! nextKey! depth=2 depthInactive=1)
+            #ELSE
+            #XARG: tabBarLeft(progressBar! nextKey! depth=2 depthInactive=1)
+            #ENDIF
+        </div>
+        <div id="tabBody" class="tabBody">
+            #BODY
+        </div>
+        #POSTMATTER: html_pageicons_beg..html_pageicons_end
+    </div>
+</div>
+
+#POSTMATTER
+

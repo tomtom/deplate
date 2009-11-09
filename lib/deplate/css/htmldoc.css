@@ -1,0 +1,46 @@
+@import url(deplate.css);
+
+body {
+    /* background-color: #d9e0f0; */
+    /* background-color: #e4e8f0; */
+    background-color: #ebebf0;
+    /* background-image: url(grad_blue.jpg); */
+    background-repeat: repeat-x;
+}
+
+#tabFrame {
+    position: absolute;
+    top: 10px;
+    left: 10%;
+    text-align: left;
+    width: 80%;
+}
+#tabBodyFrame {
+    /* text-align: left; */
+    width: 100%;
+    padding: 0;
+}
+#tabBody {
+    background-color: #ffffff;
+    text-align: left;
+    vertical-align: top;
+    margin-top: 0;
+    padding: 10px;
+    /* border: 1px dashed #cae0ea; */
+    /* border: 1px solid #cae0ea; */
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -khtml-border-top: 15px;
+    border-radius: 15px;
+}
+
+div.pageicons {
+    text-align: right;
+    margin: 10px 0 10px 0;
+}
+
+div.title {
+    border: 0;
+    background-color: #ffffff;
+}
+

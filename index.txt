@@ -1,0 +1,174 @@
+% vim: ft=viki:tw=72:spell:spelllang=en
+% @Last Change: 2009-11-09.
+
+% #VAR: css=tabbar-top.css|screen article.css|print +serif-rel.css
+% #VAR: css=tabbar-top.css|screen article.css|print +serif.css
+#VAR: css=tabbar-top.css|screen, +serif.css
+#VAR: headings=plain autoFileNames!
+#VAR: urlIcon=remote.png mailtoIcon=mailto.png markerInFrontOfURL!
+#VAR: baseUrl=http://deplate.sourceforge.net/ baseUrlStripDir=1
+#VAR: tabBarPos=top tabEqualWidths! noTabBarButtons! tabBarHomeName=Overview
+#Var id=newsFeed <<--
+rss="http://sourceforge.net/export/rss2_projnews.php?group_id=108085&amp;rss_fulltext=1" title=Deplate -- Project News
+rss="http://deplate.sourceforge.net/websitary.rss" title=Deplate -- Website News
+--
+#Var id=tabBar <<--
+[auto]
+Sourceforge | http://sourceforge.net/projects/deplate
+Forum       | http://sourceforge.net/forum/?group_id=108085
+About this site | about.html
+--
+#Native fmt=php if=sfNet type=post slot=html_pageicons <<---
+<a href="http://www.vim.org"><img src="http://www.vim.org/images/vim88.png" border="0" alt="VIM Logo" /></a>
+<a href="http://deplate.sourceforge.net"><img src="deplate-mini.png" border="0" alt="deplate Logo" /></a>
+<a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=108085&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+---
+% <a href="http://sourceforge.net/donate/index.php?group_id=108085"><img src="http://images.sourceforge.net/images/project-support.jpg" width="88" height="32" border="0" alt="Support This Project" /></a>
+% #INC: footer.txt
+
+#TITLE:  Deplate - convert wiki-like markup to latex, docbook, html, or "html-slides"
+#AUTHOR: Tom Link
+% #DATE:   today
+#VAR: keywords=Converter; Text; LaTeX; HTML; Docbook; Wiki; \
+Presentation; Web Publishing
+#MAKETITLE
+
+
+#INC: blurb.txt
+
+
+Example:
+    - Source for the top-level of this webpage: 
+      [[http://deplate.cvs.sourceforge.net/*checkout*/deplate/deplate/index.txt][index.txt]!]
+
+
+* Documentation
+
+    Manual :: The manual is available in the various formats (basically 
+      to test deplate's formatting capabilities):
+        - [[deplate.html][html]] (using the ''htmlsite'' formatter; this 
+          one refers to the latest testing version)
+        - [[deplate.pdf][pdf]] (via pdfLaTeX; corresponds to the latest 
+          major release)
+        - [[deplate-manual.txt][really plain text]!] (corresponds to the 
+          latest major release)
+        - [[deplate-rtf.zip][rtf.zip]] (via Docbook + jade; refers to 
+          0.6; not updated)
+        - or browse the manual's source via 
+          [[http://deplate.cvs.sourceforge.net/deplate/deplate/][CVS]].
+          % [[deplate.txt]!], [[intro.txt]!], [[usage.txt]!], 
+          % [[input.txt]!], [[formats.txt]!], [[modules.txt]!], 
+          % [[markup.txt]!], [[regions.txt]!], [[commands.txt]!], 
+          % [[macros.txt]!], [[variables.txt]!], [[extending.txt]!]
+        - or download the user manual's
+          [[http://sourceforge.net/project/showfiles.php?group_id=108085][sources]] 
+          to rebuild the manual at home.
+
+    Presentation :: A slideshow-like 
+      [[presentation.html][presentation]] (the same thing using Eric 
+      Meyer's s5: [[deplate_presentation_s5.html][s5-based presentation]])
+
+    Tutorials :: Short howtos
+        - [[TutorialPresentation.html][Create web-based presentations]]
+        - [[TutorialVikiBibtex.html]\
+          [Organize your work with viki and bibtex]]
+
+    % FAQ :: Read [[faq/index.php][online]!] or as [[faq.pdf][pdf]].
+    FAQ :: Read [[faq/][online]!]
+      % or as [[faq.pdf][pdf]].
+
+    Support :: http://sourceforge.net/forum/forum.php?forum_id=371484
+
+
+* Download
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the [[LICENSE.txt][GNU General Public License]!] 
+as published by the Free Software Foundation; either version 2 of the 
+License, or (at your option) any later version.
+
+    Latest release :: Download from the sourceforge project site: 
+      http://sourceforge.net/projects/deplate/ 
+      ([[http://sourceforge.net/forum/forum.php?forum_id=371484][Deplate 
+      support forum]])
+
+    Ruby gem :: The gem can also be downloaded from 
+      http://rubyforge.org/projects/deplategem/ or simply do ''gem 
+      install deplate'' from the command line (provided you have 
+      rubygems installed).
+
+    Development version :: Please see the next [[index#development][section]].
+
+    Debian packages etc. :: These are kindly provided by Maxim Komar at 
+      http://komar.org.ua/files/deplate/
+
+    VIM plugin :: The 
+      [[http://www.vim.org/scripts/script.php?script_id=861][viki]] 
+      plugin offers support for deplate markup in 
+      [[http://www.vim.org][VIM]] 
+      ([[http://sourceforge.net/forum/forum.php?forum_id=700962][Viki 
+      support forum]]).
+
+The win32 binary was created with  
+[[http://exerb.sourceforge.jp/index.en.html][exerb]] and should work 
+without ruby being installed.
+
+Stay updated:
+    - Subscribe to new releases at the 
+      [[http://freshmeat.net/projects/deplate/][freshmeat project page]]
+    - Check out the 
+      [[http://sourceforge.net/projects/deplate][sourceforge project page]]
+    - Subscribe to the [[http://deplate.sourceforge.net/websitary.rss][website news feed]]\
+      {img alt=[RSS]: http://images.sourceforge.net/images/xml.png}
+    - Subscribe to the 
+      [[http://sourceforge.net/export/rss2_projnews.php?group_id=108085&rss_fulltext=1][project news RSS feed]]\
+      {img alt=[RSS]: http://images.sourceforge.net/images/xml.png}
+    - Subscribe to the 
+      [[http://sourceforge.net/export/rss2_projfiles.php?group_id=108085][file releases RSS feed]]\
+      {img alt=[RSS]: http://images.sourceforge.net/images/xml.png}
+
+
+* Development
+#development
+
+% The CVS is currently slightly, ahm, screwed up. Please use the gem.
+% 
+% Development version as gem: 
+% [[deplate-testing.gem][{ruby: Deplate::Core.microversion}]]
+% ({ruby: File.stat("deplate-#{Deplate::Core.version}.gem").mtime.strftime("%Y-%m-%d")})
+
+The development version (\
+{php: echo trim(file_get_contents("VERSION.TXT"));};
+{php: echo trim(file_get_contents("DATE.TXT"));}; 
+[[http://deplate.cvs.sourceforge.net/deplate/deplate/CHANGES.TXT?view=markup][changes]])
+can be accessed via [[http://sourceforge.net/cvs/?group_id=108085][CVS]] 
+or from the Internet via 
+[[http://deplate.cvs.sourceforge.net/deplate/deplate/][ViewCVS]].
+
+The repository can be checked out through anonymous (pserver) CVS. No 
+password is required.
+
+#Verb <<---------
+cvs -d:pserver:anonymous@deplate.cvs.sourceforge.net:/cvsroot/deplate login
+cvs -z3 -d:pserver:anonymous@deplate.cvs.sourceforge.net:/cvsroot/deplate co -P deplate
+---------
+
+Later on, use CVS to keep your local copy up to date:
+
+#Verb <<---------
+cd deplate
+cvs -z3 update
+---------
+
+% ** Changes
+% 
+% #Native fmt=php <<--
+% <?php readfile('CHANGES.html'); ?>
+% --
+% $contents = file('http://deplate.cvs.sourceforge.net/deplate/deplate/CHANGES.TXT?view=markup');
+% foreach($contents as $line) {
+%     if (preg_match('/^\s/', $line)) {
+%         echo preg_replace('/^\s+/', '', $line) ."\n";
+%     }
+% }
+

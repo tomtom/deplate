@@ -1,0 +1,273 @@
+#TI: Organize your work with viki and bibtex
+#AU: Tom Link
+#DATE: today
+#VAR: urlIcon=remote.png mailtoIcon=mailto.png markerInFrontOfURL!
+#MAKETITLE
+#LIST plain!: toc
+
+#IF: fmt!=latex
+    Press ''<space>'' to continue.
+    #OPT: style=background,footnotesize
+
+    This tutorial as [[TutorialVikiBibtex.pdf][pdf]].
+    #OPT: style=background,footnotesize
+#ENDIF
+
+#ABBREV word=deplate: ''deplate''
+#ABBREV word=bibtex: ''BibTeX''
+#ABBREV word=latex: ''LaTeX''
+#ABBREV fmt=latex word=latex native!: \LaTeX{}
+#ABBREV word=vim: ''VIM''
+#ABBREV word=PDF: ''PDF''
+#ABBREV word=HTML: ''HTML''
+#ABBREV word=viki: ''viki''
+#ABBREV word=deplate: ''deplate''
+#ABBREV word=tbibtools: ''tbibtools''
+#ABBREV word=ttoc: ''ttoc''
+#ABBREV word=tskeleton: ''tSkeleton''
+
+
+* This Tutorial
+
+When doing research, you usually collect papers, PDF or HTML documents 
+and you comment on these papers or summarize them so that it is easier 
+for you to find the relevant citation later on. In this tutorial, we use 
+vim and a few plugins (viki, tbibtools etc.) to organize all those 
+files, comments, and notes.
+
+
+
+* Prerequisites
+
+Since this tutorial uses vim and bibtex, you should have some knowledge 
+of the vim editor and the bibtex file format. You don't have to have 
+bibtex or latex actually installed. Some plugins may require a version 
+of vim with ruby support compiled in.
+
+For vim, you also need the following plugins installed:
+
+    - [[VIMSCRIPT::861][viki]]
+    - [[VIMSCRIPT::1863][tlib]]
+
+Optional plugins (search http://vim.sf.net for alternatives if you don't 
+like them):
+
+    - [[VIMSCRIPT::2014][ttoc]]
+    - [[VIMSCRIPT::1915][tbibtools]] (requires a +ruby enabled vim)
+    - [[VIMSCRIPT::2033][trag]]
+    - [[VIMSCRIPT::1160][tskeleton]]
+
+Since most wikis support "interwikis", it should be quite easy to adapt 
+this approach for other wikis.
+
+
+
+* Use a bibtex-File As Entry Point
+
+A typical bibtex files contains entries like the following{fn: solka08}:
+
+#Footnote id=solka08 <<-------
+I use this paper as an example because I recently added it to my bibtex 
+file and because I'm too lazy to come up with an contrived entry.
+-------
+
+#Code id=bibSample1 syntax=bib <<--
+@article{solka08,
+    author       = {Jeffrey L. Solka},
+    title        = {Text Data Mining: Theory and Methods},
+    journal      = {Statistics Surveys},
+    year         = {2008},
+    volume       = {2},
+    pages        = {94-112},
+    url          = {http://projecteuclid.org/euclid.ssu/1216238228 },
+    keywords     = {text mining; statistics},
+    abstract     = {This paper provides the reader ...},
+}
+--
+
+In order to facilitate searching the bibtex file, I suggest to edit the 
+bibtex file with ''tw=0''.
+
+It depends on the bibtex style defined in the latex source document, how 
+the bibtex entry is eventually formatted for inclusion in your latex 
+document. Fields your bibtex style does not know about will be ignored 
+by bibtex. You can make use of this behaviour to include additional 
+information in the bibtex entry.
+
+#Code id=bibSample2 syntax=bib <<--
+@article{solka08,
+    author       = {Jeffrey L. Solka},
+    title        = {Text Data Mining: Theory and Methods},
+    journal      = {Statistics Surveys},
+    year         = {2008},
+    volume       = {2},
+    pages        = {94-112},
+    url          = {http://projecteuclid.org/euclid.ssu/1216238228 },
+    keywords     = {text mining; statistics},
+    abstract     = {This paper provides the reader ...},
+    summary      = {[[SMRY::solka08]]},
+    file         = {[[SDOCS::Statistics Surveys/2008/solka08.pdf]]},
+    doi          = {[[DOI::10.1214/07-SS016]]},
+}
+--
+
+The additional fields ''summary'', ''file'', and ''doi'' contain viki 
+links that refer to ''intervikis''. In order to turn those extra fields 
+into hyperlinks, you can use the '':VikiMinorMode'' in vim. In order to 
+always invoke this command when editing a bibtex file, you could create 
+a file ''~/vimfiles/after/syntax/bib.vim'' (where ''vimfiles'' refers to 
+your personal vim runtime, but see '':help vimfiles'' in vim):
+
+#Code id=bibVimViki syntax=vim <<--
+VikiMinorMode
+--
+
+The intervikis are best defined in ''~/vimfiles/after/plugin/viki.vim'':
+
+#Code id=vimViki syntax=vim <<
+call viki#Define('SMRY',   '~/Sci/Summaries', '.txt')
+call viki#Define('SDOCS',  '~/Sci/Docs')
+call viki#Define('DOI',    'http://dx.doi.org')
+
+Move the cursor over the link to the summary and press ''<c-cr>'' or 
+''<a-leftmouse>''. This will create or open the file 
+''~/Sci/Summaries/solka08.txt'' that will contain you notes on the 
+(randomly chosen) paper with the bibtex ID solka08.
+
+
+
+* Search bibtex Files
+
+Due to the format of the bibtex file, the standard vim tools for text 
+search lead to suboptimal results. There are several tools around that 
+facilitate searching bibtex files. If you want a GUI, you could use, 
+e.g.,  the java-based [[http://jabref.sourceforge.net][''JabRef'']] -- 
+be aware though that ''JabRef'' usually resorts your bibtex files.
+
+The vim plugin tbibtools, provides a command '':TBibList'' that creates 
+a browsable list of the bibtex entries including the entry's ID, its 
+title, its authors or editors, as well as the entry's keywords. 
+tbibtools includes a ''ruby''-based command-line tool that can be used 
+to sort or merge bibtex files.
+
+You can use vim plugins like ttoc to get a quick overview of the entries 
+contained in the bibtex file opened in the current buffer.
+
+
+
+* Collect Summaries in a Directory
+
+As a result of the interviki definitions, all your PDF files, summaries, 
+and notes will be collected in well defined places. The advantage of 
+collecting your notes as plain text files in a single directory is that 
+you can use standard text tools like grep to search those notes.
+
+vim provides the '':vimgrep'' command that could be used for that. The 
+vim plugin trag serves as a wrapper around vimgrep that could come 
+handy.
+
+I personally use tskeleton to create new files with a template. 
+A template for summaries could look like this:
+
+#Code id=smryTemplate1 syntax=viki <<--
+<+CURSOR+>#AU: <+TEXT AUTHOR+>
+#TI: <+TEXT TITLE+>
+#DATE: <+YEAR+>
+% #VAR: keywords=
+% [[BIB::monos#<+FILE NAME ROOT:s/\..*$//+>]]
+
+#s<+PAGE+>
+--
+
+A newly created file will then look like this:
+
+#Code id=smryTemplate2 syntax=viki <<--
+#AU: <+TEXT AUTHOR+>
+#TI: <+TEXT TITLE+>
+#DATE: <+YEAR+>
+% #VAR: keywords=
+% [[BIB::monos#solka08]]
+
+#s<+PAGE+>
+--
+
+The ''BIB'' interviki points to the directory where the bibtex files are 
+located. You can thus jump easily from the summary to the bibtex file 
+and back again. After having filled in the standard place holders, such 
+a summary could look like this:
+
+#Code id=smryTemplate3 syntax=viki <<--
+#AU: Jeffrey L. Solka
+#TI: Text Data Mining: Theory and Methods
+#DATE: 2008
+#VAR: keywords=text mining; statistics
+% [[BIB::monos#solka08]]
+
+#s94
+...
+--
+
+
+* Generate HTML, PDF output
+
+The viki markup is capable of handling citations and footnotes. A sample 
+input file could look like this:
+
+#Code id=deplateSample syntax=viki <<--
+#AU: Tom Link
+#TI: Whatever
+#DATE: today
+#BIB: mybib.bib
+
+#Abstract <<---
+This paper provides a demonstration of the deplate converter.
+---
+
+* Context
+We all know $E = m \cdot c^2${cite: einstein}{fn: einstein}.
+
+#Footnote id=einstein <<---
+Or so we think.
+---
+
+#MAKEBIB: apa-style
+--
+
+You can use ''zM'' or '':TToC'' to get a quick overview of the document 
+structure.
+
+The [[http://deplate.sf.net][deplate]] converter can be used to convert 
+your notes, summaries, and documents from viki markup to HTML or PDF 
+(via latex).
+
+Change to the directory where the source files are:
+
+#Code id=deplate1 syntax=sh <<
+cd ~/Sci/...
+
+Initialize the directory (we add the particle-math module to enable 
+embedding latex-math syntax with a dollar sign):
+
+#Code id=deplate2 syntax=sh <<
+deplate -m particle-math -m makefile FILENAME.txt
+
+Generate HTML:
+
+#Code id=deplate3 syntax=sh <<
+make
+
+Generate PDF:
+
+#Code id=deplate4 syntax=sh <<
+make pdf
+
+Generate output for a file other than the one named when initializing 
+the directory:
+
+#Code id=deplate5 syntax=sh <<
+make FILE=OTHER_FILE.txt html
+
+
+
+% 2009-11-08; @Last Change: 2009-11-08.
+% vi: ft=viki:tw=72:ts=4

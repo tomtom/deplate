@@ -1,0 +1,540 @@
+/* Layout and decoration */
+/* @Author:      Tom Link (micathom AT gmail com) */
+/* @Created:     13-Apr-2004. */
+/* @Last Change: 2009-11-09. */
+/* @Revision:    0.774 */
+
+@page { 
+    size:portrait;
+    margin-top:3cm;
+    margin-bottom:3cm;
+    margin-left:3cm;
+    margin-right:3cm
+}
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+a {
+    color : black;
+}
+a:link {
+    color : #0071f0;
+}
+a:visited {
+    color : #30306f;
+}
+a:hover {
+    color: #0071f0;
+}
+a:link.ref {
+}
+a:visited.ref {
+}
+
+p {
+    padding: 5pt;
+}
+big {
+}
+
+hr {
+}
+hr.pagebreak {
+    color: #000000;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    padding-left: 20pt;
+    text-align: left;
+    page-break-after: avoid;
+}
+h1 {
+    margin-top: 40pt;
+    margin-bottom: 20pt;
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+}
+h2 {
+    margin-top: 30pt;
+    margin-bottom: 10pt;
+}
+h3 {
+	margin-top: 20pt;
+	margin-bottom: 10pt;
+}
+h4 {
+	margin-top: 10pt;
+	margin-bottom: 10pt;
+}
+h5 {
+	margin-top: 10pt;
+	margin-bottom: 5pt;
+}
+h6 {
+	margin-top: 10pt;
+}
+
+em {
+}
+
+div.table {
+    padding: 20pt;
+}
+
+table, tr, th, td {
+    border-spacing: 1pt;
+    color : black;
+}
+table {
+    border: 1pt solid #000000;
+}
+tr, th, td {
+    padding: 2pt;
+}
+tr {
+}
+tr.head {
+}
+thead {
+}
+th {
+}
+td {
+}
+
+blockquote {
+    margin: 20pt 60pt 20pt 60pt;
+}
+blockquote.quote {
+}
+
+blockquote.longquote {
+}
+blockquote.abstract {
+}
+
+ul {
+}
+ol {
+}
+dl {
+}
+dt {
+    margin-left: 10pt;
+    padding-left: 10pt;
+    padding-top: 2pt;
+    padding-bottom: 2pt;
+}
+dd {
+    margin-bottom: 10pt;
+}
+li {
+    padding: 2pt;
+    margin-right: 20pt;
+}
+p.itempara {
+    border-left: 0;
+    border-right: 0;
+    padding: 0;
+}
+
+pre {
+    border: 1pt solid #efefef;
+	margin-left: 40pt;
+	margin-right: 40pt;
+    padding: 5pt;
+}
+
+
+/* htmlslides: Usage note */
+.htmlslidesnote {
+    padding: 0;
+    color: #888888;
+}
+p.htmlslidesnote {
+}
+ul.htmlslidesnote {
+}
+li.htmlslidesnote {
+}
+hr.htmlslidesnote {
+    border:0;
+}
+
+
+/* Navigation bar */
+a:link.navbarUrl, a:visited.navbarUrl {
+    color : #7f607f;
+}
+a:link.navbarUrl {
+}
+a:visited.navbarUrl {
+}
+.navbar, .navmenu, .navgo {
+    background: #ffffff;
+    vertical-align: middle;
+}
+table.navbar {
+    width: 100%;
+    margin: 20pt 0 20pt 0;
+}
+td.navbar {
+    width: 5%;
+    text-align: center;
+}
+td.navmenu {
+    width: 100%;
+    text-align: left;
+}
+select.navmenu {
+    width:250px;
+    border:0 hidden #ffffff;
+}
+p.navgo {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+button.navgo {
+    border: 0;
+}
+
+
+/* Figure */
+div.figure {
+    text-align: center;
+    padding: 20pt;
+}
+
+
+/* Caption */
+caption {
+}
+p.caption {
+}
+
+
+/* Title */
+div.title {
+    text-align: left;
+    padding: 20pt;
+    margin: 20pt 0 20pt 0;
+}
+p.title, p.author, p.authornote, p.date {
+    margin: 0;
+    border: 0;
+}
+p.title {
+}
+p.author {
+}
+p.authornote {
+}
+p.date {
+}
+hr.title {
+    color: #f1f08f;
+    background-color: #e4f8fc;
+    padding: 1pt;
+    margin: 0 45% 0 45%;
+}
+
+
+/* Table of Contents etc. */
+div.toc {
+}
+p.toc {
+}
+ul.toc, li.toc {
+    list-style-type : none;
+}
+ul.toc {
+}
+ul.toc a:after { 
+    content: target-counter(attr(href), page);
+}
+li.toc {
+    padding: 0;
+}
+
+div.lot {
+}
+p.lot {
+}
+ul.lot, li.lot {
+    list-style-type : none;
+}
+ul.lot {
+}
+li.lot {
+    padding: 0;
+}
+
+div.lof {
+}
+p.lof {
+}
+ul.lof, li.lof {
+    list-style-type : none;
+}
+ul.lof {
+}
+li.lof {
+    padding: 0;
+}
+hr.list {
+    color:#f1f08f;
+    padding: 1pt;
+    margin: 0 45% 0 45%;
+}
+
+
+/* Mini Table of Contents */
+#Contents { 
+    position: absolute;
+    top:50px; 
+    left:0px; 
+    padding:0px; 
+    visibility:hidden; 
+    margin:0px;
+}
+#ContentsBlock { 
+    position: absolute;
+    top:30px; 
+    left:0px; 
+    padding:0px; 
+}
+div.minitoc {
+    max-height: 500px;
+    background: #f1f1f1;
+}
+h1.minitoc {
+    margin: 0;
+    padding: 5pt;
+    border: 0;
+}
+ul.minitoc {
+}
+li.minitoc {
+}
+
+
+/* Footnotes */
+a:link.footnote, a:visited.footnote {
+    vertical-align: top;
+}
+a:link.footnote {
+}
+a:visited.footnote {
+}
+p.footnotes {
+    padding-top: 10pt;
+    margin: 40pt 40% 0 0;
+}
+ol.footnotes {
+}
+li.footnotes {
+}
+
+
+/* OpenOffice compatible footnotes */
+.sdfootnoteanc {
+    vertical-align: top;
+    color: #30306f;
+}
+.sdfootnotesym {
+    background-color: #e4f8fc;
+    vertical-align: top;
+    color: #30306f;
+}
+p.sdfootnote {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+/* Bibliography */
+.bib, .bibLef, .bibRight {
+    background-color:#ffffff;
+}
+table.bib {
+    width: 100%;
+}
+td.bibLeft {
+}
+td.bib {
+}
+td.bibRight {
+}
+h1.bib {
+}
+p.bib {
+    margin-left: 20pt;
+    text-indent: -20pt;
+}
+
+
+/* Index */
+h2.index {
+}
+p.indextoc {
+}
+dl.index {
+}
+dt.index {
+}
+dd.index {
+}
+
+
+/* Marker */
+div.note, div.warning, div.caution, div.important {
+    /* position: absolute; */
+    /* left: 720pt; */
+    /* width: 100pt; */
+    background-color: #eaeaea;
+}
+p.note, p.warning, p.caution, p.important {
+    padding: 5pt;
+    border-right: 0;
+}
+p.note {
+    border-left: 10pt solid #ffff00;
+}
+p.warning {
+    border-left: 10pt solid #cf0000;
+}
+p.caution {
+    border-left: 10pt solid #ef4f00;
+}
+p.important {
+    border-left: 10pt solid #009f9f;
+}
+
+em.marker {
+    color : #910000;
+    background-color:#ffff00;
+}
+span.marker {
+    position: absolute;
+    left: 700pt;
+    width: 60pt;
+}
+
+
+/* Header, Footer */
+.header, .footer {
+    background-color:#eaeaea;
+    border: 0;
+}
+div.header, div.footer {
+}
+table.header, table.footer {
+    width: 100%;
+}
+thead.header, thead.footer {
+}
+tr.header, tr.footer {
+}
+th.header, th.footer {
+}
+td.header, td.footer {
+}
+p.header, p.footer {
+}
+
+/* Validate HTML */
+#pageicons {
+    visibility: hidden;
+}
+div.pageicons {
+}
+.validhtml {
+    background-color:#ffffff;
+}
+table.validhtml {
+}
+tr.validhtml {
+}
+td.validhtml {
+}
+
+/* TabBar */
+div.tabBarLeft {
+    visited: hidden;
+}
+div.bodyRight {
+    /* position: relative; */
+    /* left: 250pt;     */
+}
+a.tabBarEntry {
+}
+.tabBar, .tabBody {
+}
+
+div.tabBar {
+    visibility: hidden;
+}
+div.tabBody {
+    background-color: #ffffff;
+    vertical-align: top;
+}
+div.tabBodyText {
+}
+
+table.tabBar {
+    visibility:hidden; 
+}
+tr.tabBar {
+}
+td.tabBar {
+    padding: 4pt;
+}
+td.tabBody {
+}
+
+.tabBarLeft {
+    visibility:hidden; 
+}
+table.tabBarLeft {
+}
+tr.tabBarLeft {
+}
+td.tabBarLeft {
+}
+
+.tabBarLeftActive {
+}
+tr.tabBarLeftActive {
+}
+td.tabBarLeftActive {
+}
+
+.tabBarLeftInactive {
+}
+tr.tabBarLeftInactive {
+}
+td.tabBarLeftInactive {
+}
+
+.tabBarLeftButtons {
+}
+tr.tabBarLeftButtons {
+}
+td.tabBarLeftButtons {
+}
+
+.buttonRow {
+}
+table.buttonRow {
+}
+tr.buttonRow {
+}
+td.buttonRow {
+}
+

@@ -1,0 +1,94 @@
+#TI: How to do web-based presentation with deplate
+#AU: Thomas Link
+#DATE: today
+#VAR: urlIcon=remote.png mailtoIcon=mailto.png markerInFrontOfURL!
+#MAKETITLE
+#LIST plain!: toc
+
+#IF: fmt!=latex
+    Press ''<space>'' to continue.
+    #OPT: style=background,footnotesize
+
+    This tutorial as [[TutorialPresentation.pdf][pdf]].
+    #OPT: style=background,footnotesize
+#ENDIF
+
+
+* This Howto
+    - This howto will guide you trough the creation of a simple 
+      {step: web-based presentation} with deplate.
+    - With web-based presentation we refer to
+        - a collection of {step: HTML pages}
+        - that contain only little information so that everything fits 
+          nicely on one screen page
+        - with some minor {step: \JavaScript} magic to make paging through the 
+          pages more convenient
+        - Bonus: highlight certain words as you proceed though your 
+          presentation
+
+* The Environment
+    - {step: Prerequisites}
+        - deplate
+        - ruby
+        - make
+    - Create a {step: new folder}, say ''howto_presentation''
+    - ''cd howto_presentation''
+    - Create a {step: makefile}:
+        #Code syntax=sh <<--
+        deplate -m makefile howto_presentation.txt
+        --
+
+
+* The Document
+    - Create the {step: document} ''howto_presentation.txt''
+    - One {step: page} in your presenations corresponds to chapter under 
+      a heading with level 1 to 3
+    - The document should include information about the title, the 
+      author, the creation date
+    - Example:
+      #Code syntax=viki <<---------
+      #TI: How to do web-based presenation with deplate
+      #AU: Th. Link
+      #DATE: today
+      #MAKETITLE
+      #LIST plain!: toc
+
+      * This Howto
+      Foo bar ...
+      ---------
+    - [[http://deplate.sourceforge.net/TutorialPresentation.txt][Source]] 
+      for this presentation
+
+
+* The Theme
+    - We will create the presentation by using deplate's {step: 
+      htmlsite} output formatter.
+    - In order to apply the proper styles and to include the \JavaScript 
+      magic, we use the {step: theme} ''presentation.html''
+    - A theme in deplate is a collection of
+        - an ini file (''THEME/theme.ini'')
+        - css files (''THEME/css/...'')
+        - templates (''THEME/templates/...'')
+        - a library (''THEME/lib/...'')
+        - a prelude (''THEME/prelude.txt'')
+        - additional resources (''THEME/resources/*'')
+    - Edit Makefile.config and change the value of ''WEBSITE_DFLAGS'':
+      #Code syntax=make <<---------
+      WEBSITE_DFLAGS=${HTML_PLUS} -d ${WEBSITE_DIR} -f htmlsite 
+      --theme=presentation.html
+      ---------
+
+
+* Compile & View it
+    - Now we have to {step: convert} the deplate input file to HTML
+    - Type: ''make website'' ... Done!
+    - In order to {step: display} it in your browser, type: ''make view''
+        - !!!If this doesn't work, that's because deplate wasn't able to 
+          determine how to launch the browser for your system. You can 
+          change this by setting the variable ''genericViewer''.
+
+
+% 2008-07-06; @Last Change: 2008-07-06.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

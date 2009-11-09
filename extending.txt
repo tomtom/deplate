@@ -1,0 +1,336 @@
+% vi: ft=viki:tw=72
+% @Last Change: 18-Apr-2006.
+
+* Internals
+#OPT: id=Internals
+#LIST fmt=html plain! sub!: toc
+
+** Document structure
+#docstructure
+
+The formatted ''deplate'' document is made up of a pre-matter, a body, and 
+a post-matter each of which is an array of arrays of strings.
+
+    - Pre-matter
+        - Slots
+            - Array of strings
+    - Body
+        - Slots
+            - Array of strings
+    - Post-matter
+        - Slots
+            - Array of strings
+
+Using the ''docType'' option, you can determine into which section an 
+element goes. Using the ''docSlot'' option, you can define the element's 
+position withing a section.
+
+In multi-file output, pre-matter and post-matter are the same for all 
+files. The actual body usually beginns, but this depends on the 
+formatter, at position 90 of the pre-matter and ends at position 20 of 
+the post-matter section. I.e. if you want to print some information in 
+every file's body, put it somewhere in the pre-matter after position 90 
+or in the post-matter before slot 20.
+
+The default slot for normal text is 50 in the body section. If slot is 
+greater than 50, the element will be moved to the end of the document.  
+If it is smaller, it will be moved to the beginning. The utility of this 
+feature for the user is limited. It can come handy, if you want to put 
+LaTeX-code into the preamble or if you want to customize the output in 
+some more advanced way.
+
+The slots can also be addressed via names:
+
+    - Pre
+        doc_def ::       The document type definition
+        doc_beg ::       The beginning of the document 
+        head_beg ::      The beginning of the document head
+        javascript ::    Javascript
+        mod_packages ::  Packages loaded by a module
+        user_packages :: User-required packages
+        mod_head ::      Additional header statements added by a module
+        user_head ::     Additional header statements added by the user
+        head ::          Document header statements
+        user_head ::     Document header statements added by the user
+        css ::           Style definitions
+        head_end ::      The end of the document head
+        body_beg ::      The beginning of the body definition
+    - Body
+        body ::          The body (standard slot)
+        footnotes ::     Footnotes
+    - Post
+        body_end ::      The end of the body definition
+        doc_end ::       The end of the document
+
+The names can come handy when selectively filling in content into a 
+template.
+
+Any element can be located at any position in the document. This can be 
+done by adding the option "slot" to an element. The value of "slot" can 
+be a name, a number, or a mix of both like in "css+1" or "body-1".
+
+    !!! The use of numbers is deprecated and will be disabled some time 
+        in the future.
+
+In general, you shouldn't address slots by their number. It's quite 
+likely that this option will soon disappear.
+
+
+* Extending ''deplate''
+#extending
+#OPT: id=Extending
+#LIST fmt=html plain! sub!: toc
+
+A ''deplate'' document consists of elements (i.e., single lines or group 
+of lines) that are made up of particles (sub-line-level text bits).
+
+
+** Line/Elements
+
+Elements are processed in several passes:
+
+    - accumulate a new element; it's type is infered from the first line
+    - add other lines
+    - "finish" the element (unify with previous elements if applicable)
+    - process the element (at this point of time, all data/references 
+      etc. are known)
+    - output the formatted element (at this point of time, all elements 
+      were processed)
+
+% *** Adding new elements
+% 
+% The interface/prototype of elements and particles looks like this:
+% 
+% #Code syntax=ruby <<---
+% class Deplate::Element
+%     # register this element
+%     @@elements << self
+% 
+%     # this element's regular expression (matching the first line)
+%     @rx = /^$/
+% 
+%     # is this element in one-line or multi-line format? (see also 
+%     # #to_be_continued?)
+%     attr :multiliner
+% 
+%     # whether we can collapse this element with another one
+%     attr :collapse, true
+% 
+%     # end pattern (for region-like elements)
+%     attr :endRx
+% 
+%     # push an object of class self to array
+%     def self.accumulate(src, array, deplate, text, match, *args)
+%     end
+% 
+%     # initialize the class and set object variables
+%     def initialize(deplate, src, text, match)
+%     end
+% 
+%     # preprocess/parse the raw text in @accum and save to @elt and 
+%     # return the object that should be processed
+%     def finish
+%     end
+% 
+%     # process the object's data and return the object that should be 
+%     # formatted
+%     def process
+%     end
+% 
+%     # return whether this object can be collapsed/combined/unified
+%     # with the other object
+%     def collapsable?(other)
+%     end
+% 
+%     # return whether line is an continuation of the current object
+%     def to_be_continued?(line)
+%     end
+% 
+%     ### these two should be defined by the formatter
+%     # output the formatted element
+%     def format_special
+%     end
+% 
+%     # output labels and call #format
+%     def print
+%     end
+% end
+% ---
+% 
+% There are two subtypes (regions and commands) that should be derived 
+% from the appropriate class (''Deplate::Region'' and ''Deplate::Command'' 
+% respectively). For examples please look at the source code.
+
+
+
+** Text/Particles
+
+Particles are processed in two passes:
+    - create an object and parse the text
+    - process the element and return a formatted string
+
+% *** Adding new particles
+% 
+% The interface/prototype of elements and particles looks like this:
+% 
+% #Code syntax=ruby <<---
+% class Deplate::Particle
+%     # register this element
+%     @@particles << self
+%     # this particles regular expression (must start with a hat)
+%     @rx = /^/
+% 
+%     # setup this particle
+%     def setup
+%     end
+% 
+%     # process this particle and save the formatted string in @elt
+%     def process
+%     end
+% 
+%     # this should be defined by the formatter
+%     def format
+%     end
+% end
+% ---
+
+
+*** Symbols
+#newSymbols
+
+If you don't want to define symbols using ''#ABBREV'' in your source 
+file (maybe because of performance considerations), you can make them 
+available by creating a file like 
+''~/.deplate/after/fmt/#{FORMATTER}/mysymbols.rb'', which contains 
+something like the following HTML example:
+
+% #Code id=MySymbols syntax=ruby <<---
+#Verb <<---
+# Set the context for where we want to store our symbol definitions, 
+# here: HTML output format
+class Deplate::Formatter::HTML
+    # Create a hook function (the name must begin with 
+    # "formatter_initialize_")
+    def formatter_initialize_my_symbols
+        # Define our symbols. We could either create a hash and merge it 
+        # with the already defined @special_symbols or add each entry with 
+        # a single command as in this example
+        @special_symbols['€'] = '&euro;'
+        @special_symbols['Ä'] = '&Auml;'
+        # We need to rebuild the regular expression used for tokenizing
+        build_plain_text_rx
+    end
+end
+
+# Set the context: LaTeX output format
+class Deplate::Formatter::LaTeX
+    def formatter_initialize_my_symbols
+        @special_symbols['€'] = '\EURtm{}'
+        @special_symbols['Ä'] = '\"A{}'
+        build_plain_text_rx
+    end
+end 
+---
+
+Be aware though that this file will not be loaded when using a HTML 
+variant like the htmlsite formatter. If you want to make these symbols 
+be available in all descendants of the HTML formatter, you will have to 
+move this ruby code to ''~/.deplate/config.rb''{idx: config.rb}.
+
+
+*** Macros
+
+For adding a new macro, you would have to put something like this into 
+your config.rb{fn: embeddedRuby}:
+
+#Footnote: embeddedRuby <<---
+You could also use a ruby region{ref: rubyRegion} to define 
+the command in place. This requires the -x command-line switch to be 
+given, though.
+---
+
+#Code id=MyMacro syntax=ruby <<---
+class Deplate::Macro::MyMacro < Deplate::Macro
+    @@macros["mymacro"] = self
+    def setup(text)
+        @text = text * 3
+    end
+end
+---
+
+Or use the ''simple_macro'' function/method as in:
+
+#Code id=simple_macro syntax=ruby <<---
+Deplate::Core.simple_macro("mymacro", %{text * 3})
+---
+
+The macro is now accessible.
+
+#Verbatim <<---
+Foo {mymacro: bar}
+---
+
+This would then produce:
+
+Foo {ruby: Deplate::Core.simple_macro("mymacro", %{text * 3})}{mymacro: bar}
+
+
+
+** Formatters
+
+Sometimes, the best way to change ''deplate'''s output is to create a 
+new formatter. Let's take the ''html-snippet'' formatter as an example. 
+This formatter derives from the HTML formatter but has a different name 
+and doesn't format paragraphs (the assumption is that this formatter is 
+only used for small text snippets which are later on reused by an other 
+application):
+
+#Code syntax=ruby id=example_html_snippet <<--
+# Make the HTML formatter known
+require 'deplate/fmt/html.rb'
+
+# Inherit from the HTML formatter
+class Deplate::Formatter::HTML_Snippet < Deplate::Formatter::HTML
+    # Give this formatter a name (this usually is the file's base name
+    NAME = "html-snippet"
+
+    # Define an initialization hook that is called after creating a new 
+    # instance of this formatter.
+    # Make sure we run in ''included'' mode as we don't want any HTML 
+    # preamble in the output when formatting single phrases that will
+    # be reused by another application.
+    def formatter_initialize_snippet
+        unless @deplate.options.included
+            log(['Not run in included mode'], :error)
+            log(['Set included mode'], :error)
+            @deplate.options.included = true
+        end
+    end
+
+    # Override the default method for formatting paragraphs. In this 
+    # case, we simply return the element's content.
+    def format_paragraph(invoker)
+        invoker.elt
+    end
+end
+
+# Make the formatter known to ''deplate''.
+class Deplate::Core
+    declare_formatter Deplate::Formatter::HTML_Snippet
+end
+--
+
+You could now save this code in, say, 
+''~/.deplate/fmt/html-snippet.rb''{fn: fmtSnippet} and invoke the newly 
+defined formatter from the command line:
+
+#Verb <<---------
+> echo '__Foo__ "bar".' | deplate -f html-snippet --included -
+<em>Foo</em> &ldquo;bar&rdquo;.
+---------
+
+#Footnote id=fmtSnippet <<-------
+This formatter is already included in the distribution. So, you don't 
+have to actually save it in order to use it.
+-------
+

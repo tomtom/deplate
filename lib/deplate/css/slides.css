@@ -1,0 +1,12 @@
+# encoding: ISO-8859-1
+/* A  sample style sheet for use with deplate generated html files */
+/* @Author:      Tom Link (micathom AT gmail com) */
+/* @Created:     13-Apr-2004. */
+/* @Last Change: 2009-11-09. */
+/* @Revision:    0.552 */
+
+@import url(text-serif.css) print;
+@import url(text-sans-serif.css) screen;
+
+@import url(layout-deplate.css) all;
+

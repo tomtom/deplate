@@ -1,0 +1,372 @@
+% vi: ft=viki:tw=72
+% macros.txt
+% @Author:      Tom Link (micathom AT gmail com)
+% @Created:     06-Dez-2004.
+% @Last Change: 2009-11-09.
+% @Revision:    0.115
+
+* Macros
+#OPT: id=Macros
+#macros
+#LIST fmt=html plain! sub!: toc
+
+Curly braces should be escaped with a backslash (i.e., \\\{ and \\\}), as they 
+usually mark macros:
+
+#Verbatim <<EOV
+{COMMAND [OPTIONS]: ARGS...}
+EOV
+
+__NOTE:__ Macros cannot cross paragraph boundaries, i.e., they must not 
+contain empty lines. Using newlines in a macro argument is useless, as 
+the macro text will be collapsed to one single line.
+
+__NOTE:__ These aren't macros in the sense of read-time 
+expansions/replacements. They are called macros here because 
+the (original) term ''commands'' is now used for ''#CMD'' type of 
+commands only.
+
+__NOTE:__ If the macro name is unknown, a clip or a variable will be 
+used instead. The order is: macros > clips > variables.
+
+__NOTE:__ Some macros parse their arguments, which then can contain 
+other macros -- e.g., ''list'' and ''item''. "Parsing" is done with a 
+simple nested regular expression. This appears to work quite well but 
+could yield unintended results in some situations. The maximum of nested 
+macros currently is 5 (which should really enough due to the primitivity 
+of the macro language). If you want more (e.g., 10), add this to your 
+config file:
+
+#Verb <<--
+Deplate::Particle::Macro.build_rx(10)
+--
+
+% The parsing error in the following example is a result of this limit.
+
+#Example caption=Macro written in Ruby <<---
+#Ruby context=ruby <<--
+class Deplate::Macro::Test < Deplate::Macro
+    register_as 'test'
+    def setup(text)
+        @elt = @deplate.parse(@container, '<' + text + '>')
+    end
+end
+--
+
+Bla {test: [1 
+        {test: 2 
+            {test: 3 
+                {test: 4}
+            }
+        }
+        inner bla
+        {test: a 
+            {test: b 
+                {test: c 
+                    {test: d}
+                }
+            }
+        }]
+    }
+Bla
+---
+
+__NOTE:__ You could run into problems if an macro argument contains 
+unbalanced curly braces. It should work by preceding them with a 
+backslash, but ...
+
+** Getting or setting data about the document
+
+    Attributes: \{attrib: KEY=VALUE ...\} :: 
+      {idx: \{attrib\}}
+      Change the previous particle's (inline element) attributes; this 
+      command does on a text level what ''#OPT'' does for block 
+      elements
+
+    Clips, variables: \{get [default=TEXT]: ID\}, \{get id=ID [default=TEXT]\} :: 
+      see also{ref: putRegion}; access "clips", e.g. the document's 
+      author: \{get: author\}
+      {label: clipmacro}{idx: \{get\}|\{get}
+
+    Counters: \{counter [depth=N] [delta=N]: NAME\} :: access a counter; 
+      see{ref: cmdExamples} for an example
+
+    Element properties: \{eprop ...\} :: Set the container element's 
+      properties (as if using the #PROP command).
+        {idx: \{eprop\}|\{eprop}
+
+    Document variables: \{var: ID\} :: 
+      access document variable. See also the comments below on the 
+      ''arg'' macro. The difference between ''var'' and ''arg'' is that 
+      the ''var'' macro returns a value in a format can read.
+        {label: docMacro}{idx: \{doc\}|\{doc}
+
+    Element options: \{opt: ID\} :: 
+      access element (paragraph, table etc.) options
+        {idx: \{opt\}|\{opt}
+
+    Retrieving variables : \{arg: NAME\} :: Retrieve an argument (used 
+      in [[regions#defRegion][DefRegion]] or similar){label: argMacro}
+        - Variables can also be accessed as in ''{varname}'' which will 
+          expand to ''{arg: varname}''. ''{varname!}'' will expand to 
+          ''{var: varname}''. Thus, ''{varname capitalize!}'' is 
+          equivalent to ''{arg capitalize!: varname}''.
+        - The xarg macro is a variant of this that can be used to 
+          retrieve preformatted text.
+        - Synonyms: val, xval
+        {idx: \{val\}|\{val; \{xval\}|\{xval; \{arg\}|\{arg; 
+        \{xarg\}|\{xarg; }
+        - If the ''.'' allow flag is set, the NAME may have the form 
+          ''NAME[METHOD]'' to send methods to an object.
+        - Options:
+            join=SEPARATOR :: Join the values of strings and hashes
+            values! keys! :: Return a hashes values of strings
+            sub=/pattern/replacement/ :: Replace a pattern (the '/' is 
+              an arbitrary separator in this example; this can be any 
+              character)
+            tr=/pattern/replacement/ :: Character translation
+            upcase! :: Put the text in upper case letters
+            downcase :: Put the text in lower case letters
+            capitalize! :: Capitalize the text
+            escape="CHARACTERS" :: Escape some characters with a 
+              backslash
+            escapebackslash! :: Escape backslashes with a backslash
+        - The execution order of the text transformations arguments is 
+          fixed: sub > tr > upcase > downcase > capitalize
+
+    Localized messages: \{msg: TEXT\} :: 
+      Insert a localized message (can be used in templates).
+
+
+** References, labels, index
+
+    Anchors: \{anchor: NAME\} :: 
+      Inserts an anchor at this very position; this should only used in 
+      inline position within a list item, a paragraph etc. It should be 
+      also used within lists or similar compound elements.
+      {idx: \{anchor\}}
+        - Synonyms: label, lab
+
+    Comments: \{cmt: TEXT\} :: 
+      insert an empty string
+      {label: commentMacro}{idx: \{cmt\}|\{cmt}
+
+    Index: \{idx: NAME\} :: 
+      Inserts an index at this very position; this should only used in 
+      inline position within a list item, a paragraph etc. It should be 
+      also used within lists or similar compound elements.
+      {idx: \{idx\}}
+
+    % Reference: \{ref [obj!] [p!]: ANCHOR\} :: 
+    Reference: \{ref [prefix=TEXT] [p!]: ANCHOR\} :: 
+      insert a reference to an anchor{idx: \{ref\}|\{ref}
+        p :: Reference to page
+        prefix :: Prepend this text to the reference (default: 
+          non-breaking space)
+        % obj :: Reference to the object (i.e., insert the table number 
+        %   instead to the section number)
+        #refMacro
+
+
+** Bibliography
+
+    Citation: \{cite [p=PAGE] [n=NOTE] [np!] [y!]: ID1[;ID2...]\} :: 
+      output depends on the formatter{idx: \{cite\}|\{cite}
+        np :: No parentheses
+        y  :: Year only
+        p  :: The page number
+        n  :: A note to be inserted before the citation (but within the 
+          parentheses)
+
+
+** Textstyles
+
+    Code: \{code: CODE\} or \{\'CODE\}, or \{verb: CODE\} :: 
+        the same as ''\'\'CODE\'\'''
+        {idx: \{code\}|\{code; \{'\}|\{'; \{verb\}|\{verb}
+
+    Emphasized text: \{_TEXT\} or \{em: TEXT\} or \{emph: TEXT\} :: 
+      emphasized text (the same as ''__TEXT__'')
+        {idx: \{emph\}|\{emph; \{_\}|\{_; \{em\}|\{em}
+
+    Plain text: \{plain: UNPARSED TEXT\} or \{\\UNPARSED TEXT\} :: 
+      insert the text without intepreting deplate markup
+        {idx: \{plain\}|\{plain; \{\\\}|\{\\}
+
+    Subscript: \{sub: TEXT\} or \{,TEXT\} :: 
+      Put TEXT in subscript
+        {idx: \{sub\}|\{sub; \{,\}|\{,}
+
+    Superscript: \{super: TEXT\} or \{sup: TEXT\} or \{^TEXT\} :: 
+      Put TEXT in superscript
+        {idx: \{super\}|\{super; \{sup\}|\{sup; \{^\}|\{^}
+
+    Stacked: \{stacked:\{:SUPER\}\{:SUB\}\}\} or \{%\{:SUPER\}\{:SUB\}\} :: 
+      Print SUPER on top of SUB (the HTML formatter uses css inline 
+      tables, which are displayed as expected with Firefox/Mozilla)
+        {idx: \{stacked\}|\{stacked; \{%\}|\{%}
+
+    Text: \{text: TEXT\} or \{:TEXT\} :: 
+      Parsed TEXT. This macro can also be used to attach a style to some 
+      inline text.
+        {idx: \{text\}|\{text; \{:\}|\{:}
+
+    Mark 1st occurrence: \{~text\} \{mark1st: text\} :: Mark TEXT, when 
+      the text is inserted for the first time. If the variable 
+      ''mark1stStyle'' is defined, this style will be used. Otherwise, 
+      the string's first occurrence will be printed in upper case 
+      letters. Arguments
+        text=TEXT :: Text used for lookup
+        alt=STYLE :: Mark other occurrences with this style
+        always!, anyway! :: Always mark as 1st occurrence, even if it 
+          isn't.
+        {idx: \{mark1st\}|\{mark1st; \{~\}|\{~}
+
+    Case: \{downcase: TEXT\} \{upcase: TEXT\} \{capitalize: TEXT\} :: 
+      Change TEXT's case
+        {idx: \{downcase\}|\{downcase; \{upcase\}|\{upcase; 
+        \{capitalize\}|\{capitalize;}
+
+
+** Dynamic text, particles
+
+    Date: \{date: [format string|now|time|today|month|year]\} :: 
+      the format string uses ruby's strftime method.
+        {idx: \{date\}|\{date}
+
+    Footnote: \{fn: ID\} or \{fn id=ID: TEXT\} :: 
+      The first form refers to a footnote defined by a Fn or Footnote 
+      region. The second form defines the footnote inline. The output 
+      depends on the formatter. The footnotes generated by the html 
+      formatter are compatible with Open\Office.
+        {idx: \{fn\}|\{fn}
+
+    Images: \{img [IMG arguments]: FILE\} :: 
+      insert an image; takes the same options as IMG (see{ref: cmdImg})
+        {idx: \{img\}|\{img}
+        #imgMacro
+
+    Inline LaTeX: \{ltx id=ID [other Inlatex options]: LATEX CODE\} :: 
+      Insert small pieces of latex code.{label: ltxMacro}{idx: \{ltx\}|\{ltx}
+        - Synonym: latex 
+        - See also{ref: ltxRegion}.
+
+    Pagenumber: \{pagenumber [hd!]: [TEXT]\} :: 
+      Returns the current page number. The result depends on the 
+      formatter. TEXT is appended to the pagenumber if the result 
+      is non-empty.
+            HTML :: Insert nothing
+            LaTeX :: Insert ''\\thepage'' if the macro isn't used in a 
+              header region (the optional ''hd!'' argument)
+            LaTeX + koma :: Insert ''\\pagemark''
+              {label: pagenumberMacro}{idx: \{pagenumber\}|\{pagenumber}
+
+    Small lists: \{list type=[ol|ul|dl]: ITEMS\} :: 
+      A convenience macro for inlining small lists into other
+      elements. Items can defined with the following two macros:
+      {label: smallLists}
+      {list:
+        {item: \{item: TEXT\}}
+        {item: \{term id=TERM: TEXT\}}}
+        {idx: \{list\}|\{list; \{item\}|\{item}
+
+    Native text: \{ins: LITERALLY INSERTED TEXT\} :: 
+      e.g., \{ins fmt=html: &lt;&lt;\}
+        {idx: \{ins\}|\{ins}
+
+    Mathematical text: \{math [block!]: LATEX FORMULA\} :: 
+      insert a small mathematical expression in latex syntax
+      {label: math}{idx: \{math\}|\{math}
+        - Synonyms: \$
+        - If the ''block!'' argument is supplied, the formula is wrapped 
+          in ''\\[formula\\]'' instead of ''$formula$''.
+        - See also{ref: particleMath} and{ref: ltxRegion}.
+        - You can set the variable ''mathPrelude'' in order to prepend 
+          some LaTeX code to all mathematical formulaes
+
+    Newline: \{nl\} :: 
+      start a new line
+        {idx: \{nl\}|\{nl}
+
+    Ruby code: \{ruby [context=CONTEXT] [alt=ALTERNATE OUTPUT]: RUBY CODE\} :: {list:
+      {item: if the evaluation of ruby code is disabled, the text given 
+      in the alt option or an empty string will be inserted}
+        {item: a sequence of ruby commands must be separated by 
+        semicolons}}
+        {idx: \{ruby\}|\{ruby}
+        - for the CONTEXT argument please see{ref: rubyRegion}
+
+#Example caption=Macros <<------Examples
+Footnotes:
+Foo bar{fn: x} foo bar.
+
+#Fn: x <<EOFN
+    Ceci n'est pas une note.
+EOFN
+
+Reference:
+Bar is bar.
+#bar
+
+Foo is foo (see also{ref: bar}).
+
+Citation:
+#BIB: deplate.bib
+Mynona's{cite y! n=e.g.,: mynona:p1} real name was Salomo Friedlaender.
+
+% You can find the bibliography down below. The command is commented out 
+% in order not to confuse nervous docbook tools.
+% #MAKEBIB plain!: cbib-apa-1
+
+Comments:
+This line{cmt: here} contains a comment.
+
+Date:
+{date: today}
+
+Ruby:
+{ruby alt=ruby disabled: 1 + 1}
+
+Image:
+An inline {img rotate=90 h=40: linked} image (which is rotated in LaTeX 
+output).
+
+LaTeX:
+Test ({ltx: $\sum_{i=n}^{n} x_{i}$}) the ltx macro.
+
+Text formatting:
+Foo{,bar & bar} is foo, but bar{^foo & foo} is bar.
+Foo {\__with__} or {plain: ''without''} bar.
+
+{~Tom} says: "My name is {~Tom}."
+
+{upcase: Foo bar}, {downcase: Foo bar}, {capitalize: Foo bar}.
+
+x{%{:2}{:a}} = 1
+
+#IF: fmt!=latex
+Small lists (this example doesn't work in latex):
+| {list: {item: foo} {item: bar}} \
+| {list type=dl: {term id=Foo: Foo is foo} {term id=Bar: Bar is bar}} \
+|
+| {list: {item: here} {item: there}} \
+| {list type=dl: {term id=Here: Here is here} {term id=There: There is there}} \
+|
+#ENDIF
+
+If you allow ".", you can could do something like this: This is the 
+paragraph with the id ''testParagraph1''.
+#OPT: id=testParagraph1
+
+The element with id=testParagraph1 is a {let t=object(id=testParagraph1): 
+{arg asString!: t.class}}.
+
+#VAR: varname=Lala
+#CLIP id=theSinger: __Maestro__ Maximo
+{varname} is foo. {arg: varname} is foo.
+
+{varname!} is bar. {var: varname} is bar.
+
+{theSinger} sings {varname!}.
+------Examples
+

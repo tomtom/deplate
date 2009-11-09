@@ -1,0 +1,101 @@
+* Skeletons
+#OPT: id=Skeletons
+#skeletons
+#LIST fmt=html plain! sub!: toc
+
+Skeletons look a lot like macros (e.g. ''\{\{foo}}'') and they behave 
+very much like included documents (using the #INC command), but they are 
+expanded before actually parsing the input, i.e. they provide some kind 
+of pre-processor macro expansion facility.
+
+I order to use a skeleton you have to create a file
+    - deplate.rc/lib/NAME
+or (this one will be preferred if it exists)
+    - deplate.rc/lib/FORMATTER/NAME
+and enable the skeleton on the command line by using the ''--skeleton'' 
+command line option.
+
+Some skeletons (currently only one) are "special", i.e. not file based 
+but are processed by 
+''Deplate::SkeletonExpander#skeleton_#{SPECIAL}(args)'', where args is a 
+hash:
+
+    \{\{id: NAME\}\} :: This skeleton inserts hopefully unique ID 
+      strings that can be used in templates for defining regions.
+
+Skeleton are expanded in place. I.e. the first line of the expansion 
+text is inserted right where the skeleton marker appears in the text. If 
+the expansion begins with an element(a command, a region etc.), the 
+first character in the file should be a newline.
+
+Skeletons are handled like templates (see{ref: templateFiles}). This 
+means:
+    - All macros and commands available in templates can be used.
+    - In certain situations, commands and regions that are valid within 
+      templates thus have to be preceded with a backslash in certain 
+      conditions in order to avoid premature expansion.
+
+
+#EXAMPLE: Skeletons (1)
+
+deplate.rc/skeletons/foo:
+#Verb <<--
+{arg: which} foo is {arg: @body}.
+--
+
+Input:
+#Verb removeBackslashes! <<--
+Bla bla. \{\{foo which=This: bar}} Bla bla.
+--
+
+yields:
+
+#Region style=example-output <<
+Bla bla. {{foo which=This: bar}} Bla bla.
+
+
+#EXAMPLE: Skeletons (2)
+
+deplate.rc/skeletons/bar.html:
+#Verb removeBackslashes! <<--
+
+\\#Native <<\{\{id: bar.form}}
+<form action="" method="get">
+<p>Name: 
+<input name="name" type="text" size="30" maxlength="30" value="{arg: name}"/>
+</p>
+<p>
+<button name="submit" value="1" type="submit">Send</button>
+</p>
+</form>
+\{\{id: bar.form}}
+
+--
+
+deplate.rc/skeletons/bar:
+#Verb <<--
+
+    Name :: {arg: name}
+
+--
+
+Input:
+#Verb removeBackslashes! <<--
+Bla bla.
+\{\{bar name=Io mio}}
+Bla bla.
+--
+
+yields:
+
+#Region style=example-output <<--
+Bla bla.
+{{bar name=Io mio}}
+Bla bla.
+--
+
+
+% 29-Apr-2006; @Last Change: 29-Apr-2006.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

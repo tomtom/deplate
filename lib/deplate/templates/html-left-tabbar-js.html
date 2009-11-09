@@ -1,0 +1,37 @@
+#Mingle type=pre slot=css:
+<!--[if IE]>
+<style type="text/css">
+    @media screen {
+        table.tabBarLeft {
+            border-collapse: collapse;
+        }
+    }
+</style>
+<![endif]-->
+#End
+#Mingle type=pre slot=javascript:
+<script src="tabmenu.js" type="text/javascript"></script>
+#End
+#PREMATTER
+
+<div id="tabFrame">
+    <div id="tabFrameRow1">
+        <div id="tabBodyFrame">
+            <div class="tabBody">
+                <img width="700px" height="1px" src="spacer.png" alt="" />
+                #BODY: -navbar_top -navbar_bottom
+            </div>
+            #POSTMATTER: html_pageicons_beg..html_pageicons_end
+        </div>
+        <div id="tabBar" class="tabBar">
+            <div id="pin">
+                <a href="javascript:ToggleSticky()" title="Toggle Sticky">
+                    <img id="pinImg" border=0 src="pin-up.png" alt="Pin" />
+                </a>
+            </div>
+            #ARG: tabBarLeft(progressBar! nextKey! spacer=spacer.png depth=2 depthInactive=1)
+        </div>
+    </div>
+</div>
+
+#POSTMATTER

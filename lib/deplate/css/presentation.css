@@ -1,0 +1,217 @@
+/* Text style: sans-serif */
+/* @Author:      Tom Link (samul AT web.de) */
+/* @Created:     13-Apr-2004. */
+/* @Last Change: 2009-11-09. */
+/* @Revision:    0.644 */
+
+body, table, div {
+    /* font-family: Georgia, Bookman, Times, Serif; */
+	font-family: Georgia, Minion Web, Palatino, "Book Antiqua", Utopia, "Times New Roman", serif;
+	/* font-size-adjust: .5; */
+    font-size: 28px;
+    /* line-height: 1.3em */
+}
+
+big {
+    font-weight: bolder;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* font-family : Georgia, Bookman, Times, Serif; */
+    /* font-family : Verdana, Monaco, Sans-Serif; */
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+    font-weight: bold;
+}
+h1 {
+    font-size: 56px;
+}
+h2 {
+    font-size: 48px;
+}
+h3 {
+    font-size: 40px;
+}
+h4 {
+    font-size: 36px;
+}
+h5 {
+    font-size: 32px;
+}
+h6 {
+    font-size: 32px;
+}
+
+tr.head, tr.foot, tr.high, th, td.foot, td.high {
+    font-weight: bold;
+}
+td[class~="head"], td[class~="foot"] {
+    font-weight: bold;
+}
+div.tableNote {
+    font-size: 24px;
+    font-style: italic;
+}
+.small {
+    font-size: 22px;
+}
+.scriptsize {
+    font-size: 20px;
+}
+.footnotesize {
+    font-size: 18px;
+}
+
+blockquote {
+    font-family: Sans-Serif;
+}
+blockquote.quote {
+}
+blockquote.longquote {
+}
+blockquote.abstract {
+    font-style: italic;
+}
+
+li.Itemize-1 {
+    list-style-type : none;
+}
+dt {
+    font-weight: bold;
+}
+
+code, pre {
+    font-family: "Courier New", Courier, Monospace;
+    font-size: 0.8em;
+	/* font-size-adjust: -.5; */
+}
+div.code {
+    margin: 10px 5% 10px 5%;
+}
+/* pre { */
+/*     font-size: 24px; */
+/* } */
+
+ul {
+    margin: 10px 0 10px 5%;
+}
+
+
+/* htmlnavigation: Usage note */
+
+
+/* Navigation bar */
+a:link.navbar, a:visited.navbar, a:link.navbarUrl, a:visited.navbarUrl {
+    text-decoration: none;
+    font-size: 24px;
+}
+select.navmenu {
+    font-size:18px;
+}
+p.navgo {
+    font-size:18px;
+}
+
+
+/* Figure */
+
+
+/* Caption */
+caption, p.caption {
+    font-weight: bold;
+}
+
+/* Title */
+p.title, p.author, p.authornote, p.date {
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+    font-weight: bold;
+}
+p.title {
+    font-size: 56px;
+}
+p.author {
+    font-size: 48px;
+}
+p.authornote {
+    font-size: 36px;
+}
+p.date {
+    font-size: 36px;
+}
+
+
+/* Table of Contents etc. */
+
+
+/* Mini Table of Contents */
+
+
+/* Footnotes */
+a:link.footnote, a:visited.footnote {
+    font-size: 18px;
+    text-decoration: none;
+}
+p.footnotes, ol.footnotes, li.footnotes {
+    font-size: 24px;
+}
+p.footnotes {
+    font-weight: bold;
+}
+
+
+/* OpenOffice compatible footnotes */
+.sdfootnoteanc {
+    font-size: 18px;
+}
+.sdfootnotesym, .sdfootnote {
+    font-size: 24px;
+}
+
+
+/* Bibliography */
+
+
+/* Index */
+
+
+/* Marker */
+div.note, div.warning, div.caution, div.important {
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+    font-size: 24px;
+}
+
+
+/* Header, Footer */
+.header, .footer {
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+    font-size: 18px;
+}
+
+
+/* Validate HTML */
+
+
+/* TabBar */
+.tabBarLeft, .tabBarRight, .tabBarTop, .tabBarBottom {
+    font-size: 20px;
+}
+a.tabBarEntry {
+    text-decoration: none;
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+}
+
+/* ProgressBar */
+span.progress {
+    font-size: 20px;
+}
+
+input, textarea {
+	font-family: Georgia, Minion Web, Palatino, "Book Antiqua", Utopia, "Times New Roman", serif;
+    font-size: 90%;
+    line-height: 135%;
+}
+
+
+p.comments {
+    font-size: 20px;
+}
+

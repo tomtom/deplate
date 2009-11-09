@@ -1,0 +1,8 @@
+#Footer <<--
+[[http://deplate.sourceforge.net/about.html][About]]
+--
+
+% 15-Jun-2006; @Last Change: 15-Jun-2006.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

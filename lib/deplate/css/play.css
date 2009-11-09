@@ -1,0 +1,101 @@
+@page {
+    size: portrait;
+    margin: 1in 1in 1.5in 1.5in;
+    orphans: 2;
+    widows: 2;
+}
+
+.play {
+    font-family : "Courier New", Courier, Monospace;
+    font-size: 11pt;
+    font-weight: normal;
+    margin: 10px 0 10px 0;
+    padding: 0;
+}
+
+div.play {
+}
+
+h1.play {
+    /* page-break-before: always; */
+}
+
+h1.play, h2.play, h3.play, h4.play, h5.play {
+    /* text-decoration: underline; */
+    margin: 20px 0 10px 0;
+    border: 0;
+    border-bottom: 1px solid #000000;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+span.play-intext {
+    /* padding-right: 1cm; */
+}
+
+span.play-location {
+}
+
+span.play-timesep {
+}
+
+span.play-flexsep {
+    visibility: hidden;
+}
+
+span.play-right {
+    /* position: absolute; */
+    /* right: 10px; */
+    position: relative;
+    left: 1in;
+    text-align: right;
+}
+
+p.play {
+}
+
+dl.play {
+    text-align: center;
+}
+
+span.play-dialog span.play-character {
+    text-transform: uppercase;
+}
+span.play-direct {
+    text-transform: none;
+}
+span.play-character > span.play-direct {
+    display: block;
+}
+
+dt.play {
+    /* margin: 10px 0 0 3.7in; */
+    margin: 10px 10px 0 10px;
+}
+
+dd.play {
+    margin: 0 2.3in 10px 2.2in;
+    /* margin: 0 10px 10px 2.2in; */
+    padding: 0;
+    /* width: 3in; */
+    width: 7cm;
+    /* text-align: justify; */
+    text-align: left;
+}
+
+ul.play {
+    list-style-type: none;
+}
+
+li.play[class~=dash] {
+    margin-left: 1cm;
+}
+
+li.play[class~=plus] {
+    margin-left: 2cm;
+}
+
+/* 
+vi: ft=css:tw=72:ts=4
+*/

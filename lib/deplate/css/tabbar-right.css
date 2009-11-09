@@ -1,0 +1,203 @@
+@import url(deplate.css);
+
+body {
+    /* background-color: #d9e0f0; */
+    /* background-color: #e4e8f0; */
+    background-color: #eeeef5;
+    /* background-image: url(grad_blue.jpg); */
+    background-repeat: repeat-x;
+}
+
+#tabFrame {
+    /* display: table; */
+    /* border-spacing: 0; */
+    /* background-color: #d9e0f0; */
+    background-color: transparent;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: 0;
+    margin-left: 20px;
+}
+#tabBar {
+    /* display: table-cell; */
+    /* position: absolute; */
+    /* top: 0; */
+    position: fixed;
+    left: 780px;
+    text-align: left;
+    vertical-align: top;
+    width: 170px;
+    border: 0;
+    padding: 10px 0 0 0;
+    margin: 0;
+    /* background-color: #d9e0f0; */
+    background-color: transparent;
+}
+#tabBodyFrame {
+    /* display: table-cell; */
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+    float: left;
+    text-align: left;
+    vertical-align: top;
+    /* background-color: #d9e0f0; */
+    background-color: transparent;
+    width: 750px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+#tabBody {
+    background-color: #ffffff;
+    text-align: left;
+    vertical-align: top;
+    border: 0;
+    /* border: 1px dashed #cae0ea; */
+    /* border: 1px solid #cae0ea; */
+    padding: 10px;
+    /* margin: 10px 0 10px 10px; */
+    margin: 10px;
+    /* width: 700px; */
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -khtml-border-top: 15px;
+    border-radius: 15px;
+}
+
+.tabFrameRow {
+    /* display: table-row; */
+    /* background-color: #d9e0f0; */
+    background-color: transparent;
+    border: 0;
+}
+.tabFrameCell {
+    /* display: table-cell; */
+    /* background-color: #d9e0f0; */
+    background-color: transparent;
+    border: 0;
+}
+
+.tabBarRight {
+    background-color: #eeeef5;
+}
+table.tabBarRight {
+    border: 10px solid #eeeef5;
+    /* color: #eeeef5; */
+    margin: 0;
+    /* padding: 10px; */
+    border-spacing: 0;
+    border-collapse: collapse;
+    /* max-width: 160px; */
+    width: 160px;
+    /* min-width: 140px; */
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -khtml-border-top: 15px;
+    border-radius: 15px;
+}
+tr.tabBarRight {
+}
+td.tabBarRight {
+}
+
+*[class|=tabBarRightActive] {
+    background-color: #fafafa;
+}
+tr[class|=tabBarRightActive] {
+}
+td[class|=tabBarRightActive] {
+    border-top: 0;
+    border-bottom: 0;
+    padding: 2px;
+}
+
+tr.tabBarRightActive-Level1 {
+    border-top: 0;
+    border-bottom: 0;
+}
+tr.tabBarRightActive-Level2 {
+    border-top: 0;
+    border-bottom: 0;
+}
+tr.tabBarRightActive-Level3 {
+    border-top: 0;
+    border-bottom: 0;
+}
+tr.tabBarRightActive-Level4 {
+    border-top: 0;
+    border-bottom: 0;
+}
+
+td.tabBarRightActive-Level1 {
+    /* border-top: 1px solid #555555; */
+    /* border-left: 1px solid #555555; */
+    border-bottom: 0 none;
+    background-color: #fff3d0;
+    margin: 5px;
+}
+td.tabBarRightActive-Level2 {
+    border-left: 1px solid #555555;
+    border-top: 0 none;
+    border-bottom: 0 none;
+    background-color: #ffffff;
+    margin: 5px;
+}
+td.tabBarRightActive-Level3 {
+    border-left: 1px solid #555555;
+    border-top: 0 none;
+    border-bottom: 0 none;
+    background-color: #ffffff;
+    margin: 5px;
+    padding-left: 10px;
+}
+td.tabBarRightActive-Level4 {
+    border-left: 1px solid #555555;
+    border-top: 0 none;
+    border-bottom: 0 none;
+    background-color: #ffffff;
+    margin: 5px;
+    padding-left: 20px;
+}
+
+*[class|=tabBarRightInactive] {
+    background-color: #eeeef5;
+}
+tr[class|=tabBarRightInactive] {
+}
+td[class|=tabBarRightInactive] {
+    /* border: 1px solid #fafafa; */
+    padding: 2px;
+}
+td.tabBarRightInactive-Level1 {
+    border-top: 0 none;
+    border-bottom: 0 none;
+    background-color: #eeeef5;
+    margin: 5px;
+}
+
+.tabBarRightButtons {
+}
+tr.tabBarRightButtons {
+    border: 0;
+}
+td.tabBarRightButtons {
+    background-color: #eeeef5;
+    /* border: 1px solid #fafafa; */
+    padding: 2px;
+    text-align: center;
+}
+
+tr.tabBarRightAbout {
+}
+td.tabBarRightAbout {
+    border-top: 10px solid #eeeef5;
+    background-color: #eeeef5;
+    text-align: center;
+}
+
+table.comment_form, td.comment_form {
+    /* background-color: #d9e0f0; */
+    background-color: transparent;
+}
+

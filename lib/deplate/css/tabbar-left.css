@@ -1,0 +1,91 @@
+@import url(deplate.css);
+
+body {
+    background-color: #e0e0ff;
+}
+div.tabBar {
+}
+div.tabBodyFrame {
+}
+div.tabBody {
+}
+div.tabFrameRow {
+    display: table-row;
+}
+
+#tabFrame {
+    display: table;
+}
+#tabBar {
+    display: table-cell;
+    width: 140px;
+    padding: 0;
+    border: 0;
+    margin: 10px 10px 0 10px;
+    background-color: #e9e9ff;
+    position: fixed;
+}
+#tabBodyFrame {
+    display: table-cell;
+    width: 800px;
+}
+#tabBody {
+    /* margin-top: 0; */
+}
+
+
+.tabBarLeft {
+    background-color: #f0f0f0;
+    max-width: 145px;
+    width: 145px;
+}
+table.tabBarLeft {
+    /* margin: 10px; */
+    /* padding: 10px; */
+    /* border: 1px dashed #cae0ea; */
+    /* border: 1px outset #cae0ea; */
+    border: 0;
+    border-spacing: 0;
+    max-width: 140px;
+}
+tr.tabBarLeft {
+}
+td.tabBarLeft {
+}
+
+.tabBarLeftActive {
+    background-color: #fafafa;
+}
+tr.tabBarLeftActive {
+}
+td.tabBarLeftActive {
+    border: 1px inset #e0e0e0;
+    /* border-left: 4px solid #e0e0e0; */
+    /* border-right: 4px solid #afafaf; */
+    padding: 2px;
+}
+
+.tabBarLeftInactive {
+    background-color: #f0f0f0;
+}
+tr.tabBarLeftInactive {
+}
+td.tabBarLeftInactive {
+    border: 1px solid #fafafa;
+    /* border-left: 4px solid #afafaf; */
+    /* border-right: 4px solid #e0e0e0; */
+    padding: 2px;
+}
+
+.tabBarLeftButtons {
+}
+tr.tabBarLeftButtons {
+    border: 0;
+}
+td.tabBarLeftButtons {
+    background-color: #f0f0f0;
+    border: 1px solid #fafafa;
+    padding: 2px;
+    text-align: center;
+}
+

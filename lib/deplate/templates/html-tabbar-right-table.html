@@ -1,0 +1,43 @@
+#Mingle type=pre slot=css:
+<style type="text/css">
+<!--
+    div.tableNote {
+        text-align: left;
+    }
+-->
+</style>
+<!--[if IE]>
+<style type="text/css">
+    @media screen {
+        table.tabBarRight {
+            border-collapse: collapse;
+        }
+        #tabBar {
+            position: static;
+        }
+    }
+</style>
+<![endif]-->
+#End
+#PREMATTER
+
+<table id="tabFrame">
+    <tr class="tabFrameRow">
+        <td id="tabBodyFrame">
+            <div id="tabBody">
+                <img width="700px" height="1px" src="spacer.png" alt="" />
+                #BODY: -navbar_top -navbar_bottom
+            </div>
+        </td>
+        <td id="tabBar">
+            #ARG: tabBarRight(progressBar! nextKey! spacer=spacer.png depth=2 depthInactive=1)
+        </td>
+    </tr>
+    <tr class="tabFrameRow">
+        <td class="tabFrameCell">
+            #POSTMATTER: html_pageicons_beg..html_pageicons_end
+        </td>
+    </tr>
+</table>
+
+#POSTMATTER

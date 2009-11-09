@@ -1,0 +1,229 @@
+* Input Formats
+#OPT: id=Input
+#inputFilter
+#LIST fmt=html plain! sub!: toc
+
+The ''-i'' command-line option allows to select an input definition 
+file.
+
+
+** deplate
+
+This is ''deplate'''s "native" markup as defined in the following pages 
+(see {ref: markup}).  This is the markup that corresponds to the Vim 
+viki plugin.
+
+
+** deplate-restricted
+
+This is a restricted version of ''deplate'''s "native" markup. The 
+following elements are disabled:
+
+Commands:
+    - INC
+    % - IMG
+    - MODULE
+    - WITH
+    - ABBREV
+
+Regions:
+    - Any Define type of region
+    - Native
+    % - Inlatex
+    - Img
+    - R
+    - Ruby
+
+Macros:
+    - ins
+    % - ltx
+    % - math
+    - ruby
+
+Setting variables not beginning with an underscore is disabled. I.e. you 
+can't set any variables listed in{ref: docOpt}.
+
+
+** deplate-headings
+
+Print headings only; filter any other text.
+
+
+** rdoc
+
+This input definition reads a subset of ruby's rdoc format. For an 
+examples of a documents created from rdoc input please see:
+    - http://constraint.rubyforge.org/ 
+      ([[http://constraint.rubyforge.org/README.TXT][source]!])
+    - http://websitiary.rubyforge.org/
+
+Limitations:
+    - The :main: and the :call-seq: directives are not implemented yet
+    - ''deplate'' doesn't distinguish between bold and italic
+    - There maybe are some deviations from rdoc, e.g., in the way list 
+      items with interleaved verbatim text are handled
+
+''deplate'' supports the following addition(s), which ''rdoc'' doesn't:
+    - extra directives
+        - :maketitle: (the title is automatically created when using the 
+          :title: directive)
+        - :author: (place this above a :title: directive if you want the 
+          names to appear on the page)
+
+% Incomplete minimal quickref:
+#EXAMPLE: RDoc input
+
+#Var id=rdoc <<--
+=== heading (rdoc, level 3)
+
+_italic_, <em>italic</em>, 
+*bold*, <b>bold</b>, 
++typewriter+, <tt>typewriter</tt>
+
+http://deplate.sf.net
+
+http://deplate.sourceforge.net/linked.png
+
+link:index
+
+Homepage[http://deplate.sf.net]
+
+{Deplate Homepage}[http://deplate.sf.net]
+
+    verbatim
+
+1. numbered
+a. alpha
+- bullet
+* bullet
+label:: text
++label+:: text
+[label] text
+[+label+] text
+--
+
+#WITH var=rdoc: Verb
+
+yields:
+
+#Region style=example-output <<
+#INCLUDE var=rdoc inputFormat=rdoc
+
+
+** play -- Hypothetical support for screen-plays and stage-plays
+#inputPlay
+    !!! This input filter is in a state of flux. You probably don't want 
+        to use it yet. There currently is no appropriate output filter 
+        anyway.
+#IDX: Screen Play; Stage Play
+
+''play'' is a subset of the standard deplate markup with some additional 
+styling and conventions. Currently only a CSS file is provided.
+#IDX: \{mark1st\}|\{mark1st
+
+This can be formatted as stage play using the 
+[[formats#formatDramatist][latex-dramatist]] formatter.
+#IDX: dramatist
+
+Output via LaTeX's screenplay class is planned.
+
+Formatting rules:
+    Headings (Level 1) :: Scenes (see below for the format)
+    Paragraphs :: Stage directions
+    Description list :: Dialog lines
+    Bullet lists :: Inserted stage directions (their meaning depends on 
+      the formatter)
+    ''[TEXT]'' :: Minor directions.
+
+Extra commands:
+    ''#CAST'' :: The cast (if supported by the formatter). The casting 
+      is defined as a description list that is tagged as "cast". Setting 
+      the property "cast" works too but is deprecated due to problems 
+      when applying X_speaks filters (see below).
+    ''#ACT'' :: Begin a new act (if supported by the formatter)
+
+NOTE: Don't rely on the availability of syntax elements not mentioned 
+above. Most of them are disabled for this input filter.
+
+Dialog lines are automatically tagged with ''#{Name}_speaks'' and can be 
+filtered using the ''efilter'' variable (see{ref: efilter}). This way 
+you can get a quick overview of whether a person speaks in a consistent 
+tone.
+
+The scene headings have the following format:
+''Title :: Location -- INTEXT/TIME''.
+How scene headings are actually printed depends on the output format.
+
+INTEXT can have the following values:
+    Exterior :: E, EXT, EXT., >, A (German "auﬂen")
+    Interior :: I, INT, INT., <
+
+TIME can be abbreviated with:
+    Day :: D, T (German "Tag" = Day)
+    Night :: N
+
+#EXAMPLE: Play input
+#Var id=play <<--
+#PUSH: css=+play.css
+#ABBREV word=Mm: Michael
+#ABBREV word=M: {mark1st: Michael}
+#ABBREV word=Ms: {mark1st: Michael}\'s
+#ABBREV word=Nn: Nora
+#ABBREV word=N: {mark1st: Nora}
+#ABBREV word=Ns: {mark1st: Nora}\'s
+
+    Mm :: man
+    Nn :: woman
+    #PP: tag=cast
+
+#CAST
+
+#ACT
+
+* Exciting News :: Beach -- E/D
+
+N reads a book.
+
+M is half buried in the sand. He looks at the cover of Ns book.
+
+    N :: What a wonderful day this is.
+    M [mumbles] :: Maybe.
+    - The sun drops from the sky.
+    N :: And what an interesting book this is I'm reading. I cannot 
+      remember having read such breathtaking action scenes since last 
+      summer.
+    M [mumbles] :: Possible.
+
+    - The sky drops into the sea.
+    + Fade out
+--
+
+#WITH var=play: Verb
+
+yields:
+#IF: fmt==latex
+    !!! In the normal PDF version of the manual the output isn't 
+        properly formatted. Use the 
+        [[formats#formatDramatist][dramatist]] output format for better 
+        results.
+#ENDIF
+
+#Region style=example-output <<
+#INCLUDE var=play inputFormat=play $levelshift=2
+
+
+
+** template
+#inputTemplate
+#IDX template input filter
+
+Works like normal templates as describe in{ref: templates}.
+Best used in conjunction with the 
+[[formats.txt#outputTemplate][template output filter]].
+
+
+% input.txt, 11-M‰r-2005
+% @Last Change: 11-M‰r-2005.
+% vi: ft=viki:tw=72
+% Local Variables:
+% End:

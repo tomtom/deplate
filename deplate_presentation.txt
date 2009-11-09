@@ -1,0 +1,142 @@
+#TITLE:  Deplate -- create latex, docbook, html documents or web-pages \
+from wiki-like markup
+#AUTHOR: Tom Link
+#DATE: today
+#VAR: keywords=Converter; Text; LaTeX; HTML; Docbook; Wiki; \
+Presentation; Web Publishing
+#VAR: shorttitle=deplate buttonsColour=blue buttonsHighlight!
+#VAR: urlIcon=remote.png mailtoIcon=mailto.png markerInFrontOfURL!
+% #INCLUDE: presentation.txt
+% #INCLUDE: stepwise.txt
+% #PUSH: css=+extra.css
+% #PUSH: css=+deplate.css
+
+#MAKETITLE
+
+#IF: s5
+#DefMacro id=step <<--
+{arg: @body}
+--
+#ELSE
+#LIST plain!: toc
+Press <space> to continue.
+#OPT: style=background,small
+#ENDIF
+
+
+#DefRegion id=Example lineCont=false <<--
+\#WITH arg=@body: Verb
+
+\#WITH arg=@body: Region style=example-output
+--
+
+
+* What Is It About?
+#OPT: id=presentation_about
+
+deplate ...
+    # is the {step: companion converter} for the 
+      [[http://www.vim.org/scripts/script.php?script_id=861][Vim viki 
+      plugin]],
+      a personal wiki for vim
+    # {step: reads} wiki-like markup (currently supported: viki, rdoc)
+    # {step: writes} LaTeX, HTML, \DocBook documents
+        - creates readable and (mostly) well-formed output
+    # converts embedded {step: LaTeX formulas}
+    # converts embedded {step: on-the-fly generated content} like 
+      tables/graphics via R, concept maps via dot ...
+
+
+* Viki [[Markup.html][Markup]]
+#OPT: id=presentation_viki
+    - Originally based on emacs-wiki
+    - Consistent {step: escape rule}: the almighty backslash
+    - Non-intrusive markup for {step: basic elements}:
+         | Headings        | ''* Heading''                       | 
+         | Tables          | ''\| A1 \| A2 \|''                  | 
+         | Comments        | ''% Comment''                       | 
+         | Unordered lists | ''    * Item'' (leading whitespace) | 
+         | Ordered lists   | ''    # Item'' (leading whitespace) | 
+
+    - ... and for simple {step: text formatting}:
+         | Emphasis   | ''__emphasized__''     | | Typewriter | 
+         ''\'\'typewriter\'\''' | 
+    - "regions" and "macros" for
+        - highlighted embedded code
+        - abstracts, quotations, footnotes ...
+    - [[http://deplate.cvs.sourceforge.net/*checkout*/deplate/deplate/deplate_presentation.txt][Source]] 
+      for this presentation
+
+* Embedded Code
+#OPT: id=presentation_embedded_code
+    - {step: Several options} via [[Modules.html][modules]]:
+        [[http://www.vim.org][gvim]],
+        [[http://coderay.rubychan.de][coderay]],
+        [[http://www.andre-simon.de][highlight]]
+
+        #Example caption=Code, syntax highlighting <<--
+        #Code id=Foo syntax=ruby <<---
+        class Foo
+            # Return two times x
+            def bar(x)
+                x * 2
+            end
+        end
+        ---
+        --
+
+* Embedded LaTeX
+#OPT: id=presentation_embedded_latex
+    - {step: Inline}:
+      #Example <<--
+      Some formula: {ltx: $\sum_{i=n}^{n} x_{i}$}
+      or simply: $\lambda_1 v_1 + \lambda_2 v_2 + ... + \lambda_n v_n$.
+      --
+
+    - {step: Block}:
+      #Example <<--
+      #Inlatex <<---
+      $det A = \sum\limits_{\pi \in S_n} sgn(\pi) a_{\pi(1)1} ... a_{\pi(n)n}$
+      ---
+      --
+
+
+* (X)HTML Output
+#OPT: id=presentation_html
+    - deplate creates
+        - {step: single page} documents
+        - {step: chunked multi-pages} documents (small websites)
+            - these can also be used for web-based presentations
+    - embedded {step: LaTeX formulas} are
+        - converted to images
+        - converted to MathML for XHTML output by means of Hiraku 
+          Kuroda's [[http://mathml.rubyforge.org][mathml]] library
+
+
+* LaTeX Output
+#OPT: id=presentation_latex
+    - deplate {step: supports}
+        - standard document classes
+        - koma classes
+        - formatting plays via the dramatist class (see 
+          [[input#inputPlay][play input filter]])
+    - The output is meant to be {step: readable}
+
+
+* \DocBook Output
+#OPT: id=presentation_docbook
+    - Non-validated output
+    - 99.9% correct
+
+
+* Further Information
+#OPT: id=presentation_more
+    - Please see the [[deplate][manual]]
+    - Or visit the 
+      [[http://sourceforge.net/forum/forum.php?forum_id=371484][forum]]
+
+
+% 2008-07-04; @Last Change: 2008-07-04.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

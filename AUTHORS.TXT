@@ -1,0 +1,33 @@
+Main Author:
+    - Tom Link
+
+Contributors:
+    Jjgod Jiang :: Chinese localization module (zh-cn.rb), idea of page 
+      templates, propositions concerning compliance with W3 standards.
+    Maxim Komar :: Russian localization module (ru_koi8-r.rb), debian 
+      files.
+    Kaspar Schiess :: ps2ppm.rb (a rubyfied version of P. Kleiweg's 
+      original perl script, 
+      [[http://odur.let.rug.nl/~kleiweg/postscript/#conversion]]).
+    Fritz Heinrichmeyer :: html-website.rb formatter, 
+      htmlslides-navbar-fh module.
+    Frederik Eaton :: Suggestions concerning inline latex support.
+    Csaba Henk :: Nested elements in lists (patch).
+    Andrea Rota :: blosxom plugin, generic textpipe perl module.
+    Chen Shuo :: Posted some modifications on 
+      http://blog.csdn.net/Solstice/archive/2006/02/22/606266.aspx that 
+      were the basis for several improvements.
+    Lucas Wilcox :: ''dvipng'' support for rendering LaTeX snippets.
+    Jeff Barczewski :: ''linkmap'' module.
+    Kelly Hunter :: Patches for the latex formatter.
+
+Credits:
+    - The manual-directory contains ASCIIMathML.js by 
+      [[http://www.chapman.edu/~jipsen][Peter Jipsen]].
+    - [[http://raa.ruby-lang.org/project/ansicolor/][term.rb]] is 
+      written by Florian Frank.
+    - [[http://raa.ruby-lang.org/project/setup/][setup.rb]] is written 
+      by Minero Aoki.
+
+
+% vim: ft=viki:tw=72

@@ -1,0 +1,619 @@
+% vi: ft=viki:tw=72
+% @Last Change: 2009-02-15.
+
+* Markup
+#OPT: id=Markup
+#markup
+
+#LIST fmt=html plain! sub!: toc
+
+The markup corresponds to the markup of Vim's viki-plugin.  There are 
+some minor deviations, though.
+
+This chapter is mainly a test course.
+
+
+
+** The Basics
+
+*** Elements and Particles
+
+A ''deplate'' document is made up of elements (a.k.a. block elements in 
+HTML, XML etc.) that consist of particles (a.k.a. inline elements). No 
+particle can cross element boundaries. This distinction is important to 
+understand, as [-commands-] and [-regions-] yield elements, but 
+[-macros-] yield particles.
+
+Although deplate has some facitilities for program control (conditional 
+or repeated output), it really is rather a markup language but no 
+programming language. Although you can define new elements right within 
+a deplate document using deplate markup, this only works for really 
+simple elements.
+
+If a line matches an element pattern (usually defined by the beginning 
+of the line), it marks the end of the previous element and starts a new 
+element. If a line matches no pattern, it either starts a new paragraph 
+or is added to the previous element.  Elements like headings, anchors, 
+or table rows are one-line patterns to which no unmatched line will be 
+added. Other elements like list items or paragraphs can be made up of 
+more than one line.
+
+
+*** Backslashes
+
+The ''deplate'' markup is based on inserting special characters into the 
+text as in this example: ''__emphasized__'', which will be printed as 
+__emphasized__. If you want to prevent ''deplate'' from interpreting 
+these markers, they must be preceded by a backslash.
+#IDX: Backslash|backslash
+#backslash
+
+    - The backslash is used as escape character that prevents the 
+      wikification of the following character.
+    - There are two exceptions:
+        # A backslash at the end of the line makes a pattern include the 
+          next line; any whitespace at the beginning of the following 
+          line is removed.
+          #lineContinuation
+        # A backslash in front of a blank results in non-breaking space.
+    - A backslash that should be printed must be preceded by a 
+      backslash.
+
+
+*** Special Characters
+
+You should especially take care with the following characters:
+
+    Curly braces (\{\}) :: Curly braces usually enclose macros; in other  
+      contexts, they should always be preceded by a backslash
+        - There are some grey areas though that could cause problems, 
+          e.g. when input to a macro (e.g. the ruby macro) contains an 
+          unmatched curly brace
+    Backticks (\`) :: {idx: Backtick|Backticks|backtick|backticks}
+      Backticks are used to insert some symbols and should be escaped by 
+      a backslash in other contexts than inserting a special character.
+
+Sequences of character you should notice:
+
+    Two underscores (\__) followed by non-whitespace :: Emphasized text
+    Two single quotes (\'\') followed by non-whitespace :: Literal text 
+      set in typewriter font
+    Two colons (\::) surrounded by whitespace :: Used in definition lists
+
+Characters with special meaning if they occur at the beginning of line:
+
+    Asterisks (*)  :: Headings, unordered lists
+    Sharp sign (#) :: Anchors, commands, regions, ordered lists
+    Percent (%)    :: Comments
+    List markers   :: 1., a., -, *, #, @, ?, ?.
+
+Other:
+    The dollar sign ($) :: Although it has currently to be enabled by 
+      loading a module, there is a chance that this will become the 
+      standard delimiter for mathematical expressions typed in latex 
+      (with the AMS packages enabled). The standard markup will be 
+      either ''$a = x + y$'' or with blanks ''$ a = x + y $'' as the 
+      dollar sign is most likely used before or after a digit.
+
+Be aware that your editors line wrap can inadvertently place these 
+characters at the beginning of a line.
+
+#Example  caption=Text styles, backslash <<----
+__emphasize__, WikiName
+
+\__noemphasize\__, \NoWikiName
+
+One \
+\
+line
+
+One\
+   word
+
+unnnnnnnnnnnnnnnnnn\ breakkkkkkkkkkkkkkkkkk\ ableeeeeeeeeeeeeeeeeeeeeeee
+----
+
+
+*** Argument Values
+
+Arguments to macros, commands, and regions:
+
+    - In argument values, the characters ''!=:'' and single double 
+      quotes must be preceded by a backslash
+    - Alternatively, you can enclose a value in double quotes (which 
+      will be stripped off; doublequotes must be escaped using a 
+      backslash) or parentheses (which will be retained)
+    - Argument values are stripped of whitespace; if you want an 
+      argument to contain leading or trailing whitespace, you have to 
+      enclose the argument in double quotes
+
+|| Example                           || Key Arguments                             || Body    ||
+|  \{macro\}                         |  \{\}                                      |  \"\"     |
+|  \{macro: foo\}                    |  \{\}                                      |  \"foo\"  |
+|  \{macro boo!: foo\}               |  \{\"boo\" => true\}                       |  \"foo\"  |
+|  \{macro boo! bar=1: foo\}         |  \{\"boo\" => true, \"bar\" => \"1\"\}     |  \"foo\"  |
+|  \{macro bar=object(id=1): foo\}   |  \{\"bar\" => \"object(id=1)\"\}           |  \"foo\"  |
+|  \{macro bar=\"foo := bar\": foo\} |  \{\"bar\" => \"foo := bar\"\}             |  \"foo\"  |
+|  \{macro bar=( boo=boo): foo\}     |  \{\"bar\" => \"( boo = boo)\"\}           |  \"foo\"  |
+|  \{macro bar=\\( boo=boo): foo\}   |  \{\"bar\" => \"(\", \"boo\" => \"boo)\"\} |  \"foo\"  |
+|  \{macro bar=\"(\" boo=boo): foo\} |  \{\"bar\" => \"(\", \"boo\" => \"boo)\"\} |  \"foo\"  |
+#CAP: Key arguments
+
+There are two special arguments (''fmt'' and ''if'') that allow some 
+control on whether an element will be included in the output. Please 
+see{ref: fmtArg} for details.
+
+
+** Comments (whole lines)
+
+    - The percent sign has to be first non-blank character in the line. 
+      Otherwise it's interpreted as a character.
+    - A comment separates lines as paragraphs.
+    - For intra-paragraph comments use the comment macro{ref: 
+      commentMacro}
+
+#Example caption=Comments <<---
+Line %1
+%Comment
+Line %2
+---
+
+
+
+** Paragraphs
+
+A paragraph a sequence of non-empty lines that don't match anything 
+else.
+
+#Example caption=Paragraphs <<---
+Paragraph 1 finishes with an empty line. Paragraph 1 finishes with an 
+empty line. Paragraph 1 finishes with an empty line.
+
+Paragraph 2 finishes with an unordered list. Paragraph 2 finishes with 
+an unordered list. Paragraph 2 finishes with an unordered list.
+    - Item 1
+    - Item 2
+---
+
+
+
+** Headings
+#headings
+
+__NOTE:__ Headings can span more than one line by putting a backslash 
+('\\') at the end of the line.
+
+Known options:
+
+    noList! :: prevent the heading from being listed in the toc; as you 
+      can see from the current heading, the heading number is increased 
+      nevertheless (which probably should be considered as a bug?)
+    caption :: the display name in the table of contents
+    shortcaption :: the display name in a minitoc; with multi-file 
+      output, this argument defines the optional file name
+    id :: similar to shortcaption; if an id and a shortcaption are 
+      given, the id will be used for the filename and the sort caption 
+      for the mini-toc
+    plain! :: Don't add any numbering to the heading. (Set the variable 
+      ''headings'' to "plain" if you want to turn off numbering for all 
+      headings.)
+    url=URL :: Turn a heading into a hyperlink; this requires the 
+      ''hyperHeading'' variable(see{ref: hyperHeading}) to be set
+
+If you set the variable ''autoFileNames'', ''deplate'' will derive the 
+file name from the heading.
+
+#Verb <<---
+* Level 1
+#OPT: id=foo
+
+** Level 2
+
+*** Level 3
+#OPT: noList! plain!
+...
+---
+
+
+
+** Lists (indented)
+#lists
+
+#Example caption=List <<---
+    - Item
+        * Item
+            + Item
+                1. Item 1
+                    a. Item a
+                    B. Item B
+                    #Verb <<---------
+                    EMBEDDED VERBATIM TEXT 
+                    ---------
+                2. Item 1
+                    || Embedded || Table ||
+                    |  x        |  1      |
+                    |  y        |  2      |
+        * Item
+            # Item 1
+                @ There is much to say about Item A, too much to be put 
+                  in words or to be written down.
+
+                  What else is there to say about Item A?
+
+                @ Item B
+            # Item 2
+    - Do this
+        #A _ Some task
+        #B1 _ Some other task
+    - Do that
+        #A  x11-11-2050 Something was done!
+        #B1 11-11-2050  Some other task
+---
+
+__NOTE:__ "#" (numbered, ordered lists), and "@" (ordered lists with 
+letters) are the preferred markers. If you use dashes as in LaTeX (i.e.  
+"-\-"), a dash appears to be okay too. Be aware that, like LaTeX, 
+''deplate'' concatenates two normal dashes ("-\-") to one long dash ("--") 
+-- see also{ref: symbols}.
+
+__NOTE:__ If you run into troubles when nesting lists, consider the use 
+of the list macro{ref: smallLists}.
+
+__NOTE:__ Task lists are implemented as ''varlist'' in \DocBook.
+
+
+** Description lists (indented)
+
+#Example caption=Description list <<---
+    Item :: Description
+---
+
+
+
+** Tables
+#tables
+
+A table is marked as sequence of lines beginning and ending with one or 
+two "|" symbols. Two pipe symbols (or whatever its name is) define a 
+row belonging to the head or the foot.
+
+A row containing only empty cells and cells with hyphens defines a 
+ruler.
+
+A cell containing only "^" means concatenate with the cell above. A cell 
+containing only "<" means concatenate with the cell to the left.
+    % !!! If you concatenate cells vertically, deplate will use the 
+    % "multirows" package for LaTeX output.
+
+Tables take the following options (via the OPT command):
+    ''head=N'' :: The number of rows encompassing the table head
+    ''foot=N'' :: The number of rows encompassing the table foot
+    ''hiRow=N1,N2,first,last,...'' :: The rows to be highlighted
+    ''hiCol=N1,N2,first,last,...'' :: The columns to be highlighted
+    ''rows=ROWDEF1, ROWDEF2, ...'' :: Define a row's attributes
+        - ROWDEF has the form: ''KEY1.VAL1 KEY2.VAL2 ...''; KEY being 
+          one of
+            h :: The row height
+        - a ruler counts as a row
+    ''cols=COLDEF1, COLDEF2, ...'' :: Define a columns's attributes
+        - COLDEF has the form: ''KEY1.VAL1 KEY2.VAL2 ...''; KEY being 
+          one of
+            w :: The column width
+            j :: The column's justification (left, right, center, or
+              justified)
+            r :: Add a left-handed vertical ruler (the value denotes the 
+              number of rulers or its thickness)
+                - This option is currently only interpreted for LaTeX 
+                  output
+    ''long!'', ''short!'' :: Define whether the ''longtable'' 
+      environment should be used in LaTeX output (by default, the 
+      ''longtable'' environment will be used for tables with more than 
+      20 rows).
+        - Switching between the ''table'' and the ''longtable'' 
+          environment has some effects on the layout. One consequence is 
+          that footnotes are set properly only in the ''longtable'' 
+          environment. On the other hand, the ''here'', ''floatHere'', 
+          ''align'', and ''floatAlign'' options are currently ignored.
+    ''style=NAME'' :: The table style (but see below)
+    ''stylex=NAME'' :: Like ''style'' but ignore ''tableStyle''
+    ''note=TEXT'' :: A short note concerning data source etc.
+
+In addition, the following options for "floats" apply too:
+#floatOptions
+    ''here!'', ''floatHere=1'' :: In LaTeX output, add the ''h'' 
+      attribute to the table environment
+
+    ''align=[left|right|center]'', ''floatAlign=[left|right|center]'' :: 
+      align the table; the first one is a table specific options, the 
+      second a global document option
+
+__Joining cells:__ If a cell contains nothing but "^" or "<", the 
+current cell will be joined with the left one or with the cell above.  
+(The actual output depends on the formatter and the capabilities of the 
+target format, though.)
+
+It depends on the formatter whether these options are interpeted.
+
+#Example caption=Table <<--
+|| ----------------------------- ||
+|| Head || Categories || <       ||
+|  Row1 |  Value1     |  Value1   |
+|       | ----------- |           |
+|  Row2 |             |  Value2   |
+|       | ----------- |           |
+|  Row3 |  Value3     |  ^        |
+|  -----------------------------  |
+#OPT: hiCol=first hiRow=last cols=w.3cm j.right r.1, w.1cm,,r.1 rows=,h.3cm
+#OPT: note=Source: My Head, 2004
+#CAP: This Table
+#thisTable
+--
+
+__NOTE:__ Rows can span more than one line by putting a backslash ('\\') at 
+the end of the line.
+
+__NOTE:__ An empty cell is marked by at least 3 consecutive blanks.
+
+
+You can also define a style for a table. The style attribute is 
+currently only interpreted by the latex-styles module and to some degree 
+emulated in HTML output -- not so surprisingly, this works better in 
+Firefox than in MS IExplorer.
+
+The following styles are known (for one or another output format):
+    grid   :: Draw all table borders/rulers
+    formal :: Draw a ruler at the top and the bottom of the table, as 
+      well as between groups
+    box    :: Like formal but add vertical rulers on both sides
+    overlay :: Like box but draw the background of some rows and columns 
+      in gray or in colours
+    list   :: Horizontal rulers between each row
+    small, footnotesize, scriptsize :: Smaller font sizes
+    dense08 :: decreased intercell spacing (there is a minor problem 
+      with line spacing)
+    landscape :: rotate the table (LaTeX only, I assume)
+
+#Example caption=Table styles <<--
+#Var id=styledTableExample <<---
+|| Head || A || B ||
+|  Row1 |  1 |  2  |
+|  Row2 |  3 |  4  |
+|| Foot || X || Y ||
+#OPT: hiCol=first
+---
+
+Test ''grid'' & ''scriptsize'' styles:
+#INCLUDE var=styledTableExample
+#OPT: style=grid,scriptsize
+
+Test ''formal'' & ''footnotesize'' styles:
+#INCLUDE var=styledTableExample
+#OPT: style=formal,footnotesize
+
+Test ''box'' & ''small'' styles:
+#INCLUDE var=styledTableExample
+#OPT: style=box,small
+
+Test ''overlay'' style:
+#INCLUDE var=styledTableExample
+#OPT: style=overlay,landscape
+--
+
+
+
+** Anchors
+
+Anchor (or labels respectively) are attached to the previous element, 
+save if the previous element is a whitespace. In this case the anchor 
+will be attached to the following element.
+
+The name must begin with a lower letter. There mustn't be non-whitespace 
+character before the sharp sign.
+
+#EXAMPLE: Anchors
+#Verb <<--
+* This is section one
+#labSectOne
+
+Some text.
+#labSomeText
+
+#labSectTwo
+* This is section two
+--
+
+
+
+** Wiki Names, URLs
+
+''deplate'' is inspired by several wiki engines. It thus also provides 
+formatting of wiki names and URLs as hyperlinks. There are about four 
+types of wiki names.
+#IDX: URL|URLs
+
+    Simple :: Any word in Camel\Case is turned into a wiki name -- save 
+      if wikification is prevented with a backslash -- see{ref: 
+      backslash}.
+
+    Quoted :: Any text between ''[-'' and ''-]'' will be turned into a 
+      hyperlink.
+
+    Extended :: An extended wiki name has the form: 
+      ''[[DESTINATION][OPTIONAL NAME]MODIFIER]''.
+        - MODIFIER is optional.
+            "*" :: open page in new window
+            "$" :: set ''rel="nofollow"''
+            "!" :: prevents ''deplate'' from adapting the reference's 
+              suffix
+                - ''deplate'' was created as the publishing framework 
+                  (or so) for a personal wiki (namely the Vim viki 
+                  plugin). As such it assumes that the files being 
+                  referenced to are converted to the same target format 
+                  as the current file, which is why ''deplate'' modfies 
+                  an extended wiki destination's suffix. Use this 
+                  modifier to prevent ''deplate'' from doing so.
+                - Often the chosen ''deplate'' output is only an 
+                  intermediary file; in order to make ''deplate'' append 
+                  the suffix of the final output file, set the document 
+                  option ''suffix'' to the desired value. E.g. if you 
+                  convert to docbook and then from docbook to html, pass 
+                  the option ''-D suffix=html'' to ''deplate'' when 
+                  converting the text sources.
+        - If you want a hyperlink to have an image, use: 
+          ''[[http://www.example.com][{img: example_image}]]''. See 
+          also{ref: imgMacro}.
+
+    Inter\Wikis :: An interwiki name is a shortcut to a different wiki.  
+      Any simple and quoted wiki name can be deferred to an interwiki by 
+      prepending ''NAMEINCAPITALS::''. You have to define an interwiki 
+      before referring to it by adding something like this to your 
+      configuration file: ''InterWiki.add("ID", "http://BASEURL/", ".SUFFIX")''
+      {idx: Wiki|wiki|Wikis|wikis}
+
+Wiki Names are automatically marked as index entries -- see{ref: 
+cmdIDX} and{ref: listIndex}.
+
+#EXAMPLE: Wiki names
+#Verb <<---
+WikiName
+WikiName#anchor
+
+[-name-]
+[-some name-]#there
+[--]#here
+
+OTHERWIKI::WikiName
+OTHERWIKI::WikiName#there
+OTHERWIKI::[-some name-]
+OTHERWIKI::[-some name-]#there
+
+[[destination]]
+[[destination][name]]
+[[destination#anchor][name]]
+[[destination.suffix]!]
+[[OTHERWIKI::destination#anchor][name]]
+[[#anchor]]
+[[#anchor][name]]
+---
+
+
+
+** Symbols
+#symbols
+
+The backtick (`) is used to introduce some symbols like quotation marks 
+(e.g., in positions where ''deplate'' would choose the wrong one).
+
+Symbols are not expanded in text marked as typewriter/code and in 
+verbatim regions.
+
+#Example caption=Symbols <<---
+<-, ->, <=, =>, <~, ~>, <->, <=>, <~>, !=, ~~, ..., --, ==, ```, `'', ``, `'
+
+''->'', ''<-''
+
+#Verb <<--
+<-, ->, <=, =>
+--
+
+#Code id=symbolsTest syntax=ruby <<--
+<-, ->, <=, =>
+--
+---
+
+__NOTE:__ If you want to disable some of these symbols, you could add 
+some ruby code like this to your config.rb:
+
+#Code id=disableSymbols syntax=ruby <<------
+class Deplate::Particle::Symbol
+   @@symbols_table.delete_if {|k,v| ['<->', '<=>', '<~>'].include?(k)}
+   reset_symbols
+end
+------
+
+
+
+** Markers
+
+Markers are meant to highlight a position in the text. In order to avoid 
+ambiguities with notes (see below), there should not be a space before 
+or after the marker -- i.e. it should immediately follow or precede the 
+word it is referring to.
+
+#Example caption=Markers <<---
+    - elaborate+++
+    - here###
+    - questionable???
+    - attention!!!
+---
+
+
+
+** Notes
+
+Indented paragraphs that begin with a marker and a subsequent space 
+start an annotation, i.e.  the text of paragraph will be turned in a 
+margin note or similar -- depending on the output format.
+
+#Example caption=Notes <<--
+Indented paragraphs that begin with a marker and a subsequent space 
+start an annotation.
+    !!! Something like this.
+--
+
+
+
+** Strings, Smart Quotes
+
+#Example caption=Quotes <<---
+"Text in quotes"
+---
+
+__NOTE:__ Quotes are handled by two classes: 
+''Deplate::Particle::DoubleQuote'' and 
+''Deplate::Particle::SingleQuote''. In order to disable smart quotes add 
+this code to your config.rb:
+
+#Code id=disableSmartQuotes syntax=ruby <<------
+Deplate::Particle.disable_particle(
+    Deplate::Particle::DoubleQuote, 
+    Deplate::Particle::SingleQuote
+)
+------
+
+
+
+** Textstyles
+
+#Example caption=Text styles <<---
+__emphasize__, ''typewriter''
+---
+
+__NOTE:__ There must not be a whitespace after the opening mark.
+#IDX: Whitespace|whitespace|Whitespaces|whitespace
+
+__NOTE:__ Text in typewriter style is basically set verbatim with the 
+expection of backslashes.
+
+
+
+** Breaks
+
+A break is marked by at least 2 dashes, "8<", and again at least 2 
+dashes.
+
+#Verb <<---
+I say so.
+----8<--------------
+Summary:
+---
+
+In HTML output, a break is represented by a horizontal line. In other 
+output formates, a break actually denotes a page break.
+
+
+
+** Whitespace
+
+A line of whitespace usually separates text elements -- e.g. paragraphs, 
+

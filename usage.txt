@@ -1,0 +1,682 @@
+% vi: ft=viki:tw=78
+% @Last Change: 2009-11-09.
+
+* Usage
+#OPT: id=Usage
+#LIST fmt=html plain! sub!: toc
+
+The command-line options:
+
+#Ruby verb! wrap=60 <<---
+`DeplateOptions="vanilla" deplate --help`
+---
+
+Typical uses of ''deplate'' are:
+
+    deplate -D auxiliaryDirSuffix=_files text.txt :: Convert the file to html; 
+      put auxiliary files that are created during the conversion process into 
+      a subdirectory called "text_files"
+    deplate -d DESTDIR -f htmlslides text*.txt :: Convert a bunch of files to 
+      "html slides"; put the output into "DESTDIR"
+    deplate -f latex --pdf -D suffix=txt text*.txt :: Convert a bunch of files 
+      to a single LaTeX file and prepare for pdflatex; assume that the wiki 
+      files have a "txt" extension; wiki names referring to included files are 
+      transformed to internal references
+    deplate -R -p '\\*.txt' -D suffix=txt -o ../Wiki.tex  \WikiIndex.txt * :: 
+      Convert all files in the current directory and below to a single LaTeX 
+      file; include only files with "txt" as suffix; put ''WikiIndex.txt'' 
+      first
+    deplate -R -e -d ../Wiki_html * :: Convert all files in the current 
+      directory and its subdirectories to html; save the output in directory 
+      ''Wiki_html''; rebuild the directory structure of the input files
+    deplate - < INPUT > OUTPUT :: Work as a filter by converting the input 
+      from stdin; this doesn't actually work like a pipe though because all 
+      the input has to be read in order to generate the output
+    deplate -x -X file.txt :: Convert a file and allow the evaluation of 
+      embedded ruby code and the execution of external applications, e.g.,
+      latex. These command switches are necessary for some language elements 
+      to work.
+      #IDX: allow
+    % deplate -m xmlrpc - :: work as a xmlrpc server
+
+Notes:
+
+    -D VAR, -D VAR=VALUE :: 
+      You can define document variables via the command line; if no 
+      value is provided the variable is set to "1".
+        #commandLineOptionD
+
+      The option parser library, which ''deplate'' uses, doesn't deal well 
+      with spaces in command line arguments. This is why spaces have to 
+      be replaced with tildes; a tilde and backslashes have to be 
+      preceded with backslashes. Example: ''-D text=bla~bla\\~bla'' sets 
+      the document variable ''text'' to "bla bla~bla". As a shell usually 
+      interpretes backslashes too, you would usually have to type ''-D 
+      text=bla~bla\\\\~bla''.
+
+    -e :: 
+      Process each file separately
+
+    -m, -\-module MODULE :: Load an add-on/module (after loading the 
+      core and the formatter); modules reside in the deplate library 
+      directory or in the user configuration directory 
+      ("~/.deplate/mod/"); type ''deplate --help'' to see a list of 
+      available modules.
+
+      After loading the module, deplate searches for the file 
+      "~/.deplate/after/mod/NAME.rb" which will be loaded if found.
+
+      German, Chinese, and Russian localizations are provided as 
+      modules.
+
+    -p PATTERN, -P PATTERN :: Backslashes in the pattern must come in 
+      doubles; backslashes can be used to prevent the shell from 
+      expanding the pattern; e.g., in case you're using bash, you would 
+      usually type something like ''-p "\\\\*.txt"''
+
+    --theme THEME :: See{ref: theme}.
+
+    -x, -\-allow-ruby [RUBY SAFE] :: 
+      Ruby's SAFE variable has 5 levels (0=no checks/default .. 
+      4=sandbox; at present, this also sets the SAFE variable for 
+      ''deplate'' itself, which doesn't work with SAFE set to 4)
+
+    -X, --[no-]allow-exec, --[no-]external :: Allow the execution of external 
+      applications, e.g., LaTeX. You won't be able to translate inline LaTeX 
+      unless you call ''deplate'' with this command line option. In order to 
+      make this permanent{text if=(manPage!=1):, see{ref: user_setup}}.
+
+    -A, --allow FLAGS :: Flags is a list of comma separated letters which may 
+      contain{lab: allow}:
+        all :: Unsafe mode; allow everything
+        l :: Allow the ''#LANG'' command to automatically load a module of the 
+          language's name (this would make it possible for a malicious user to 
+          load any module as deplate cannot distinguish localization modules 
+          from other modules)
+        r :: Check files in ''$PWD/deplate.rc''{idx: deplate.rc} in some cases 
+          (e.g. check for a local config.rb{idx: config.rb}); templates, css 
+          files, and library snippets are always searched in the 
+          ''deplate.rc''{idx: deplate.rc} directory too; if you want to allow 
+          a ''deplate.ini''{idx: deplate.ini} file in this directory, you have 
+          the add ''allow r'' to your private deplate.ini file (usually in 
+          ''~/.deplate/'')
+        s :: Load ''{theme}/theme.ini'' if any (this might be necessary for 
+          most themes to be fully functional)
+        t :: Unfiltered (La)TeX
+        w :: Enable the ''#Write'' region (directory local file names only)
+        W :: Enable the ''#Write'' region (allow relative & absolute file 
+          names)
+        x :: Same as -x
+        X :: Same as -X
+        . :: Allow sending methods to objects in the ''arg'' macro{text 
+          if=manPage!=1: (see{ref: argMacro})} and friends.
+        : :: Allow referencing options by prepending a name with ":" in some 
+          situations (e.g. #IF tests).
+      You can remove the permission to do something by prepending a minus to 
+      the flag, e.g. by setting ''--allow -x'' on the command line after 
+      having allowed ''x'' in the deplate.ini file.
+
+Some variables change the way ''deplate'' works.
+
+    autoFileNames :: {idx: autoFileNames} In multi-file output, the file name 
+      is constructed from the top heading unless explicitely defined (id, 
+      caption, shortcaption)
+
+    auxiliaryDirSuffix :: {idx: auxiliaryDirSuffix} If defined, auxiliary 
+      files are saved in the subdirectory ''#{basename 
+      FILENAME}#{auxiliaryDirSuffix}''. E.g., if ''auxiliaryDirSuffix'' is 
+      "_files" and the current file is "Test", then auxiliary files (images, 
+      on-the-fly generated files that are passed to external applications 
+      etc.) are saved in "Test_files".      
+
+#IF: manPage!=1
+If you are a ruby programmer, you can also use ''deplate'' as a library 
+for formatting strings. You could use the convenience classes 
+''Deplate::Converter'' or ''DeplateString'' for this.
+
+#EXAMPLE: Using the Deplate::Converter class
+
+#Code id=converter syntax=ruby <<---
+require 'deplate/converter'
+
+t = <<EOF
+* Introduction
+
+''deplate'' is a tool for converting wiki-like markup to latex, html, or 
+"html-slides".
+EOF
+
+to_html = Deplate::Converter.new
+puts to_html.convert_string(t)
+
+to_latex = Deplate::Converter.new("latex")
+puts to_latex.convert_string(t)
+---
+
+or:
+
+#Code id=deplatestring syntax=ruby <<---
+require 'deplate/deplate-string'
+
+t = <<EOF
+* Introduction
+
+''deplate'' is a tool for converting wiki-like markup to latex, html, or 
+"html-slides".
+EOF
+
+puts DeplateString.new(t).to_html
+---
+
+The ''DeplateString'' is probably easier to use from within other programs 
+like e.g. Nukumi2{text if=(manPage!=1): \ (see{ref: nukumi2})}.
+#ENDIF: manPage
+
+
+** Editor support
+*** General remark
+As whitespace is significant in the context of lists and the like, you should 
+not insert tab characters in the document but replace tabs with blanks/spaces. 
+Most editors can be tweaked to work this way.
+
+If you absolutely want to insert tab characters or if you don't know how to 
+keep your editor from inserting tabs, you can set the ''tabwidth'' (default: 
+4) variable to the tab width setting of your editor. ''deplate'' will then try 
+to expand tab characters.
+
+*** VIM
+''deplate'' is the accompanying converter for the 
+[[http://www.vim.org/scripts/script.php?script_id=861][Vim viki plugin]], 
+which supports all of ''deplate'''s default markup.
+
+
+* Configuration
+#OPT: id=Configuration
+#LIST fmt=html plain! sub!: toc
+
+Configuration requires some knowledge of the ruby language. If you don't 
+already know ruby, ruby is a well designed, __fully__ object-oriented 
+interpreted language in the spirit of Smalltalk (but with a rather 
+modern syntax) plus some features from Perl and Lisp/Scheme (e.g.  
+continuations).
+
+The configuration files are regular ruby files and are loaded after requiring 
+all the libraries necessary. Theses files reside in the directory 
+"$HOME/.deplate/" or "$USERPROFILE/deplate.rc/"{idx: deplate.rc}. If these 
+directories are not found, the files are searched in ''$WINDIR/deplate.rc/'' 
+or ''/etc/deplate.rc/''. Some files are also looked for in the "datadir" 
+(usually something like ''/usr/share/deplate/'').
+
+This directory may also contain custom modules or css files etc. On Win 
+2000/XP  etc., $USERPROFILE is usually set to "C:\\Documents and 
+Settings\\USERNAME\\".{text if=(manPage!=1):
+\ See also{ref: extending} for how to add new elements, particles, macros 
+etc.}
+#configFile
+#IDX: Elements|Element|element|elements
+#IDX: Particles|particles|Particle|particle
+#IDX: Macros|macros|Macro|macro
+#IDX: CSS|css
+
+The user configuration directory should look like this:
+
+    - ~/.deplate/
+        - config.rb (the general user configuration file, which is 
+          loaded last)
+        - deplate.ini (an alternative way to configure ''deplate'')
+        - after/ (files that are loaded right after the corresponding 
+          formatter or module)
+            - fmt/
+            - input/
+            - mod/
+        - css/ (user defined css files)
+        - fmt/ (user defined formatters)
+        - input/ (user defined input definitions)
+        - lib/ (user defined ''deplate'' snippets)
+            - FORMATTER/ (output-format specific ''deplate'' snippets)
+        - mod/ (user defined modules)
+        - templates/ (user defined templates)
+
+If the user requests loading "MODULE", deplate searches for
+"~/.deplate/mod/MODULE.rb" first, then in ruby site-library. If it was 
+found and loaded, the file "~/.deplate/after/mod/MODULE.rb" will be 
+sourced, too -- if available.
+
+''deplate'' calls the class method ''Deplate::Core.user_setup'' after processing 
+the command line argumend. It calls the instance method 
+''Deplate#user_initialize'' after the new instance of the ''deplate'' 
+converter was created and initialized, right before actually performing 
+the conversion.
+
+In general, configuration is done by patching ruby classes. In the 
+following example, we
+
+    - restrict the markers for unordered lists to "#"
+    - define Koma-Script's article class as the default latex class
+      #IDX: List|list|Lists|lists
+
+#Code id=cfg1 syntax=ruby <<---
+class Deplate::List::Itemize
+    @rx = /^(([ \t]+)(#)[ \t]+)(.+)$/
+end
+
+class Deplate::Formatter::LaTeX
+    @@latexDocClass = "scrartcl"
+end
+---
+#IDX: Formatter|formatter
+
+Here is another example from my personal "after/fmt/latex.rb" file.
+
+#Code id=cfg2 syntax=ruby <<---
+class Deplate::Formatter::LaTeX
+    def hook_pre_prepare_my_configuration
+        suppl   = @deplate.variables["suppl"]                    #1
+        suppl &&= "[" + suppl + "]"
+        output_at(:pre, :user_packages, "\\usepackage#{suppl}{suppl}")
+
+        t = @deplate.get_clip("title")                           #2
+        output_at(:pre, :body_title, "\\tmltitle{#{t.elt}}") if t
+        a = @deplate.get_clip("author")
+        output_at(:pre, :body_title, "\\tmlauthor{#{a.elt}}") if a
+        d = @deplate.get_clip("date")
+        output_at(:pre, :body_title, "\\tmldate{#{d.elt}}") if d
+    end
+end
+---
+
+    1. Add a usepackage statement to the preamble -- with optional arguments 
+       from the "suppl" {text if=(manPage!=1) else=variable: 
+       [[markup.txt#docCmd][variable]]}.
+    2. extracts information about the document's title and author{text 
+       if=manPage!=1: (see{ref: titleCmd})} and adds some user-defined 
+       commands to the document preamble -- but below any usepackage 
+       statements{text if=(manPage!=1): \ (see{ref: slotOpt})}.
+
+
+** User configuration of the standard setup
+#user_setup
+#user_initialize
+
+#AUTOIDX: user_setup; user_initialize
+''deplate'' calls the methods ''Deplate::Core.user_setup(options)'' and 
+''Deplate::Core#user_initialize'' if they are defined in order to provide a 
+possibility to hook into the standard setup procedure.
+
+''Deplate::Core.user_setup'' is called when starting ''deplate'' from the 
+command line and before a instance of ''Deplate::Core'' was created. This 
+method should be used to set values in the ''options'' structure {text 
+if=manPage!=1: (see{ref: optionStruct})} or to permanently require one of 
+''deplate'''s modules.
+
+''Deplate::Core#user_initialize'' is called after an instance of 
+''Deplate::Core'' was created and should be used to set variables specific to 
+this instance.
+
+
+#Code id=cfg_user_setup syntax=ruby <<---
+class Deplate::Core
+    def self.user_setup(options)
+        options.field_name = 'some value'
+        require_module(options, 'NAME')
+    end
+
+    def user_initialize
+        @variables['NAME'] = 'VALUE'
+    end
+end
+---
+
+
+
+** Configuration of wiki names
+#wikiNames
+
+Usually, any word in \CamelCase (a.k.a. wiki name) is turned into a hyperlink. 
+By default only the letters A-Z and a-z are allowed here in order to minimize 
+possible conflicts between different encodings and different versions of ruby 
+on different systems with different locales in effect. If this doesn't fit 
+your needs, maybe because you happen to write in a language other than 
+English, which is possible and maybe even likely, you might want to change 
+this.  Add something like this with the new character sets to your 
+''config.rb''{idx: config.rb} file:
+
+#Code id=cfg3 syntax=ruby <<---
+class Deplate::HyperLink
+    @@uc = 'A-ZÄÖÜ'
+    @@lc = 'a-zäöüßáàéèíìóòçñ'
+end
+
+# the following re-compiles the regexps for wiki names
+Deplate::HyperLink.setup
+---
+
+If you really don't like simple wiki names and want to disable the all 
+together, you can put something like this into your config.rb:
+
+#Code id=disable_simple_names syntax=ruby <<---
+class Deplate::Core
+    def self.user_setup(options)
+        options.disabled_particles << Deplate::HyperLink::Simple
+    end
+end
+---
+
+
+** Configuration via deplate.ini
+#configuration
+
+If you don't want to configure ''deplate'' using ruby, you can put some 
+settings into the ''deplate.ini''{idx: deplate.ini} file, which usually 
+resides in ''~/.depate'' and/or ''#{PWD}/deplate.rc''{idx: deplate.rc}{text 
+if=manPage!=1:--but see{ref: Configuration}}. Themes can also have their own 
+ini files.
+
+This file contains a sequence of commands. Each command must fit in one line. 
+The following commands are allowed:
+
+    ''allow FLAGS''     :: Allow ''deplate'' to do certain things(see{ref: 
+      allow})
+        - If you use deplate only for your own files, you might want to run 
+          deplate in "unsafe" mode by adding ''allow all'' to your deplate.ini 
+          file.
+    ''--OPTION''        :: Additional command line option
+    ''mod NAME''        :: Load the module NAME
+    ''fmt NAME''        :: Set the standard formatter
+    ''clip NAME=VALUE'' :: Set the clip NAME (e.g., "author") to VALUE
+    ''wiki NAME.SUFFIX=BASEURL'' :: Define an interwiki (the ''.SUFFIX'' part 
+      is optional)
+    ''wikichars UPPERCHARS LOWERCHARS'' :: Define which characters are allowed 
+      in wiki names
+        % !!! Wiki names must always begin with A-Z even then wiki chars were 
+        %     redefined (at least until ruby's regexp library makes ''\\b'' 
+        %     match properly against words starting with an international upper 
+        %     case character)
+    ''app NAME=COMMANDLINE'' :: Define an external app (e.g., latex, dvips, R, 
+      dot, neato, pstoedit, identify, gs ...)
+        - If you get a ''Exec format error'' error, this is probably caused by 
+          a missing executable suffix. To avoid this error, redefine the app 
+          and add a ''.exe'' or similar to the name.
+    ''$ENV=VALUE''      :: Set an environment variable
+    ''VAR=VALUE''       :: Set variable VAR to VALUE
+        - Alternatively, variables can contain multi-line values using the 
+          usual heredoc pattern (''<<MARKER\\nTEXT...\\nMARKER\\n'') as long 
+          as the smaller characters ("<<") appear right after the equals sign.  
+          Internally, a multi-line value is processed as array.
+
+Although this may not always work as expected, you can also set some options 
+{text if=(manPage!=1):(as defined in {ref: optionFields})} by prepending the 
+name with a colon (":") or by using the ''option'' keyword:
+
+    ''option NAME~''         :: Set option NAME to false
+    ''option NAME!''         :: Set option NAME to true
+    ''option NAME?=true|false|yes|no|on|off'' :: Set option NAME to a boolean value
+    ''option NAME%=INTEGER'' :: Set option NAME to a numeric value
+    ''option NAME=VALUE''    :: Set option NAME to VALUE as string
+
+Lines beginning with one of ''*%#;'' are considered comments.
+
+#EXAMPLE: ''deplate.ini''
+#IDX: deplate.ini
+
+% #Verb <<--
+#Code id=deplateIni syntax=dosini <<--
+; Disable simple wiki names
+--no-simple-names
+
+; Load some standard modules
+mod de
+mod mark-external-urls
+mod colored-log
+
+; Applications
+app dot=/somewhere/not/in/the/standard/path/dot
+app latex=latex_wrapper.sh
+
+; Clips
+clip author=Tom Link
+
+; Options
+; Enable full LaTeX, support for ruby code & external applications
+allow t x X
+
+; By default, use only a subset of deplate's standard markup
+option input_def=deplate-restricted
+
+; Create latex output by default
+option fmt=latex
+
+; Wikis
+wikichars A-ZÄÖÜ a-zäöüßáàéèíìóòçñ
+wiki DEPLATE.html=http://deplate.sf.net/
+
+; Variables
+;; HTML
+css=deplate.css
+
+topBar=<<----
+[auto]
+MyOtherHomepage | http://www.homepage.org
+----
+
+;; Save auxiliary files in a subdirectory (BASENAME_files)
+auxiliaryDirSuffix=_files
+--
+
+
+#IF: manPage!=1
+** Options
+#optionStruct
+
+Most command line options correspond to fields in the (open) structure
+''Deplate#options''. You could thus make your choices permanent by adding 
+something like this to your ''config.rb''{idx: config.rb} configuration file:
+
+#Code id=cfg4 syntax=ruby <<---
+class Deplate::Core
+    def self.user_setup(options)
+        options.field_name = 'some value'           # ok
+        options.allow_exec = true                   # example
+    end
+
+    def user_initialize
+        @variables['NAME'] = 'VALUE'                # ok
+        @options.other_field_name = 'some value'    # deprecated
+    end
+end
+---
+
+The variable ''options'' is meant to influence the whole setup and should 
+contain variables that cannot be set directly by a document.  
+''variables'' are meant to specific to the current conversion process.  
+While ''options'' should be set in Deplate#user_setup, ''variables'' 
+should be defined in Deplate#user_initialize.
+
+Here is a mostly complete table of command line options and 
+corresponding option fields:
+
+|| Command line option        || Field names               ||
+| -a, -\-[no-]ask              | ask_user = bool            |
+| -c, -\-config FILE           | cfg = string               |
+| -\-[no-]clean                | clean = bool               |
+| -\-css NAME                  | css = string               |
+| -d, -\-dir DIR               | dir = string               |
+| -D, -\-define NAME=VALUE     | variables[NAME] = VALUE    |
+| -e, -\-[no-]each             | each = bool                |
+| -\-[no-]force                | force = bool               |
+| -f, -\-format FORMAT         | fmt = string               |
+| -i, -\-[no-]included         | included = bool            |
+| -\-list FILE                 | list = string              |
+| -\-[no-]many                 | multi_file_output = bool   |
+| -m, -\-module MODULE         | modules << string          |
+| -o, -\-out FILE              | out = string               |
+| -p, -\-pattern GLOBPATTERN   | file_pattern = string      |
+| -P, -\-exclude GLOBPATTERN   | file_excl_pattern = string |
+| -\-quiet                     | quiet = bool               |
+| -r, -\-[no-]recurse          | recurse = bool             |
+| -\-[no-]pdf                  | pdftex = bool              |
+| -X, -\-[no-]allow-exec       | allow_exec = bool          |
+| -A, --allow FLAGS            | allow = [FLAGS]            |
+#optionFields
+#IDX: PDF|pdf
+
+The command-line option "-x" or "-\-allow-ruby [RUBY SAFE]" currently 
+sets the class variable ''@@allow_ruby'' and the global variable 
+''$SAFE'' (if an integer is provided). ''--verbose'' sets Deplate's 
+class variable ''@@verbose''.
+#ENDIF: manPage
+
+
+** Templates
+#templates
+
+''deplate'' supports two ways of page templates:
+    # Template variables
+    # Template files
+
+*** Template variables (obsolete)
+
+You can define a template in ruby by setting the following Deplate class 
+variables:
+
+    - these variables (array of arrays of strings) can be redefined in 
+      Deplate::Core.user_setup to put some formatted output on every page/file
+        - ''@@pre_matter_template''
+        - ''@@body_template''
+        - ''@@post_matter_template''
+
+    - this variable (array of strings) can contain some deplate markup 
+      that will be prepended to every file read
+        - ''@@deplate_template''
+
+Typical use would be (in your ''config.rb''{idx: config.rb} file)
+
+#Code id=cfg5 syntax=ruby <<--
+class Deplate
+    def self.user_setup(options)
+        if options.fmt =~ /^html/
+            @@post_matter_template[10] = ['<br>\n(c) 2004, Me']
+        end
+        @@deplate_template << '#AU: My Name'
+    end
+end
+--
+
+
+*** Template files
+#templateFiles
+
+Via the ''-t'' or ''--template'' command-line option or by setting the 
+''template'' document variable{text if=(manPage!=1): \ (see{ref: docOpt})}, you 
+can define simple text templates that will be filled in with content from your 
+''deplate'' file.
+
+Since version 0.7, ''deplate'' uses a specialized formatter for handling 
+templates. Before 0.7, this was done by search & replace. If you have pre 0.7 
+templates which don't work any more, you can switch back to the old template 
+mechanism by setting the {text if=(manPage!=1) else=document option: 
+[[markup.txt#docOpt][document option]]} ''template_version'' to 1.
+
+In templates, only a small number of statements are available:
+
+    Commands :: GET, ARG, XARG, VAR, OPT, PREMATTER, POSTMATTER, BODY, IF, 
+      ELSE, ELSEIF, ENDIF, INC/INCLUDE
+    Regions :: Foreach, Mingle, Ruby, Var
+    Macros :: get, clip, opt, arg, xarg, doc, ruby
+
+The commands PREMATTER, POSTMATTER, BODY as well as the Mingle region 
+are specific to templates.
+#IDX: #Mingle
+
+PREMATTER, POSTMATTER, and BODY can be used to fill in formatted content {text 
+if=manPage!=1: (see{ref: docstructure}} for an explanation of ''deplate'''s 
+document structure):
+
+    ''#PREMATTER''  :: The file header, the beginning of the document 
+      definition, some text that in multi-file mode should appear in 
+      every output file
+    ''#BODY''       :: The text body
+    ''#POSTMATTER'' :: Some text that in multi-file mode should appear 
+      in every output file, the end of document definition
+
+These commands take a list of slots (named or as numbers) as arguments{text 
+if=manPage!=1: (see{ref: docstructure})}. The slots can be single slots or 
+ranges. They can be positive (add selectively) or negative (add with the 
+exception of certain content). Examples:
+
+    ''#PREMATTER: -doc_def'' :: add the prematter without the document 
+      type definition
+    ''#PREMATTER: doc_def mod_packages mod_head'' :: add the document 
+      type definition, and stuff added by modules
+    ''#PREMATTER: head_beg..prematter_end'' :: add everything from the head on 
+      downwards
+
+A slot cannot be consumed twice. I.e., if you use several template 
+commands, the latter will not insert the content that was already 
+inserted by the previous command.
+
+The Mingle region can be used to add some text to a specific slot in the 
+original document. Filling in templates takes place after the document 
+was produced. A template actually processed by deplate like normal text 
+but with a different active rule set. Thus, if you define a slot or a 
+type for a region in the template file these definitions refer to the 
+template output which usually is not quite what you want. You can use 
+Mingle to make them refer to the original document. See 
+''html-left-tabbar-js.html'' in the ''templates'' subdirectory of the 
+distribution for an example.
+
+Curly braces in templates could cause problems because ''deplate'' maybe 
+interpretes them as macros. If ''deplate'' mixes up your template, you should 
+prefix these curly braces that cause problems with a backslash.
+
+Backslashes have always to be doubled.
+
+
+#EXAMPLE: A letter template
+
+In this example, we use get for the author's name because the corresponding 
+clip is automatically defined by the standard #AU(THOR) command. For other 
+data we use variables.
+
+Template: tmpl_letter.tex
+#Verb <<---------
+\\documentclass[12pt,a4paper,english]{letter}
+#PREMATTER: -doc_def
+\\address{{get: author}\\\\
+    {val escapebackslash!: address}}
+\\signature{{get: author}}
+
+\\begin{letter}{{val: addresseeName}\\\\
+    {val escapebackslash!: addresseeAddress}}
+\\opening{Dear {val: addresseeName},}
+
+#BODY
+
+\\closing{Sincerly,}
+\\vfill{}
+\\encl{{val: enclosure}}
+\\end{letter}
+#POSTMATTER
+---------
+
+Input file: example-letter.txt
+#Verb <<---------
+#AU: John Smith
+#DATE: today
+#VAR id=address: Cool Place 1{nl inline!}Hiptown 10000
+#VAR id=enclosure: Important Document
+#VAR: addresseeName=Max Mustermann
+#VAR: addresseeAddress=Tolle Straße 2{nl}Neustadt 20000
+
+I would like to say thanks for your last letter which I read with much joy. I
+hope to be hearing from you soon.
+---------
+
+Command line:
+#Verb <<---------
+deplate -t tmpl_letter.tex -f latex example-letter.txt
+pdflatex example-letter.tex
+---------
+
+Result: [[example-letter.pdf]]
+

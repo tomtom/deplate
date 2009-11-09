@@ -1,0 +1,290 @@
+% vi: ft=viki:tw=72
+% @Last Change: 2009-02-06.
+
+* Output Formats
+#OPT: id=Output
+#LIST fmt=html plain! sub!: toc
+
+Some cursory remarks. The output can be fine tuned by setting certain 
+variables -- see{ref: docOpt}.
+
+
+** HTML, single-file (no chunks) output
+
+This is the default formatter. It generates plain html; tidy gives some 
+warnings (mostly about nested lists), but no errors. Formatting has 
+to/should be done via a css.
+#IDX: tidy
+
+Notes:
+#IDX: BibTeX
+
+    Citations :: Currently only some kind of APA-look-alike style is 
+      provided.  The bibliography is compiled directly from a set of 
+      BibTeX files. It probably fails on some entries.
+
+    Headings  :: Set the document variable "headings" (see{ref: docCmd}) 
+      or the headings option (see{ref: optCmd}) to "plain" to turn off 
+      numbering.
+
+
+** HTML Site, multi-page (chunky) output
+
+This is a variant of the HTML formatter that can be used to generate 
+websites. The output is broken at first level heading so that each 
+chapter is saved in its own file. By default the file names are numbered 
+(e.g., basename.html, basename00001.html, basename00002.html ...). If 
+you give a first level heading an id (see{ref: headings}), this id will 
+be used instead -- as it was done for ''deplate'''s online 
+documentation.
+
+If ''docNavbar'' variable is defined and true (i.e., "1"), a navigation 
+bar is added to the top and the bottom. If ''docNavbar'' equals ''top'', 
+only the top navigation bar is displayed; if it equals ''bottom'' only 
+the bottom navigation bar. In general, using templates is a much more 
+convenient and flexible way to add navigation bars. Take a look, e.g., 
+at ''deplate/templates/html-left-tabbar-js.html'' for the template that 
+was used to create the online documentation.
+
+If Java\Script is enabled, you can navigate through the slides by 
+pressing:
+#IDX: Java\Script
+
+    <a-p> :: Previous page
+    <a-h> :: Front page
+    <a-n>, <Shift> :: Next page (double clicking on a heading moves to 
+      the next page, too)
+
+Navigation was originally inspired by 
+[[http://www.gerv.net/presentations/fosdem2003/slide00.html][html slides by Gervase Markham]-].
+
+
+** HTML Slides, abbreviated online presentations
+
+This is a variant of ''htmlsite'' that can be used to create html based 
+presentations. In its default setting, it "swallows" paragraphs (unless 
+the ''noSwallow'' [[commands.txt#docCmd][variable]] is given). This 
+way you can easily generate a full paper and an abridged presentation 
+version (just the lists, the figures, and the tables) from the same 
+source.
+
+
+** HTML Website
+
+This is a variant of the ''htmlslides'' formatter that places a tabbar 
+at the top of the page. ''htmlwebsite'' was kindly contributed by Fritz 
+Heinrichmeyer.
+
+NOTE: This formatter is obsolete. Fritz Heinrichmeyer now uses his 
+[[modules.txt#htmlslides_navbar_fh][htmlslides-navbar-fh]] module in 
+conjunction with the ''html-slides'' formatter and page templates.
+
+
+** XHTML 1.0-transitional (xhtml10t)
+#xhtml10t
+#IDX: XHTML|xhtml; XML|xml
+
+This is a minor variant of the HTML formatter that improves XML 
+conformance.
+
+
+** XHTML 1.1 with MathML (xhtml11m)
+#xhtml11m
+
+This is a hackish variant of XHTML 1.0t.
+
+
+** Php, \PhpSite
+#IDX: Php|php
+
+This is a simple variant of the HTML formatter that can be used for 
+generating php output. \PhpSite is based on ''HTML Site''.
+
+The following additional elements are provided by the ''php-extra'' 
+module.
+
+Additional region:
+    \#Php :: Insert the body as php code
+
+Additional command:
+    \#PHP :: Insert the body as php code
+
+Additional macros:
+    \{php: BODY\} :: Insert as php code (''<?php BODY ?>'')
+    \{=BODY\}     :: print_r the php code (''<?php print_r (BODY) ?>'')
+
+% Simple-minded example:
+#EXAMPLE: Php output
+
+#Verb <<----
+* Test Php-Output
+
+#Php <<--
+$mod = "absolutely";
+echo '<p>Here we go!</p>';
+--
+
+Mixing php control constructs and ''deplate'' markup:
+
+#PHP: foreach(array('doing', 'saying', 'writing about') as $action):
+I have {php: echo $mod} no idea{fn: none} what I'm __{=$action}__.
+#PHP: endforeach;
+
+#Fn: none <<--
+None whatsoever.
+--
+----
+
+
+** LaTeX
+
+If you give the -\-pdf option, some packages are marked for use with 
+pdflatex.
+
+The LaTeX-formatter assumes the use of the natbib-package for citations 
+(see Deplate\Macro#formatted_citation).
+
+The ''graphicx'' package is used for displaying graphics, the 
+''hyperref'' package for hyperlinks.
+
+If you set the ''useBooktabs'' variable, the booktabs package is used.  
+This results in prettier ready-to-print tables but interferes with table 
+styles.
+#IDX: Hyperlink|Hyperlinks|hyperlink|hyperlink
+#IDX: Graphics|graphics|Graphic|graphic
+#IDX: natbib; booktabs; graphicx; hyperref
+
+If you don't provide image dimensions (bw, bh options), ''deplate'' uses 
+Image\Magick's ''identify'' to guess its width and height.
+#identify
+    - If you prefer a different tool, redefine 
+      ''Deplate::External.image_dimension(filename)'', which returns the 
+      bounding box as [bw, bh, bx, by] (bx and by are most likely 
+      ignored)
+
+You can set the ''DIV'' variable to change the typearea. This uses 
+koma's ''typearea'' package.
+
+
+*** latex-dramatist: Typeset stage plays with the dramatist package
+#formatDramatist
+
+In conjunction with the [[input#inputPlay][play]] input filter, this 
+formatter generates nicely formatted stage plays, thanks to the 
+[[http://tug.ctan.org/cgi-bin/ctanPackageInformation.py?id=dramatist][dramatist]] 
+package.
+
+    - Scene titles won't be printed.
+    - Groups can be defined as follows:
+      #Verb <<---------
+        Name One :: A man
+        - Group A
+            Name Two :: A woman
+            Name Three :: Another man
+        Name Four:: Another woman
+      ---------
+
+
+*** Sweave: Handle embedded R-code via Sweave
+
+This formatter differs from the LaTeX formatter in that embedded R code 
+is formatted for post-processing by 
+[[http://www.ci.tuwien.ac.at/~leisch/Sweave][Sweave]]. The output of 
+deplate will be an Rnw-file. Although deplate knows how to handle R code 
+chunks, the sweave formatter is preferable for LaTeX output.
+
+The ''R'' and ''Img'' regions take an extra option ''sweave'' (a string 
+that will be inserted as sweave options). The following options will be 
+passed through to the sweave code chunk definition: print, echo, 
+results, height, width, engine. ''hide!'' will set ''results=hide''.
+
+By default, ''Img'' regions are wrapped in a figure environment, which 
+LaTeX will format as floats. If you find that confusing, add the 
+''noFloat!'' to the region arguments. In order to disable this behaviour 
+for all images, you could set that argument globally (see also{ref: 
+globalProperties}):
+
+#Verb id=sweaveFigureNoFloat <<
+#VAR: $RegionsImg[float]=false
+
+The sweave formatter defines the following macro:
+    ''{sweave: S-EXPRESSION}'' :: Insert a chunk of S code inline
+    ''{r: S-EXPRESSION}'' :: A synonym for the above
+
+With the exception of a few extra options and the ''sweave'' macro that 
+cannot be used with other formatters, the input is standard deplate/viki 
+markup. You can use the same input file to generate HTML, \DocBook etc.
+
+#EXAMPLE: Sweave output
+
+% #Code id=ExampleSweaveOutput syntax=viki <<----
+#Verb id=ExampleSweaveOutput syntax=viki <<----
+#R engine=R <<
+data(iris)
+summary(iris)
+
+#Img: R <<--
+library(graphics)
+pairs(iris)
+--
+#CAP: Pairs plot of the iris data.
+----
+
+
+** Docbook: article, book, reference pages
+
+The docbook formatter currently is able to generate proper xml for the 
+deplate manual but it doesn't perform any validation and doesn't try to 
+modify the input in order to attain valid output. It should work most of 
+the time though.
+
+The formatter currently comes in the following flavors:
+
+    dbk-article :: Format as an article
+        - use the headings: "sect1", "sect2" ...
+    dbk-book :: Format as a book
+        - use the headings: "chapter", "sect1", "sect2" ...
+    dbk-ref :: Format as a reference or man page
+        - use the headings: "refsect1", "refsect2" ...
+        - make uses of the following doc variables if provided
+            - refentry (or use the filename)
+            - manvol (defaults to "1")
+        - the document title (defined with #TI) is used as refpurpose
+        - there is currently no way to define a synopsis in ''deplate''
+
+
+** Plain text
+
+Wow! ''deplate'' can also convert mostly markup-free text formats to 
+plain text.
+
+If the ''asciiArt'' variable is set (or if it set to "jave"), 
+''deplate'' uses [[http://www.jave.de][Jave]] to convert images to ascii 
+representations.  You can use the additional ascii_algorithm and 
+ascii_width arguments to tweak jave's output.
+
+This requires a ''jave'' command to be in the path. Such a command could 
+look like this:
+
+#Verb <<---------
+#!/bin/bash
+exec java -jar $JAVE_HOME/jave5.jar $@
+---------
+
+or (for Windows):
+
+#Verb <<---------
+@echo off
+%JAVA_HOME%\bin\java.exe -jar %JAVE_HOME%\jave5.jar %*
+---------
+
+
+** Template
+#outputTemplate
+#IDX template output filter
+
+This formatter is used by ''deplate'' for filling in templates as 
+described in{ref: templates}. From a user perspective, it could be useful 
+in conjunction with the
+[[input.txt#inputTemplate][template input filter]].
+

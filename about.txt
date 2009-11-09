@@ -1,0 +1,26 @@
+#VAR: css=htmldoc.css|screen, +serif.css
+#VAR: headings=plain autoFileNames!
+#VAR: urlIcon=remote.png mailtoIcon=mailto.png markerInFrontOfURL!
+#Native fmt=html if=sfNet type=post slot=html_pageicons <<---
+<a href="http://www.vim.org"><img src="http://www.vim.org/images/vim88.png" border="0" alt="VIM Logo" /></a>
+<a href="http://deplate.sourceforge.net"><img src="deplate-mini.png" border="0" alt="deplate Logo" /></a>
+<a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=108085&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+---
+
+#TI: Deplate
+#MAKETITLE
+
+
+For support please use the 
+[[http://sourceforge.net/forum/forum.php?forum_id=371484][forum]] or 
+send an e-mail to [[http://sourceforge.net/users/tlink/][sf.net address]].
+
+Main author:
+    Tom Link :: Vienna, Austria
+
+#INC skip=3: AUTHORS.TXT
+
+% 15-Jun-2006; @Last Change: 2009-11-09.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

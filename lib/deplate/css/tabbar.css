@@ -1,0 +1,81 @@
+/* TabBar */
+div.tabBarLeft {
+    max-width: 250px;
+}
+div.bodyRight {
+    position: relative;
+    left: 250px;    
+}
+a.tabBarEntry {
+}
+.tabBar, .tabBody {
+    background-color: #ffffff;
+    vertical-align: top;
+}
+
+div#pin {
+}
+div.tabBar {
+    /* position: absolute; */
+    /* float: right; */
+    /* top: 10px; */
+    /* z-index: 2; */
+    border: 1px dashed #cae0ea;
+    /* background-color: #dfdfff; */
+    background-color: #f0f0f0;
+    padding: 15px;
+    z-index: 2;
+}
+#tabBodyFrame {
+    /* position: absolute; */
+    /* top: 0px; */
+    /* left: 140px; */
+    /* z-index: 1; */
+    min-width: 600px;
+    max-width: 800px;
+    text-align: left;
+}
+div.tabBodyFrame {
+    width: 700px;
+    z-index: 5;
+}
+div.tabBody {
+    border: 1px dashed #cae0ea;
+    /* border: 1px solid #cae0ea; */
+    padding: 10px;
+    margin: 10px;
+    /* width: 700px; */
+    text-align: left;
+}
+
+table.tabBar {
+    table-layout:fixed;
+    max-width: 200px;
+    min-width: 200px;
+    padding: 0;
+    border: 0;
+    border-spacing: 10px;
+}
+tr.tabBar {
+}
+td.tabBar {
+    padding: 4px;
+    border-right: 20px solid #faf0fa;
+}
+td.tabBody {
+}
+
+.buttonRow {
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 0;
+    border: 0;
+    padding: 0;
+}
+table.buttonRow {
+}
+tr.buttonRow {
+}
+td.buttonRow {
+}
+

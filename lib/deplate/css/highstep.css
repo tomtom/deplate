@@ -1,0 +1,29 @@
+body {
+    /* font-family: Georgia, Bookman, Times, Serif; */
+	font-family: Georgia, Minion Web, Palatino, "Book Antiqua", Utopia, "Times New Roman", serif;
+	/* font-size-adjust: .5; */
+    /* font-size: 1.1em; */
+    /* line-height: 1.36em */
+}
+
+span.steppreview {
+    background-color: #f5f5f5;
+    /* padding: 1px; */
+    /* border: 1px solid #e0e0e0; */
+    border: 1px solid #f0f0f0;
+}
+
+span.stephighlight {
+    background-color: #ffff60;
+    /* padding: 1px; */
+    border: 1px solid #e0e0e0;
+}
+
+span.steplast {
+    background-color: #ffff90;
+    border: 1px solid #e0540e;
+}
+
+/*
+vi: ft=css:tw=72:ts=4
+*/

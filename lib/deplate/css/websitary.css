@@ -1,0 +1,88 @@
+body {
+  color: black;
+  background-color: #f0f0f0;
+}
+a.external {
+}
+a.old {
+}
+a.latest {
+}
+a.toc {
+}
+ol.toc {
+  float: left;
+  width: 200px;
+  position: fixed;
+  padding: 0;
+  margin: 0;
+}
+li.toc {
+  list-style: none;
+  border: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  padding: 0.1em;
+  font-size: 80%;
+  font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+}
+li.toc:hover {
+  background-color: #ffff8d;
+}
+div.contents {
+  margin-left: 210px;
+  min-width: 16em;
+}
+div.webpage {
+  margin: 5px 0 5px 0;
+  padding: 5px;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+}
+div.count {
+  text-align: right;
+}
+.enclosure {
+  padding: 4px;
+  margin: 4px 0 4px 0;
+  background: #f9f9f9;
+}
+h1.diff {
+  font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+}
+h2.rss {
+  border-top: 10px solid #f0f0f0;
+  padding-top: 10px;
+}
+div.diff {
+  padding-left: 2em;
+}
+pre.diff {
+  padding-left: 2em;
+}
+div.annotation {
+  font-size: 80%;
+}
+hr.separator {
+  width: 100%;
+  visibility: hidden;
+}
+.error {
+  color: yellow;
+  background-color: red;
+}
+.highlight {
+  background-color: #ffc730;
+}
+.highlight-yellow {
+  background-color: #ffc730;
+}
+.highlight-red {
+  background-color: red;
+}
+.highlight-blue {
+  background-color: blue;
+}
+.highlight-aqua {
+  background-color: aqua;
+}
+

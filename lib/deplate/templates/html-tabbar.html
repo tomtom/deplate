@@ -1,0 +1,31 @@
+#Mingle type=pre slot=css:
+<style type="text/css">
+    <!--
+    @media screen {
+        body {
+            background-color: #e9e9ff;
+        }
+    }
+    -->
+</style>
+#End
+#PREMATTER
+
+<div id="tabBar" class="tabBar">
+    #IF: tabBarPos==top
+    #ARG: tabBarTop()
+    #ELSEIF: tabBarPos==right
+    #ARG: tabBarRight(progressBar! nextKey! depth=2 depthInactive=1)
+    #ELSE
+    #ARG: tabBarLeft(progressBar! nextKey! depth=2 depthInactive=1)
+    #ENDIF
+</div>
+<div id="tabBodyFrame" class="tabBodyFrame">
+    <div id="tabBody" class="tabBody">
+        #BODY: -navbar_top -navbar_bottom
+    </div>
+    #POSTMATTER: html_pageicons_beg..html_pageicons_end
+</div>
+
+#POSTMATTER
+

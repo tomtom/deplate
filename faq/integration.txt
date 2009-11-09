@@ -1,0 +1,100 @@
+* How to use ''deplate'' as text filter for other (web-based) applications?
+#OPT: id=Integration
+
+CAVEAT deplate wasn't designed as a converter for personal use and not 
+as a formatting engine for a publicly accessible wiki or CMS.
+    - It is most likely unsafe to allow public access over the Internet 
+      to a deplate-based wiki. Malicious users could possibly execute 
+      ruby code, access your file system, or simply crash the converter 
+      (which could be an annoyance in some situations).
+    - Malformed input can make deplate behave disgracefully.
+      
+Use it at your own risk!
+
+All of the following is highly experimental and has never been thorougly 
+tested.  Think of the material on this page as proof of concept!
+
+
+** Blog
+
+*** blosxom
+#blosxom
+
+Please see [[integration#textpipe][TextPipe]].
+
+
+*** [[http://chneukirchen.org/blog/static/projects/nukumi2.html][nukumi2]]
+#nukumi2
+
+See the [[http://deplate.sourceforge.net/Modules.html#nukumi2][manual]].
+
+
+** Wiki
+
+*** [[http://www.instiki.org][Instiki]]
+#instiki
+
+Here is a [[instiki-0.11.0.diff][patch for Instiki 0.11.0]] that enables 
+you to use deplate (CVS 12 April 2006) as formatting engine. You will 
+have to edit ''lib/deplatesupport.rb'' and set the ''DEPLATE'' and 
+''IMGBASEURL'' constants.
+
+This patch is really just something to start and to experiment with. 
+Don't expect it work properly/safely just like that.
+
+Neither pdf generation nor latex/docbook output are supported at the 
+moment -- you could export the raw markup though and then process it 
+offline.
+
+Information about related efforts by deplate user(s):
+    - http://dev.instiki.org/ticket/186
+    - http://rubyforge.org/pipermail/instiki-users/2005-May/000084.html
+
+
+** Via \TextPipe (a perl module)
+#OPT: id=TextPipe
+#textpipe
+
+Andrea Rota wrote a generic perl module that can be used to convert text 
+from some markup to html using external text filters like ''deplate''.
+
+#Quote <<----------------------
+This module helps with the setup of text filters: given a text
+processing tool (such as rest2html, rest2latex, deplate, etc.)
+\TextPipe reads an input string, lets the text processing tool
+process text and returns marked-up output to calling application.
+
+This module was written mainly to allow non-Perl text processing
+tools to be used in Perl applications.
+----------------------
+
+Be {text style=bold: warned} though that
+    - this is {text style=bold: untested code} (the authors themselves 
+      abandonded ''deplate'' :-( in favor of 
+      [[http://docutils.sourceforge.net][reStructuredText]])
+    - the performance is quite __poor__ due to the use of temporary files
+    - the code does not have accompanying tests (i.e., it hasn't been 
+      stress-tested or debugged in any way)
+    - the code is provided as-is; if you run into difficulties, you're 
+      on your own
+
+If you find it useful, feel free to write the missing bits.
+
+Download:
+    - [[libtext-pipe-perl.tar.gz]]
+    - [[blosxom-plugin-set.tar.gz]]
+
+
+** Via XMLRPC
+#OPT: id=XMLRPC
+#xmlrpc
+
+The idea is to let deplate run in a secured environment and to access it 
+via its xmlrpc interface. This way you could use deplate also from a php 
+or java-based appication.
+
+
+% 12-Apr-2006; @Last Change: 12-Apr-2006.
+% vi: ft=viki:tw=72:ts=4
+% Local Variables:
+% End:

@@ -1,0 +1,95 @@
+@page {
+    size: portrait;
+    margin: 1in 1in 1.5in 1.5in;
+    orphans: 2;
+    widows: 2;
+}
+
+.screenplay {
+    font-family : "Courier New", Courier, Monospace;
+    font-size: 11pt;
+    font-weight: normal;
+    margin: 10px 0 10px 0;
+    padding: 0;
+}
+
+div.screenplay {
+}
+
+h1.screenplay {
+    /* page-break-before: always; */
+}
+
+h1.screenplay, h2.screenplay, h3.screenplay, h4.screenplay, h5.screenplay {
+    /* text-decoration: underline; */
+    margin: 20px 0 10px 0;
+    border: 0;
+    border-bottom: 1px solid #000000;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+span.screenplay-intext {
+    /* padding-right: 1cm; */
+}
+
+span.screenplay-location {
+}
+
+span.screenplay-timesep {
+}
+
+span.screenplay-flexsep {
+    visibility: hidden;
+}
+
+span.screenplay-right {
+    /* position: absolute; */
+    /* right: 10px; */
+    position: relative;
+    left: 1in;
+    text-align: right;
+}
+
+p.screenplay {
+}
+
+dl.screenplay {
+    text-align: center;
+}
+
+span.screenplay-character {
+    text-transform: uppercase;
+}
+
+dt.screenplay {
+    /* margin: 10px 0 0 3.7in; */
+    margin: 10px 10px 0 10px;
+}
+
+dd.screenplay {
+    margin: 0 2.3in 10px 2.2in;
+    /* margin: 0 10px 10px 2.2in; */
+    padding: 0;
+    /* width: 3in; */
+    width: 7cm;
+    /* text-align: justify; */
+    text-align: left;
+}
+
+ul.screenplay {
+    list-style-type: none;
+}
+
+li.screenplay[class~=dash] {
+    margin-left: 1cm;
+}
+
+li.screenplay[class~=plus] {
+    margin-left: 2cm;
+}
+
+/* 
+vi: ft=css:tw=72:ts=4
+*/

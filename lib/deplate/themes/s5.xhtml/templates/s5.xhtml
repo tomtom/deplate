@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{get: title}</title>
+<!-- metadata -->
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.1" />
+<meta name="presdate" content="{get: date}" />
+<meta name="author" content="{get: author}" />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/{arg default="default": s5theme}/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/{arg default="default": s5theme}/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/{arg default="default": s5theme}/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/{arg default="default": s5theme}/opera.css" type="text/css" media="projection" id="operaFix" />
+#PREMATTER: css
+<!-- S5 JS -->
+<script src="ui/{arg default="default": s5theme}/slides.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="layout">
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>{arg: s5footer}</h1>
+<h2>{get: title}</h2>
+</div>
+</div>
+
+<div class="presentation">
+
+#BODY
+
+</div>
+
+</body>
+</html>

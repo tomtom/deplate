@@ -1,0 +1,123 @@
+# encoding: ISO-8859-1
+/* Text style: sans-serif */
+/* @Author:      Tom Link (micathom AT gmail com) */
+/* @Created:     13-Apr-2004. */
+/* @Last Change: 2009-11-09. */
+/* @Revision:    0.638 */
+
+body, table, div {
+	font-family: Georgia, Minion Web, Palatino, Book Antiqua, Utopia, Times New Roman, serif;
+}
+a:link.navbar, a:visited.navbar {
+    text-decoration: none;
+}
+big {
+    font-weight: bolder;
+}
+h1, h2, h3, h4, h5, h6 {
+    /* font-family : Georgia, Bookman, Times, Serif; */
+    /* font-family : Verdana, Monaco, Sans-Serif; */
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+    font-weight: bold;
+}
+tr.head, th, td.high {
+    font-weight: bold;
+}
+div.tableNote {
+    font-style: italic;
+}
+blockquote {
+    font-family: Sans-Serif;
+}
+blockquote.quote {
+}
+blockquote.longquote {
+}
+blockquote.abstract {
+    font-style: italic;
+}
+dt {
+    font-weight: bold;
+}
+code, pre {
+    font-family: "Courier New", Courier, Monospace;
+    font-size: 0.8em;
+	/* font-size-adjust: -.5; */
+}
+caption, p.caption {
+    font-weight: bold;
+}
+p.title, p.author, p.authornote, p.date {
+    font-weight: bold;
+}
+a:link.footnote, a:visited.footnote {
+    text-decoration: none;
+}
+p.footnotes, ol.footnotes, li.footnotes {
+}
+p.footnotes {
+    font-weight: bold;
+}
+a.tabBarEntry {
+    text-decoration: none;
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+}
+
+
+p.title {
+    font-size: 240%;
+}
+p.author {
+    font-size: 220%;
+}
+p.date {
+    font-size: 200%;
+}
+p.authornote {
+    font-size: 180%;
+}
+h1 {
+    font-size: 200%;
+}
+h2 {
+    font-size: 180%;
+}
+h3 {
+    font-size: 160%;
+}
+h4 {
+    font-size: 140%;
+}
+h5 {
+    font-size: 120%;
+}
+div.tableNote, a:link.navbar, a:visited.navbar, 
+p.footnotes, ol.footnotes, li.footnotes, .sdfootnotesym, .sdfootnote,
+.tabBarLeft, .tabBarTop, span.progress {
+    font-size: 90%;
+}
+select.navmenu, p.navgo, 
+a:link.footnote, a:visited.footnote, .sdfootnoteanc {
+    font-size: 80%;
+}
+
+
+body, p, table, div, h6 {
+    font-size: 12px;
+}
+/*/*/a{}
+body p,
+body table,
+body div,
+body h6 {
+  font-size: x-small;
+  voice-family: "\"}\"";
+  voice-family: inherit;
+  font-size: small;
+}
+html>body p {
+  font-size: small;
+}
+/* */
+
+

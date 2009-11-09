@@ -1,0 +1,126 @@
+% vi: ft=viki:tw=72
+% @Last Change: 2009-11-09.
+
+#TITLE:  Deplate {ruby: Deplate::Core.version} -- convert wiki-like markup to latex, docbook, html, or "html-slides"
+#AUTHOR: Tom Link
+#DATE: today
+#VAR: keywords=Converter; Text; LaTeX; HTML; Docbook; Wiki; \
+Presentation; Web Publishing
+
+#VAR: noObfuscatedNoscript!
+#VAR: floatCaptionAbove!
+#VAR fmt=plain: ascii_width=50
+#VAR fmt=latex: codeStyle=typical
+#VAR fmt=~html: codeStyle=tomacs
+#VAR fmt=~htmls: nextKey=0 baseUrl=http://deplate.sourceforge.net/ baseUrlStripDir=1
+% Use QBullets [[http://www.matterform.com/]]
+% #VAR: urlIcon=remote.gif mailtoIcon=mailto.gif
+% #IF: pdf!
+% #VAR: urlIcon=remote.pdf mailtoIcon=mailto.pdf
+% #ELSE
+#VAR: urlIcon=remote.png mailtoIcon=mailto.png markerInFrontOfURL!
+% #ENDIF
+#Var id=newsFeed <<--
+rss="http://sourceforge.net/export/rss2_projnews.php?group_id=108085&amp;rss_fulltext=1" title=Deplate -- Project News
+--
+
+#VAR: dbkVersion=4.4
+#Var if=sgml id=dbkEntities:
+<!ENTITY % ISOgrk3 PUBLIC "ISO 8879:1986//ENTITIES Greek Symbols//EN"> %ISOgrk3;
+#End
+
+#VAR: tabBarAbout=about.html
+#IF: manual
+#VAR: css=deplate.css|screen, article.css|print, +serif.css, +heading-navbar.css
+#ELSE
+#VAR: css=tabbar-right.css|screen, article.css|print, +serif.css
+#ENDIF
+
+% #VAR: useBooktabs!
+#VAR: autoindex! buttonsColour=blue buttonsHighlight!
+#VAR: refentry=deplate copyrightYear=2004-2006
+#IF: fmt==latex
+#VAR: encoding=latin9
+#Native fmt=latex type=pre slot=user_packages <<--
+\usepackage{textcomp}
+\DeclareInputText{128}{\texteuro}
+--
+#ELSE
+#VAR: encoding=latin-1
+#ENDIF
+% #VAR: noCssValid!
+#AUTOIDX: deplate
+
+#DEFLIST list=examples title=List of Examples parent=toc
+
+#DefCommand id=EXAMPLE <<--
+Example {counter: examples}: {xarg: @body}
+\#OPT: style=example
+\#REGISTER list=examples: {xarg: @body}
+--
+
+#DefRegion id=Example lineCont=false <<--
+#IF: caption!
+% #XARG default="Example {counter delta=0.1: examples}: {xarg: caption}": title
+#XARG default="Example {counter: examples}: {xarg: caption}": title
+\#REGISTER list=examples: {xarg: caption}
+#ELSE
+#XARG default="Example: {xarg: caption}": title
+#ENDIF
+\#OPT: style=example
+\#WITH arg=@body: Verb
+
+Output{xarg default="": note}:
+
+\#WITH arg=@body: Region style=example-output
+--
+
+#IF: manPage!=1
+
+#Native fmt=html if=sfNet type=post slot=html_pageicons <<---
+<a href="http://www.vim.org"><img src="http://www.vim.org/images/vim88.png" border="0" alt="VIM Logo" /></a>
+<a href="http://deplate.sourceforge.net"><img src="deplate-mini.png" border="0" alt="deplate Logo" /></a>
+<a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=108085&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+---
+% <a href="http://sourceforge.net/donate/index.php?group_id=108085"><img src="http://images.sourceforge.net/images/project-support.jpg" width="88" height="32" border="0" alt="Support This Project" /></a>
+
+#MAKETITLE
+#LIST: contents
+#LIST: tables
+#LIST: figures
+#LIST: examples
+
+This manual was created with deplate version {ruby: Deplate::Core.version}.
+
+#IF: fmt=~htmls
+#XARG: navigation_note()
+% #XARG: navigation_note(nextKey=shift)
+% #XARG: tabBarNote()
+#ENDIF
+
+#INCLUDE: intro.txt
+
+#ENDIF: no manPage
+
+% If we compile a man page, we include this chapter only
+#INCLUDE: usage.txt
+
+#IF: manPage!=1
+
+#INCLUDE: input.txt
+#INCLUDE: formats.txt
+#INCLUDE: themes.txt
+#INCLUDE: modules.txt
+#INCLUDE: markup.txt
+#INCLUDE: regions.txt
+#INCLUDE: commands.txt
+#INCLUDE: macros.txt
+#INCLUDE: skeletons.txt
+#INCLUDE: variables.txt
+#INCLUDE: extending.txt
+
+#MAKEBIB id=TheBibliography shortcaption=Bibliography: cbib-apa-1
+#LIST id=TheIndex shortcaption=Index: index
+
+#ENDIF: no manPage
+

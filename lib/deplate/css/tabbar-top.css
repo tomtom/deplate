@@ -1,0 +1,100 @@
+@import url(deplate.css);
+
+body {
+    /* background-color: #d9e0f0; */
+    /* background-color: #e4e8f0; */
+    background-color: #eeeef5;
+    /* background-image: url(grad_blue.jpg); */
+    background-repeat: repeat-x;
+}
+
+#tabFrame {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    text-align: left;
+    width: 80%;
+}
+#tabBar {
+    padding: 0;
+    border: 0;
+    margin: 10px 0 0 0;
+    /* background-color: #d9e0f0; */
+    background-color: transparent;
+}
+#tabBodyFrame {
+    /* text-align: left; */
+    width: 100%;
+    padding: 0;
+}
+#tabBody {
+    background-color: #ffffff;
+    text-align: left;
+    vertical-align: top;
+    margin-top: 0;
+    padding: 10px;
+    /* border: 1px dashed #cae0ea; */
+    /* border: 1px solid #cae0ea; */
+    -webkit-border-bottom-left-radius: 15px;
+    -webkit-border-bottom-right-radius: 15px;
+    -moz-border-radius-bottomleft: 15px;
+    -moz-border-radius-bottomright: 15px;
+    -khtml-border-bottom-left-radius: 15px;
+    -khtml-border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+}
+
+table.tabBarTop {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 80%;
+    border-spacing: 0;
+    /* position: relative; */
+    /* top: 1px; */
+    text-align: center;
+}
+tr.tabBarTop {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+td.tabBarTopActive {
+    margin: 0;
+    padding: 0;
+    /* border-top: 1px dashed #cae0ea; */
+    /* border-left: 1px dashed #cae0ea; */
+    /* border-right: 1px dashed #cae0ea; */
+    /* border-top: 1px solid #cae0ea; */
+    /* border-left: 1px solid #cae0ea; */
+    /* border-right: 1px solid #cae0ea; */
+    border-bottom: 0;
+    background-color: #ffffff;
+    text-align: center;
+    /* -moz-border-radius: 15px 15px 0 0; */
+}
+td.tabBarTopInactive {
+    margin: 0;
+    padding: 0;
+    /* border-bottom: 1px dashed #cae0ea; */
+    /* border-bottom: 1px solid #cae0ea; */
+    /* background-color: #f0f0f0; */
+    background-color: #eeeef5;
+    border: 1px solid #eeeef5;
+    text-align: center;
+    /* -moz-border-radius: 15px 15px 0 0; */
+}
+
+tr.tabBarTopAbout {
+}
+td.tabBarTopAbout {
+}
+
+div.pageicons {
+    text-align: right;
+    margin: 10px 0 10px 0;
+}
+

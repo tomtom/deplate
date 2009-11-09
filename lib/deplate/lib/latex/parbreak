@@ -1,0 +1,6 @@
+#DefElement id=ParBreak: ^\s+~{3}\s*$ <<
+\#Native <<
+\\begin\{center\}
+***
+\\end\{center\}
+

@@ -1,0 +1,394 @@
+% vi: ft=viki:tw=72
+% commands.txt
+% @Author:      Tom Link (micathom AT gmail com)
+% @Created:     06-Dez-2004.
+% @Last Change: 2009-11-09.
+% @Revision:    0.190
+
+* Commands
+#OPT: id=Commands
+#commands
+#LIST fmt=html plain! sub!: toc
+
+''deplate'' scans a text for line-elements and parses lines for 
+text-particles. Commands are situated at the line-element-level, macros 
+(see below) on the text-particle-level.
+
+#Verbatim <<EOV
+#COMMAND [OPTIONS]: ARGS
+EOV
+
+__NOTE:__ It doesn't all work yet. It's a matter of trial and error to 
+find out if ''deplate'' already supports a specific command. Most of this 
+is untested and will fail or not work at all.
+
+OPTIONS have the form:
+
+    - ''OPTION!''
+        - set option to true
+    - ''OPTION=VALUE''
+    - the characters "!" and "=" have to be escaped with a backslash
+
+Commands are applied only if the "fmt" and "if" options/conditions are 
+met -- see{ref: commonOption}.
+
+
+** Getting or setting data about the document
+
+    \#AUTHOR: TEXT :: define the document's author
+      {idx: #AU; #AUTHOR}
+        - Synonym: \#AU
+        - Each #AUTHOR command should take only one author
+        - Or separate authors like this:
+            - AUTHOR1; AUTHOR2 ...
+            - AUTHOR1 and AUTHOR2 ...
+            - AUTHOR1 & AUTHOR2 ...
+            - AUTHOR1/AUTHOR2 ...
+        - An author's name can have the form
+            - FIRSTNAMES SURNAME
+            - SURNAMES, FIRSTNAMES
+        - Alternatively, you can define the name as ''#AUTHOR 
+          firstname=FIRSTNAME surname=SURNAME note=AUTHORNOTE''
+            - If you attach a note this way, you have to call 
+              ''#AUTHORNOTE'' nevertheless in order to update the 
+              "authornote" clip
+
+    \#AUTHORNOTE: TEXT :: define an author note
+        - Synonym: \#AN
+        - The note should follow immediately the #AUTHOR command it is 
+          referring to
+        {idx: #AN; #AUTHORNOTE}
+
+    \#CAPTION[!] [extended!] [above!|below!]: TEXT :: add a caption to 
+      the previous element
+      {idx: #CAP; #CAPTION}
+        - Synonym: \#CAP
+        - refers to the previous element
+        - can be attached to: Table, Figure, Heading
+        - By default, TEXT will be parsed with certain macros/particles 
+          disabled. With a bang "!" or the "extended!" option, the full 
+          set of rules will be applied. There is chance though, this 
+          results in invalid output in certain cases, which could be 
+          relevant if, e.g., the output format is \DocBook.
+
+    \#DATE: [TEXT|now|today|none] :: Define the document's creation date.
+      {idx: #DATE}
+        - Use ''none'' if you don't want to include a time stamp in the  
+          document's meta data.
+        - ''now'' is the default value.
+
+    \#DEFCOUNTER id=NAME :: Define a new counter. Known arguments:
+        parent  :: The parent list/and counter
+            - Has the format: NAME.LEVEL
+            - If no level is provided only the top numbering is used.
+            - If no parent is provided, the counter is "global".
+
+    \#DEFLIST id=NAME :: Define a new list and an associated counter.  
+      The lists can be printed using the #LIST command (possibly 
+      depending on the formatter). The standard lists, which should not 
+      be redefined, are:
+        toc :: Table of Contents
+        lot :: List of Tables
+        lof :: List of Figures
+      Custom lists may have the following attributes, which default to 
+      the list name:
+        counter :: The counter name
+        entity  :: The name of the entities that are registered in the 
+          list
+        prefix  :: The prefix used for labels
+        parent  :: See #DEFCOUNTER.
+
+    \#GET: ID or GET id=NAME :: Insert a clip at block/element level -- 
+      see also{ref: putRegion}.
+      {idx: #GET}
+
+    \#KEYWORDS: WORDS :: {idx: #KEYWORDS}Set the document's keywords. This 
+      really is the same as ''#VAR id=keywords: WORDS''. Keywords should 
+      be separated by [;,] (preferably ";").
+
+    \#LANG: language :: {idx: #LANG}Change the document's language. The 
+      language argument is the language identifier of the corresponding 
+      module, i.e., ''de'' for German, ''ru'' for Russian, ''zh-cn'' for 
+      Chinese and Chinese with automatic whitespace ...
+        - Unless you load the language module from within the document 
+          or load more than one language module, there is no need to  
+          explicitely set the document's language.
+
+    \#OPT: KEY=VALUE :: Attach some metainformation to the previous 
+      element (see{ref: optCmd}).{idx: #OPT; #PROP; #PP}
+        - Synonyms: \#PROP, \#PP
+
+    \#PUSH: KEY=VALUE ... :: Basically the same as ''#VAR add=,: \
+      KEY=VALUE''.{idx: #PUSH}
+
+    \#REGISTER list=NAME: CAPTION :: Register the previous element in list 
+      NAME, using an (optional) caption.
+
+    \#SET id=NAME: TEXT :: define a clip -- see also{ref: putRegion}
+      {idx: #SET}
+
+    \#TITLE: TEXT :: define the document's title; the same as
+      ''#VAR: title=TEXT''
+      {label:titleCmd}{idx: #TI; #TITLE}
+        - Synonym: \#TI
+
+    \#VAL: NAME :: {idx: #ARG; #XARG; #VAL, #XVAL} retrieve an argument 
+      (used in [[regions#defRegion][DefRegion]])
+      #argCmd
+        - The XVAL command is a variant of this and can be used to 
+          insert preformatted text.
+        - See{ref: argMacro} for additional arguments.
+
+    \#VAR: KEY=VALUE ... :: define a document option (see{ref: 
+      docOpt}){idx: #DOC; #VAR}
+      #docCmd
+        - Synonym: \#DOC (for document variable/option)
+        - You can also write: ''#VAR id=KEY: VALUE'' which is basically 
+          the same as the above form but you don't have to escape colons 
+          in the value string with a backslash.
+
+
+** Flow control, document management
+
+    \#BEGIN: ID and END: ID :: when reading from stdin (and when using the 
+      command line option ''--loop''), you can use these two pseudo 
+      commands to fragment the input; if the first line matches 
+      ''#BEGIN: ID'', the input will end at the line ''#END: ID''{idx: 
+      #BEGIN; #END}
+        - If you define the variable ''stdoutSeparator'', its content 
+          will be added to each output document sent to stdout.
+
+    \#IF: TEST, ELSEIF: TEST, ELSE, ENDIF :: include the following lines 
+      only if TEST is okay{idx: #IF; #ELSE; #ELSEIF; #ENDIF}
+        - Operators: ''=='', ''!='', ''=~'', ''!=~''
+        - The ''fmt'' variable is matched against the current 
+          formatter's name
+        - A test is one of (VAR refers to a document option):
+            - ''fmt==FORMAT''
+            - ''fmt!=FORMAT''
+            - ''fmt=~FORMAT''
+            - ''fmt!=~FORMAT''
+            - ''VAR'', ''VAR!'' (i.e., VAR is set and non-null)
+            - ''VAR==VALUE''
+            - ''VAR!=VALUE''
+            - ''VAR=~VALUE''
+            - ''VAR!=~VALUE''
+        - If ":" is set by the ''--allow'' command line option, you can 
+          access internal options by prepending the name with a colon 
+          (":"). See{ref: optionFields} for possible option names.
+
+    \#INCLUDE: FILENAME :: textually include a file
+        {idx: #INC; #INCLUDE}
+        - Synonym: \#INC
+        - FILENAME is a relative file name
+        - The file is searched for in:
+            # ./deplate.rc/FORMATTER/{idx: deplate.rc}
+            # ./deplate.rc/{idx: deplate.rc}
+            # ./
+            # ~/.deplate/lib/FORMATTER/
+            # ~/.deplate/lib/
+            # ~/.deplate/
+            # DATADIR/deplate/lib/FORMATTER/
+            # DATADIR/deplate/lib/
+            # RUBYLIB/deplate/lib/FORMATTER/
+            # RUBYLIB/deplate/lib/
+        - Arguments:
+            file=FILENAME :: Alternatively you can use the ''file'' 
+              argument. If an explicit file argument and an anonymous 
+              argument are given, the explicit one overrides the 
+              anonymous one.
+            var=VARNAME :: You can also "include" the contents of a 
+              variable.
+            inputFormat=INPUTFILTER (experimental) :: Set the input 
+              filter (see{ref: inputFilter}) for the included file.
+            skip=N, head=N, TAIL=N :: Skip n lines, show the N 
+              first or last lines.
+            $embeddedTextRx=REGEXP :: Transfor the included text using 
+              this regular expression. This could be useful when 
+              including source files. ''embeddedVerbatim'' can be used 
+              to define what type of region should be used for 
+              formatting other text.
+            $embeddedVerbatim=REGIONNAME :: When using 
+              ''embeddedTextRx'', use this region for formatting 
+              non-embedded text (e.g., ''Code'')
+            $codeSyntax=SYNTAX :: Temporarily set the ''codeSyntax'' variable 
+              when using ''embeddedVerbatim''
+            - any other argument prepended with ''$'' will be used to 
+              temporarily set the variable of the same name.
+        - Variables:
+            - You can also set variables in ''includeVars'' (a hash) 
+              that will be passed on to the command as if provided on 
+              the command line.
+
+    \#MODULE: NAME :: require a module
+      {idx: #MODULE; #MOD}
+        - Synonym: \#MOD
+
+    \#WITH file=FILE: REGION HEADER :: create a region with input from 
+      file
+      {idx: #WITH}
+
+
+** Bibliography
+
+    \#BIB: FILENAME :: a filename of a BibTeX database
+      {idx: #BIB}
+
+    \#MAKEBIB: [BIBSTYLE] :: insert a formatted biblography
+      {idx: #MAKEBIB}
+        - If the BIBSTYLE argument is missing, the ''bibStyle'' variable 
+          will be used. If the ''bibStyle'' variable doesn't exist, it 
+          will be set to the BIBSTYLE argument.
+        - In html mode, MAKEBIB works directly on the bibtex file. The 
+          main reason for this that it is easier to parse the bibtex 
+          file than to deal with the variety of bibtex-related styles 
+          and packages. Due to my simple-minded approach to parsing, 
+          MAKEBIB sometimes failes on some records and it doesn't cope 
+          well with entries other than books.
+            - The html formatter stubbornly uses some kind of APA-based 
+              style.
+
+
+** Abbreviations, index
+
+    \#ABBREV [native!|ins!|plain!] DEFINITION: FULL TEXT :: {idx: #ABBREV}
+      replace an abbreviation (defined as a word, a backtick symbol, 
+      __or__ a regular expession) with the full title
+        - DEFINITION can be one of
+            - symbol=SYMBOL ... a symbol will preceded by a backtick, 
+              i.e. if SYMBOL is ''Sigma'', then the abbreviation matches 
+              ''`Sigma''
+            - word=WORD ... the WORD is surrounded by matches for word 
+              boundaries
+            - rx=REGEXP
+        - if the option ''plain!'' is given, the full text won't be 
+          parsed
+        - if the options ''native!'' or ''ins!'' is given, the full text 
+          will be inserted as is
+
+    \#IDX: INDEX_ENTRY|SPELLINGS...; OTHER_ENTRY :: add an index entry; 
+      use "|" to mark alternative spellings when using autoindexing; 
+      separate different entries with a semi-colon
+      {label:cmdIDX}{idx: #IDX; #NOIDX; #DONTIDX; #AUTOIDX}
+        - If autoindexing isn't switched off, you have to use this 
+          command only once to indicate that a certain word should be 
+          added to the index; all occurences downwards will be indexed 
+          automatically
+        - You can mark a word for autoindexing without inserting an 
+          index at the current position with the ''#AUTOIDX'' command          
+            AUTOIDX: INDEX_ENTRY|SPELLINGS...; OTHER_ENTRY :: this can 
+              help avoiding certain problems with docbook output
+        - Use the following commands to selectively disable the 
+          automatically generation of an index
+            NOIDX: INDEX_ENTRY|SPELLINGS...; OTHER_ENTRY :: remove the 
+              __last__ matching (auto)index entries
+            DONTIDX: INDEX_ENTRY|SPELLINGS...; OTHER_ENTRY :: avoid the 
+              __next__ automatically generated index to be recorded
+
+
+** Dynamic text, elements
+
+    \#IMG [noGuess!] [bw=N|bh=N|w=N|h=N]: FILENAME :: insert an image 
+      from a file{label: cmdImg}{idx: #IMG}
+        - Synonyms: \#IMAGE, \#FIG, \#FIGURE
+        - Other options (depends on the formatter):
+            w=LENGTH, width=LENGTH :: Image width
+            h=LENGTH, height=LENGTH :: Image height
+            noGuess! :: Usually deplate ignores any suffix and test the 
+              filename against a list of suffixes that supposedly work 
+              for the gived output format. Use this option to keep 
+              deplate from trying to be smart.
+        - for LaTeX output:
+            here!, top!, bottom! :: Set the position (LaTeX output only)
+            rotate=ANGLE :: Rotate the image
+            bw, bh :: define the bounding box in latex
+        - for XHTML output
+            include! :: Include the image in the output (SVG images 
+              only)
+
+    \#LIST page! min=N max=N top=PREFIX sub!: \
+    [contents|toc|minitoc|tables|figures|index] :: insert a table of 
+      [contents|tables|figures] or the index; the output depends on the 
+      formatter
+      {label:listIndex}{idx: #LIST}
+        - The ''LIST: index'' command should be placed in the last of 
+          the included files so that all indexes are defined.
+        - ''toc'' is a synonym for ''contents''
+        - ''minitoc'' display the top headings only and uses the
+          ''shortcaption'' argument if provided (in html output only)
+        page! :: Display the table/list on a new page
+        min=N :: List only elements with a level greater or equal N 
+          (HTML only)
+        max=N :: List only elements with a level less or equal N 
+          (HTML only)
+        sub!  :: List only elements under the current heading 
+          (HTML only)
+        top=PREFIX :: List only elements the numbering of which begins 
+          with PREFIX (HTML only)
+        levels=MIN..MAX, MIN.., ..MAX :: Same as min and max
+
+    \#MAKETITLE [page!] :: insert a title or titlepage
+      {idx: #MAKETITLE}
+        page! :: Create a title page (if supported by the output 
+          format). For LaTeX output, this adds "titlepage" to 
+          ''classOptions''. If you use the ''#VAR'' command to set 
+          ''classOptions'' after the ''#MAKETITLE'' command, the 
+          variable will be reset. You could use ''#PUSH'' instead.
+
+    \#PAGE :: start a new page
+      {idx: #PAGE}
+
+    \#TABLE: FILE :: read a table
+      from FILE -- takes the same options as the table region (see{ref: 
+      tableRegion})
+      {idx: #TABLE}
+
+The commands TITLE, AUTHOR, AUTHORNOTE, and DATE define clips of the 
+same name in lower cases (see the get macro for an example{ref: clipmacro}).
+
+#cmdExamples
+#Example caption=Commands <<---
+#VAR: myvar=foo
+#PUSH: myvar=bar
+After: myvar={arg: myvar}
+
+#IMG center! bw=110 bh=162: linked
+#OPT fmt=latex: w=4cm
+#CAP: A nice drawing
+
+#SET id=foo: bar
+
+Test SET: {get: foo}.
+
+#IF: fmt==latex
+This is in latex.
+#ELSEIF: fmt=~^html
+This is in html.
+#ELSE
+This is interesting.
+#ENDIF
+
+The file "calculations.txt" contains: 1 + 1. Let's see what R has to say 
+about this:
+#WITH file=calculations.txt: R id=r_calculations: verb
+
+#ABBREV sym=Sigma fmt=html ins!: &#931;
+#ABBREV sym=Sigma fmt=dbk if=noSgml ins!: &#931;
+#ABBREV sym=Sigma fmt=dbk if=sgml ins!: &Sigma;
+#ABBREV sym=Sigma fmt=latex ins!: $\Sigma$
+The greek letter `Sigma is called sigma.
+
+#DEFLIST list=books title=Some Books parent=toc.1
+#LIST: books
+#DefElement id=books: ^BOOK:\s+(.*) <<--
+{counter: books} {arg escapebackslash=2: 1}
+\#OPT: style=book
+\#REGISTER list=books name={arg escapebackslash=4 escape="!=:": 1}
+--
+BOOK: Max Frisch: Stiller
+
+BOOK: William Shakespeare: Much Ado About Nothing
+
+BOOK: Don \DeLillo: The Body Artist
+---
+

@@ -1,0 +1,175 @@
+/* Text style: sans-serif */
+/* @Author:      Tom Link (micathom AT gmail com) */
+/* @Created:     13-Apr-2004. */
+/* @Last Change: 2009-11-09. */
+/* @Revision:    0.588 */
+
+body, table, div {
+    font-family : Serif;
+    font-size: 14px;
+}
+
+big {
+    font-weight: bolder;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+h1 {
+    font-size: 28px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 20px;
+}
+h4 {
+    font-size: 18px;
+}
+h5 {
+    font-size: 16px;
+}
+h6 {
+    font-size: 16px;
+}
+
+tr.head {
+    font-weight: bold;
+}
+th {
+    font-weight: bold;
+}
+div.tableNote {
+    font-size: 12px;
+    font-style: italic;
+}
+.small {
+    font-size: 11px;
+}
+.scriptsize {
+    font-size: 10px;
+}
+.footnotesize {
+    font-size: 9px;
+}
+
+blockquote {
+    font-family : Sans-Serif;
+}
+blockquote.quote {
+}
+blockquote.longquote {
+}
+blockquote.abstract {
+    font-style: italic;
+}
+
+dt {
+    font-weight: bold;
+}
+
+code, pre {
+    font-family: "Courier New", Courier, Monospace;
+}
+pre {
+    font-size: 12px;
+}
+
+
+/* htmlslides: Usage note */
+
+
+/* Navigation bar */
+a:link.navbar, a:visited.navbar {
+    text-decoration: none;
+    font-size: 12px;
+}
+select.navmenu {
+    font-size:9px;
+}
+p.navgo {
+    font-size:9px;
+}
+
+
+/* Figure */
+
+
+/* Caption */
+caption, p.caption {
+    font-weight: bold;
+}
+
+/* Title */
+p.title, p.author, p.authornote, p.date {
+    font-weight: bold;
+}
+p.title {
+    font-size: 28px;
+}
+p.author {
+    font-size: 24px;
+}
+p.authornote {
+    font-size: 18px;
+}
+p.date {
+    font-size: 18px;
+}
+
+
+/* Table of Contents etc. */
+
+
+/* Mini Table of Contents */
+
+
+/* Footnotes */
+a:link.footnote, a:visited.footnote {
+    font-size: 9px;
+    text-decoration: none;
+}
+p.footnotes, ol.footnotes, li.footnotes {
+    font-size: 12px;
+}
+p.footnotes {
+    font-weight: bold;
+}
+
+
+/* OpenOffice compatible footnotes */
+.sdfootnoteanc {
+    font-size: 9px;
+}
+.sdfootnotesym, .sdfootnote {
+    font-size: 12px;
+}
+
+
+/* Bibliography */
+
+
+/* Index */
+
+
+/* Marker */
+
+
+/* Header, Footer */
+
+
+/* Validate HTML */
+
+
+/* TabBar */
+.tabBarLeft {
+    font-size: 12px;
+}
+
+/* ProgressBar */
+span.progress {
+    font-size: 12px;
+}
+

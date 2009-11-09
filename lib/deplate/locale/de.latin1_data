@@ -1,0 +1,60 @@
+Exzerpt von: http://www.gnu.de/gpl-ger.html
+
+Vorwort
+
+Die meisten Softwarelizenzen sind daraufhin entworfen worden, Ihnen die 
+Freiheit zu nehmen, die Software weiterzugeben und zu verändern. Im 
+Gegensatz dazu soll Ihnen die GNU General Public License, die Allgemeine 
+Öffentliche GNU-Lizenz, ebendiese Freiheit garantieren. Sie soll 
+sicherstellen, daß die Software für alle Benutzer frei ist. Diese Lizenz 
+gilt für den Großteil der von der Free Software Foundation 
+herausgegebenen Software und für alle anderen Programme, deren Autoren 
+ihr Datenwerk dieser Lizenz unterstellt haben. Auch Sie können diese 
+Möglichkeit der Lizenzierung für Ihre Programme anwenden. (Ein anderer 
+Teil der Software der Free Software Foundation unterliegt stattdessen 
+der GNU Library General Public License, der Allgemeinen Öffentlichen 
+GNU-Lizenz für Bibliotheken.) [Mittlerweile wurde die GNU Library Public 
+License von der GNU Lesser Public License abgelöst -- Anmerkung des 
+Übersetzers.]
+
+Die Bezeichnung "freie" Software bezieht sich auf Freiheit, nicht auf 
+den Preis. Unsere Lizenzen sollen Ihnen die Freiheit garantieren, Kopien 
+freier Software zu verbreiten (und etwas für diesen Service zu 
+berechnen, wenn Sie möchten), die Möglichkeit, die Software im Quelltext 
+zu erhalten oder den Quelltext auf Wunsch zu bekommen. Die Lizenzen 
+sollen garantieren, daß Sie die Software ändern oder Teile davon in 
+neuen freien Programmen verwenden dürfen -- und daß Sie wissen, daß Sie 
+dies alles tun dürfen.
+
+Um Ihre Rechte zu schützen, müssen wir Einschränkungen machen, die es 
+jedem verbieten, Ihnen diese Rechte zu verweigern oder Sie aufzufordern, 
+auf diese Rechte zu verzichten. Aus diesen Einschränkungen folgen 
+bestimmte Verantwortlichkeiten für Sie, wenn Sie Kopien der Software 
+verbreiten oder sie verändern.
+
+Beispielsweise müssen Sie den Empfängern alle Rechte gewähren, die Sie 
+selbst haben, wenn Sie -- kostenlos oder gegen Bezahlung -- Kopien eines 
+solchen Programms verbreiten. Sie müssen sicherstellen, daß auch die 
+Empfänger den Quelltext erhalten bzw. erhalten können. Und Sie müssen 
+ihnen diese Bedingungen zeigen, damit sie ihre Rechte kennen.
+
+Wir schützen Ihre Rechte in zwei Schritten: (1) Wir stellen die Software 
+unter ein Urheberrecht (Copyright), und (2) wir bieten Ihnen diese 
+Lizenz an, die Ihnen das Recht gibt, die Software zu vervielfältigen, zu 
+verbreiten und/oder zu verändern.
+
+Um die Autoren und uns zu schützen, wollen wir darüberhinaus 
+sicherstellen, daß jeder erfährt, daß für diese freie Software keinerlei 
+Garantie besteht. Wenn die Software von jemand anderem modifiziert und 
+weitergegeben wird, möchten wir, daß die Empfänger wissen, daß sie nicht 
+das Original erhalten haben, damit irgendwelche von anderen verursachte 
+Probleme nicht den Ruf des ursprünglichen Autors schädigen.
+
+Schließlich und endlich ist jedes freie Programm permanent durch 
+Software-Patente bedroht. Wir möchten die Gefahr ausschließen, daß 
+Distributoren eines freien Programms individuell Patente lizensieren -- 
+mit dem Ergebnis, daß das Programm proprietär würde. Um dies zu 
+verhindern, haben wir klargestellt, daß jedes Patent entweder für freie 
+Benutzung durch jedermann lizenziert werden muß oder überhaupt nicht 
+lizenziert werden darf. 
+

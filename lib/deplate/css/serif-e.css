@@ -1,0 +1,171 @@
+/* Text style: sans-serif */
+/* @Author:      Tom Link (micathom AT gmail com) */
+/* @Created:     13-Apr-2004. */
+/* @Last Change: 2009-11-09. */
+/* @Revision:    0.625 */
+
+body, table, div {
+    /* font-family: Georgia, Bookman, Times, Serif; */
+	font-family: Georgia, "Minion Web", Palatino, "Book Antiqua", Utopia, "Times New Roman", serif;
+	/* font-size-adjust: .5; */
+    /* font-size: 1.0em; */
+}
+
+big {
+    font-weight: bolder;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* font-family : Georgia, Bookman, Times, Serif; */
+    /* font-family : Verdana, Monaco, Sans-Serif; */
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+    font-weight: bold;
+}
+h1 {
+    font-size: 2.0em;
+}
+h2 {
+    font-size: 1.8em;
+}
+h3 {
+    font-size: 1.6em;
+}
+h4 {
+    font-size: 1.4em;
+}
+h5 {
+    font-size: 1.2em;
+}
+h6 {
+    font-size: 1.0em;
+}
+
+tr.head, th, td.high {
+    font-weight: bold;
+}
+div.tableNote {
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+blockquote {
+    font-family: Sans-Serif;
+}
+blockquote.quote {
+}
+blockquote.longquote {
+}
+blockquote.abstract {
+    font-style: italic;
+}
+
+dt {
+    font-weight: bold;
+}
+
+code, pre {
+    font-family: "Courier New", Courier, Monospace;
+    font-size: 0.8em;
+	/* font-size-adjust: -.5; */
+}
+
+
+/* htmlnavigation: Usage note */
+
+
+/* Navigation bar */
+a:link.navbar, a:visited.navbar {
+    text-decoration: none;
+    font-size: 0.9em;
+}
+select.navmenu {
+    font-size: 0.8em;
+}
+p.navgo {
+    font-size: 0.8em;
+}
+
+
+/* Figure */
+
+
+/* Caption */
+caption, p.caption {
+    font-weight: bold;
+}
+
+/* Title */
+p.title, p.author, p.authornote, p.date {
+    font-weight: bold;
+}
+p.title {
+    font-size: 2.4em;
+}
+p.author {
+    font-size: 2.0em;
+}
+p.authornote {
+    font-size: 1.8em;
+}
+p.date {
+    font-size: 1.8em;
+}
+
+
+/* Table of Contents etc. */
+
+
+/* Mini Table of Contents */
+
+
+/* Footnotes */
+a:link.footnote, a:visited.footnote {
+    font-size: 0.8em;
+    text-decoration: none;
+}
+p.footnotes, ol.footnotes, li.footnotes {
+    font-size: 0.9em;
+}
+p.footnotes {
+    font-weight: bold;
+}
+
+
+/* OpenOffice compatible footnotes */
+.sdfootnoteanc {
+    font-size: 0.8em;
+}
+.sdfootnotesym, .sdfootnote {
+    font-size: 0.9em;
+}
+
+
+/* Bibliography */
+
+
+/* Index */
+
+
+/* Marker */
+
+
+/* Header, Footer */
+
+
+/* Validate HTML */
+
+
+/* TabBar */
+.tabBarLeft, .tabBarTop {
+    font-size: 0.9em;
+}
+a.tabBarEntry {
+    text-decoration: none;
+    font-family: Verdana, "Myriad Web", Syntax, sans-serif;
+}
+
+/* ProgressBar */
+span.progress {
+    font-size: 0.9em;
+}
+

@@ -1,0 +1,96 @@
+\\definecolor{standardFG}{rgb}{0,0,0}
+\\definecolor{standardBG}{rgb}{1,1,1}
+
+% Custom lists
+\\newcommand{\\customListPrefs}{\\setlength{\\parsep}{0cm}\\setlength{\\itemsep}{0cm}}
+\\newenvironment{customList}{\\begin{list}{}{\\customListPrefs{}}}{\\end{list}}
+\\newcommand{\\customItem}[2]{\\item[#1] #2}
+
+% Task lists
+\\newenvironment{tasklist}{\\begin{list}{}{\\customListPrefs{}}}{\\end{list}}
+\\newcommand{\\task}[2]{\\item[\\textbf{#1}] #2}
+
+% Notes: Args: size, type, text
+\\newcommand{\\noteNote}[3]{\\protect\\marginpar{#1#2: #3}}
+\\newcommand{\\noteElaborate}[3]{\\protect\\marginpar{#1#2: #3}}
+\\newcommand{\\noteDiscussion}[3]{\\protect\\marginpar{#1#2: #3}}
+\\newcommand{\\noteImportant}[3]{\\protect\\marginpar{#1#2: #3}}
+
+% \\usepackage{color}
+\\definecolor{taskA}{rgb}{1,.5,.5}
+\\definecolor{taskB}{rgb}{.5,1,.5}
+\\definecolor{taskC}{rgb}{.5,.5,1}
+\\definecolor{taskD}{rgb}{.5,1,1}
+\\definecolor{taskE}{rgb}{1,.5,1}
+\\definecolor{taskF}{rgb}{1,1,.5}
+\\definecolor{taskdone}{rgb}{.5,.5,.5}
+
+\\newcommand{\\taskdone}[1]{{\\footnotesize\\textcolor{taskdone}{#1}}}
+% \\newcommand{\\taskdone}[1]{\\sout{\\textcolor{taskdone}{#1}}}
+\\newcommand{\\taskA}[1]{\\colorbox{taskA}{#1}}
+\\newcommand{\\taskB}[1]{\\colorbox{taskB}{#1}}
+\\newcommand{\\taskC}[1]{\\colorbox{taskC}{#1}}
+\\newcommand{\\taskD}[1]{\\colorbox{taskD}{#1}}
+\\newcommand{\\taskE}[1]{\\colorbox{taskE}{#1}}
+\\newcommand{\\taskF}[1]{\\colorbox{taskF}{#1}}
+
+% Text styles
+\\newcommand{\\emphStyle}{\\em}
+\\newcommand{\\emphSpan}[1]{\\emph{#1}}
+\\newcommand{\\boldSpan}[1]{\\textbf{#1}}
+\\newcommand{\\remoteSpan}[1]{#1}
+
+\\newenvironment{overlayBlock}{}{}
+\\newenvironment{scriptsizeBlock}{\\scriptsize{}}{}
+\\newenvironment{boxBlock}{}{}
+\\newenvironment{fontsmallBlock}{}{}
+\\newenvironment{footnotesizeBlock}{\\footnotesize{}}{}
+\\newenvironment{smallBlock}{\\small{}}{}
+\\newenvironment{landscapeBlock}{}{}
+\\newenvironment{gridBlock}{}{}
+\\newenvironment{formalBlock}{}{}
+
+\\newenvironment{serifBlock}{\\rmfamily}{}
+\\newenvironment{sansserifBlock}{\\sffamily}{}
+\\newenvironment{typewriterBlock}{\\ttfamily}{}
+
+\\newenvironment{backgroundBlock}{}{}
+
+\\newenvironment{centerBlock}{\\begin{center}}{\\end{center}}
+\\newenvironment{leftBlock}{\\begin{flushleft}}{\\end{flushleft}}
+\\newenvironment{rightBlock}{\\begin{flushright}}{\\end{flushright}}
+\\newenvironment{justifyBlock}{}{}
+
+
+% Comments
+\\definecolor{sourceCommentFG}{rgb}{1,.5,.5}
+\\definecolor{sourceCommentBG}{rgb}{.9,.9,.9}
+\\newenvironment{sourceCommentBlock}{\\begin{quotation}\\footnotesize{}\\color{sourceCommentFG}}{\\color{standardFG}\\end{quotation}}
+
+
+% Play
+\\newenvironment{playBlock}{}{}
+\\newenvironment{playDirectiveBlock}{\\begin{quote}\\itshape{}\\ttfamily{}}{\\end{quote}}
+\\newenvironment{playDescriptionBlock}{\\begin{quotation}\\itshape{}\\ttfamily{}}{\\end{quotation}}
+\\newenvironment{playCastBlock}{}{}
+\\newenvironment{playDialogBlock}{\\ttfamily{}}{}
+\\newcommand{\\playDirectSpan}[1]{\\emph{#1}}
+\\newcommand{\\playIntextSpan}[1]{#1}
+\\newcommand{\\playFlexsepSpan}[1]{#1}
+\\newcommand{\\playRightSpan}[1]{#1}
+\\newcommand{\\playCharacterSpan}[1]{\\texttt{\\textsc{#1}}}
+\\newcommand{\\playLocationSpan}[1]{#1}
+
+
+% From the Deplate manual
+\\newenvironment{todoBlock}{}{}
+
+\\newenvironment{bookBlock}{}{}
+\\newenvironment{booksList}{\\begin{list}{}{\\customListPrefs{}}}{\\end{list}}
+\\newcommand{\\booksItem}[2]{\\item[\\textbf{#1}] #2}
+
+\\newenvironment{exampleBlock}{\\bfseries{}}{}
+\\newenvironment{exampleOutputBlock}{\\begin{quote}}{\\end{quote}}
+\\newenvironment{examplesList}{\\begin{list}{}{\\customListPrefs{}}}{\\end{list}}
+\\newcommand{\\examplesItem}[2]{\\item[#1] #2}
+
