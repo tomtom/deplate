@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.2200
+# @Last Change: 2010-04-17.
+# @Revision:    0.2203
 
 require "deplate/formatter"
 
@@ -651,15 +651,20 @@ class Deplate::Formatter::LaTeX < Deplate::Formatter
         hd = @headings[level - 1]
         if hd
             cap = heading_caption(invoker)
-            mod = heading_mod(args)
+            mod = heading_mod(invoker)
             join_blocks(["\n\\#{hd}#{mod}#{cap}{#{elt}}", labels])
         else
             "\n#{elt}#{labels}: "
         end
     end
 
-    def heading_mod(args)
-        args["noList"] || args["plain"] ? "*" : ""
+    def heading_mod(invoker)
+        if invoker
+            args = invoker.args
+            invoker.plain_caption? || args["noList"] || args["plain"] ? "*" : ""
+        else
+            ''
+        end
     end
 
     def heading_caption(invoker)

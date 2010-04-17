@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     26-Mär-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.4604
+# @Last Change: 2009-12-05.
+# @Revision:    0.4610
 
 require "deplate/abstract-class"
 
@@ -797,7 +797,8 @@ class Deplate::List < Deplate::Element
     end
 
     def finish_item
-        @item  = @deplate.parse(self, @item)
+		# item  = is_explicit? ? @item : (@args['itemLabel'] || @item)
+        @item = @deplate.parse(self, @item)
     end
 
     def finish_elt

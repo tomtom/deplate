@@ -1,6 +1,6 @@
 # encoding: ASCII
 # latex-dramatist.rb
-# @Last Change: 2009-11-09.
+# @Last Change: 2009-12-05.
 # Author::      Tom Link (micathom AT gmail com)
 # License::     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # Created::     2007-08-09.
@@ -42,7 +42,7 @@ class Deplate::Formatter::LaTeX_Dramatist < Deplate::Formatter::LaTeX
             args  ||= invoker.args
             level ||= invoker.level
             hd     = @headings0[level - 1]
-            mod    = heading_mod(args)
+            mod    = heading_mod(invoker)
             cap    = heading_caption(invoker)
             labels = invoker && format_label(invoker, :string)
             join_blocks(["\n\\#{hd}#{mod}#{cap}{}", labels])
