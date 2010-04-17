@@ -9,7 +9,10 @@
     Press ''<space>'' to continue.
     #OPT: style=background,footnotesize
 
-    This tutorial as [[TutorialVikiBibtex.pdf][pdf]].
+    This tutorial is also available as [[TutorialVikiBibtex.pdf][pdf]] 
+    or as 
+    [[http://github.com/tomtom/deplate/blob/master/tutorials/TutorialVikiBibtex.txt]\
+    [viki text]].
     #OPT: style=background,footnotesize
 #ENDIF
 

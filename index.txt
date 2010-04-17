@@ -37,9 +37,9 @@ Presentation; Web Publishing
 #INC: blurb.txt
 
 
-Example:
-    - Source for the top-level of this webpage: 
-      [[http://deplate.cvs.sourceforge.net/*checkout*/deplate/deplate/index.txt][index.txt]!]
+% Example:
+%     - Source for the top-level of this webpage: 
+%       [[http://deplate.cvs.sourceforge.net/*checkout*/deplate/deplate/index.txt][index.txt]!]
 
 
 * Documentation
@@ -55,7 +55,8 @@ Example:
         - [[deplate-rtf.zip][rtf.zip]] (via Docbook + jade; refers to 
           0.6; not updated)
         - or browse the manual's source via 
-          [[http://deplate.cvs.sourceforge.net/deplate/deplate/][CVS]].
+          [[http://github.com/tomtom/deplate/][git]].
+          % [[http://deplate.cvs.sourceforge.net/deplate/deplate/][CVS]].
           % [[deplate.txt]!], [[intro.txt]!], [[usage.txt]!], 
           % [[input.txt]!], [[formats.txt]!], [[modules.txt]!], 
           % [[markup.txt]!], [[regions.txt]!], [[commands.txt]!], 
@@ -137,28 +138,30 @@ Stay updated:
 % [[deplate-testing.gem][{ruby: Deplate::Core.microversion}]]
 % ({ruby: File.stat("deplate-#{Deplate::Core.version}.gem").mtime.strftime("%Y-%m-%d")})
 
-The development version (\
-{php: echo trim(file_get_contents("VERSION.TXT"));};
-{php: echo trim(file_get_contents("DATE.TXT"));}; 
-[[http://deplate.cvs.sourceforge.net/deplate/deplate/CHANGES.TXT?view=markup][changes]])
-can be accessed via [[http://sourceforge.net/cvs/?group_id=108085][CVS]] 
-or from the Internet via 
-[[http://deplate.cvs.sourceforge.net/deplate/deplate/][ViewCVS]].
+The development version can be downloaded from: http://github.com/tomtom/deplate/
 
-The repository can be checked out through anonymous (pserver) CVS. No 
-password is required.
+% The development version (\
+% {php: echo trim(file_get_contents("VERSION.TXT"));};
+% {php: echo trim(file_get_contents("DATE.TXT"));}; 
+% [[http://deplate.cvs.sourceforge.net/deplate/deplate/CHANGES.TXT?view=markup][changes]])
+% can be accessed via [[http://sourceforge.net/cvs/?group_id=108085][CVS]] 
+% or from the Internet via 
+% [[http://deplate.cvs.sourceforge.net/deplate/deplate/][ViewCVS]].
 
-#Verb <<---------
-cvs -d:pserver:anonymous@deplate.cvs.sourceforge.net:/cvsroot/deplate login
-cvs -z3 -d:pserver:anonymous@deplate.cvs.sourceforge.net:/cvsroot/deplate co -P deplate
----------
+% The repository can be checked out through anonymous (pserver) CVS. No 
+% password is required.
 
-Later on, use CVS to keep your local copy up to date:
+% #Verb <<---------
+% cvs -d:pserver:anonymous@deplate.cvs.sourceforge.net:/cvsroot/deplate login
+% cvs -z3 -d:pserver:anonymous@deplate.cvs.sourceforge.net:/cvsroot/deplate co -P deplate
+% ---------
 
-#Verb <<---------
-cd deplate
-cvs -z3 update
----------
+% Later on, use CVS to keep your local copy up to date:
+% 
+% #Verb <<---------
+% cd deplate
+% cvs -z3 update
+% ---------
 
 % ** Changes
 % 
