@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.3598
+# @Last Change: 2010-04-17.
+# @Revision:    0.3600
 
 require "deplate/formatter"
 
@@ -45,21 +45,14 @@ class Deplate::Formatter::Plain < Deplate::Formatter
             include_image(invoker, elt, invoker.args, true)
         else
             acc = []
-            fig     = @deplate.msg("Figure")
-            caption = invoker.caption
-            if caption
-                capAbove = !(caption && caption.args && caption.args.include?("below"))
-                lev      = invoker.level_as_string
-                cap = %{#{fig} #{lev}: #{caption.elt}}
-            else
-                capAbove = false
-            end
-            if caption and capAbove
-                acc << cap
+            fig     = @deplate.msg('Figure')
+            capAbove, caption_text = element_caption(invoker, fig)
+            if caption_text and capAbove
+                acc << caption_text
             end
             acc << include_image(invoker, elt, invoker.args)
-            if caption and !capAbove
-                acc << cap
+            if caption_text and !capAbove
+                acc << caption_text
             end
             acc << ""
             join_blocks(acc)
@@ -100,9 +93,7 @@ class Deplate::Formatter::Plain < Deplate::Formatter
     def format_table(invoker)
         elt        = invoker.elt
         args       = invoker.args
-        level_as_string = invoker.level_as_string
-        caption    = invoker.caption
-        capAbove   = !(caption && caption.args && caption.args.include?("below"))
+        capAbove, caption_text = element_caption(invoker, @deplate.msg('Table'))
 
         widths = []
         elt.each_with_index do |row, y|
@@ -124,8 +115,8 @@ class Deplate::Formatter::Plain < Deplate::Formatter
         ruler = ["+-", widths.collect {|w| "-" * w}.join("-+-"), "-+"].join
         acc = []
         
-        if caption and capAbove
-            acc << %{#{@deplate.msg("Table")} #{level_as_string}: #{caption.elt}}
+        if caption_text and capAbove
+            acc << caption_text
         end
         
         acc_head = []
@@ -158,8 +149,8 @@ class Deplate::Formatter::Plain < Deplate::Formatter
             acc << @deplate.parse_and_format(invoker, note)
         end
         
-        if caption and !capAbove
-            acc << %{#{@deplate.msg("Table")} #{level_as_string}: #{caption.elt}}
+        if caption_text and !capAbove
+            acc << caption_text
         end
 
         acc << ""

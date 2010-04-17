@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     02-Aug-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.913
+# @Last Change: 2010-04-17.
+# @Revision:    0.919
 # 
 # = Description:
 # Misc classes
@@ -240,8 +240,8 @@ module Deplate::CommonGround
         return @deplate.formatter.format_element(agent, *args)
     end
 
-    def plain_caption?
-        @deplate.variables['headings'] == 'plain' or @args['plain']
+    def plain_caption?(var = 'headings')
+        @deplate.variables[var] == 'plain' or @args['plain']
     end
 
     def output_file_name(args={})

@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.4383
+# @Last Change: 2010-04-17.
+# @Revision:    0.4389
 
 # require 'cgi'
 require 'uri'
@@ -630,23 +630,17 @@ EOT
         else
             acc = []
             fig     = @deplate.msg('Figure')
-            caption = invoker.caption
-            if caption
-                capAbove = !(caption && caption.args && caption.args.include?("below"))
-                lev      = invoker.level_as_string
-                # copts    = ["", %{style="text-align=#{float_align_caption(invoker)};"}]
-                # cap      = %{<p#{copts.join(" ")} class="caption">#{fig} #{lev}: #{caption.elt}</p>}
-                cap      = %{<p class="caption">#{fig} #{lev}: #{caption.elt}</p>}
-            else
-                capAbove = false
+            capAbove, caption_text = element_caption(invoker, fig)
+            if caption_text
+                cap = %{<p class="caption">#{caption_text}</p>}
             end
             #+++options: here/top etc.
             acc << %{<div class="figure">}
-            if caption and capAbove
+            if caption_text and capAbove
                 acc << cap
             end
             acc << include_image(invoker, elt, invoker.args)
-            if caption and !capAbove
+            if caption_text and !capAbove
                 acc << cap
             end
             acc << "</div>\n"
@@ -775,9 +769,6 @@ EOJS
     def format_table(invoker)
         args       = invoker.args
         elt        = invoker.elt
-        caption    = invoker.caption
-        level_as_string   = invoker.level_as_string
-        capAbove   = !(caption && caption.args && caption.args.include?('below'))
         style      = invoker.styles_as_string || @variables['tableStyle']
         style.gsub!(/[,;]+/, ' ') if style
         clss       = style || get_html_class(invoker, :default => 'standard')
@@ -786,22 +777,19 @@ EOJS
         opts       = table_args(invoker)
         halfindent = '  '
         indent     = halfindent * 2
-       
+
+        cap_type   = @deplate.msg('Table')
+        capAbove, caption_text = element_caption(invoker, cap_type)
+
         acc = []
         unless args[:dontWrapTable]
             acc << %{<div class="#{class_attr(['table', style])}">}
         end
         acc << %{<table#{clsss}#{opts}>}
-        if caption
-            if !capAbove
-                capOpts = [%{ align="bottom"}]
-            else
-                # capOpts = [""]
-                capOpts = []
-            end
+        if caption_text
+            capOpts = capAbove ? [] : [%{ align="bottom"}]
             # capOpts << %{style="text-align=#{float_align_caption(invoker)};"}
-            cap = %{#{@deplate.msg("Table")} #{level_as_string}: #{caption.elt}}
-            acc << %{<caption#{capOpts.join(' ')}>#{cap}</caption>}
+            acc << %{<caption#{capOpts.join(' ')}>#{caption_text}</caption>}
         end
       
         acc_head = []

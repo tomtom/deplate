@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     31-Okt-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.2064
+# @Last Change: 2010-04-17.
+# @Revision:    0.2069
 
 require 'deplate/abstract-class'
 require 'deplate/common'
@@ -887,6 +887,23 @@ class Deplate::Formatter < Deplate::CommonObject
     def_abstract :format_index, :format_footnote, :format_ref, 
         :format_linebreak, :format_subscript, :format_superscript, :format_stacked, 
         :format_pagenumber
+
+    def element_caption(invoker, name)
+        caption = invoker.caption
+        if caption
+            capAbove = !(caption && caption.args && caption.args.include?("below"))
+            if invoker.plain_caption? || caption.args['plain']
+                text = caption.elt
+            else
+                lev  = invoker.level_as_string
+                text = %{#{name} #{lev}: #{caption.elt}}
+            end
+        else
+            capAbove = false
+            text     = nil
+        end
+        return [capAbove, text]
+    end
 
     def format_region(invoker)
         invoker.elt.strip
