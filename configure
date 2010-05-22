@@ -1,0 +1,46 @@
+#!/bin/sh
+
+while [ $1 ]; do
+    case $1 in
+    -h|--help)
+        cat <<EOT
+This is a pseudo configure file in order to enable you to do
+    
+    configure && make && make install
+
+If you use a --prefix argument and install this package to a 
+non-standard location, you will have to add the destination directory to 
+\$RUBYLIB. Currenty, \$RUBYLIB is set to
+
+    $RUBYLIB
+
+EOT
+        ruby setup.rb --help
+        exit 1;;
+    *)
+        break;;
+    esac
+done
+
+ruby setup.rb config $@
+
+if [ -e "Makefile" ]; then
+    echo Makefile already exists. Possible conflict.
+else
+    cat > Makefile <<EOT
+FLAGS=$@
+
+setup:
+	ruby setup.rb setup \${FLAGS}
+
+install:
+	ruby setup.rb install \${FLAGS}
+
+uninstall:
+	rm -v \$(cat InstalledFiles)
+	echo "You might have to manually remove the following directories:"
+	echo "  - /usr/share/deplate/"
+	echo "  - /usr/lib/ruby/site_ruby/RUBY_VERSION/deplate/"
+EOT
+fi
+
