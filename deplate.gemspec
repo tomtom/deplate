@@ -54,11 +54,11 @@ EOF
   s.extra_rdoc_files = [
       'README.TXT',
       'AUTHORS.TXT',
-      'NEWS.TXT',
-      'CHANGES.TXT',
+      # 'NEWS.TXT',
+      # 'CHANGES.TXT',
       'LICENSE.TXT',
-      'TODO.TXT',
-      'VERSION.TXT',
+      # 'TODO.TXT',
+      # 'VERSION.TXT',
   ]
   s.files += s.extra_rdoc_files
   s.bindir = 'bin'

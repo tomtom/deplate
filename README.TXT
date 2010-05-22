@@ -26,18 +26,23 @@ Either:
 
     $ ruby setup.rb config
     $ ruby setup.rb setup
-    # ruby setup.rb install (may require root privilege)
+    # ruby setup.rb install                 # may require root privilege
 
 Or (short):
 
-    # ruby setup.rb (may require root privilege)
+    # ruby setup.rb                         # may require root privilege
 
-Or if you have sh/bash (but this is just a wrapper for the above):
+Or if you have sh/bash (this really is just a wrapper for the above):
   
     $ ./configure --help
     $ ./configure
     $ make
-    # make install
+    # make install                          # may require root privilege
+
+Or build a gem and install it:
+
+    $ gem build deplate.gemspec
+    # gem install deplate-VERSION.gem       # may require root privilege
 
 Download the latest source-code from the sourceforge project site:
 
