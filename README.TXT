@@ -22,27 +22,34 @@ USA
 
 == The source distribution
 
-Either:
+Basically, you have the following four options:
+
+Either (1) use setup.rb (long version):
 
     $ ruby setup.rb config
     $ ruby setup.rb setup
-    # ruby setup.rb install                 # may require root privilege
+    # ruby setup.rb install                 # might require root privilege
 
 Or (short):
 
-    # ruby setup.rb                         # may require root privilege
+    # ruby setup.rb                         # might require root privilege
 
-Or if you have sh/bash (this really is just a wrapper for the above):
+Or (2) if you have sh/bash (but this really is just a wrapper for the above):
   
     $ ./configure --help
     $ ./configure
     $ make
-    # make install                          # may require root privilege
+    # make install                          # might require root privilege
 
-Or build a gem and install it:
+Or (3) build a gem and install it:
 
+    $ ruby bin/pre-setup.rb
     $ gem build deplate.gemspec
-    # gem install deplate-VERSION.gem       # may require root privilege
+    # gem install deplate-VERSION.gem       # might require root privilege
+
+Or (4) add the bin directory to PATH:
+
+    $ export PATH=DEPLATE_DIRECTORY/bin:$PATH
 
 Download the latest source-code from the sourceforge project site:
 
@@ -56,7 +63,7 @@ You might want to adjust some paths.
 
 The gem file can be installed by running
 
-    $ gem install deplate-VERSION.gem
+    $ gem install deplate-VERSION.gem       # might require root privilege
 
 When installing from a gem file, it could be necessary to manually 
 link/copy the deplate starter script in the GEMDIR/bin directory.
