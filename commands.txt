@@ -2,8 +2,8 @@
 % commands.txt
 % @Author:      Tom Link (micathom AT gmail com)
 % @Created:     06-Dez-2004.
-% @Last Change: 2009-11-09.
-% @Revision:    0.190
+% @Last Change: 2010-04-17.
+% @Revision:    0.191
 
 * Commands
 #OPT: id=Commands
@@ -59,7 +59,7 @@ met -- see{ref: commonOption}.
           referring to
         {idx: #AN; #AUTHORNOTE}
 
-    \#CAPTION[!] [extended!] [above!|below!]: TEXT :: add a caption to 
+    \#CAPTION[!] [plain!] [extended!] [above!|below!]: TEXT :: add a caption to 
       the previous element
       {idx: #CAP; #CAPTION}
         - Synonym: \#CAP
