@@ -26,6 +26,7 @@ EOS
     
 end
 
+f = File.join(File.dirname(__FILE__), f)
 File.open(f, "w") do |io|
     io.puts t
 end
