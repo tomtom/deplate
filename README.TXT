@@ -28,24 +28,25 @@ Either (1) use setup.rb (long version):
 
     $ ruby setup.rb config
     $ ruby setup.rb setup
-    # ruby setup.rb install                 # might require root privilege
+    # ruby setup.rb install             # this might require root privilege
 
 Or (short):
 
-    # ruby setup.rb                         # might require root privilege
+    # ruby setup.rb                     # this might require root privilege
 
 Or (2) if you have sh/bash (but this really is just a wrapper for the above):
   
+    $ chmod u+x configure               # when using the git repository
     $ ./configure --help
     $ ./configure
     $ make
-    # make install                          # might require root privilege
+    # make install                      # this might require root privilege
 
 Or (3) build a gem and install it:
 
     $ ruby bin/pre-setup.rb
     $ gem build deplate.gemspec
-    # gem install deplate-VERSION.gem       # might require root privilege
+    # gem install deplate-VERSION.gem   # this might require root privilege
 
 Or (4) add the bin directory to PATH:
 

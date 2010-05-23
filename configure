@@ -9,10 +9,10 @@ This is a pseudo configure file in order to enable you to do
     configure && make && make install
 
 setup.rb supports a --prefix argument to install this package to a 
-non-standard location. Be aware though that the argument is rather 
-handled like setting destination directory with normal configure 
-scripts. When using the --prefix argument, you also have to add the 
-destination directory to \$RUBYLIB. Currenty, \$RUBYLIB is set to
+non-standard location. This argument works like setting DESTDIR though, 
+so be aware that the result might not be what you'd expect from a 
+configure script. When using the --prefix argument, you also have to add 
+the destination directory to \$RUBYLIB. Currenty, \$RUBYLIB is set to
 
     $RUBYLIB
 
