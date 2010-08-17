@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     11-Apr-2005.
-# @Last Change: 2009-11-09.
-# @Revision:    0.59
+# @Last Change: 2010-08-17.
+# @Revision:    0.60
 #
 # = Description
 # Recode text on-the-fly using GNU +recode+. The source encoding is 
@@ -44,7 +44,7 @@ class Deplate::Formatter
         end
     end
     
-    def plain_text_recode(text)
+    def plain_text_recode(text, from_enc=nil, to_enc=nil)
         acc = []
         recode_start
         @recode_io.puts(text)

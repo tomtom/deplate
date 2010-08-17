@@ -4,7 +4,7 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Feb-2004.
-# @Last Change: 2009-11-09.
+# @Last Change: 2010-08-17.
 
 require 'uri'
 require 'optparse'
@@ -2247,6 +2247,9 @@ MESSAGE
                     text = io.readlines[range].join
                 else
                     text = io.read
+                end
+                if @formatter and args[:from_enc] != args[:to_enc]
+                    text = @formatter.plain_text_recode(text, args[:from_enc], args[:to_enc])
                 end
                 include_each(text, array, filename)
             end

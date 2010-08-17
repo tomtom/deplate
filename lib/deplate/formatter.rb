@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     31-Okt-2004.
-# @Last Change: 2010-04-17.
-# @Revision:    0.2069
+# @Last Change: 2010-08-17.
+# @Revision:    0.2070
 
 require 'deplate/abstract-class'
 require 'deplate/common'
@@ -559,7 +559,7 @@ class Deplate::Formatter < Deplate::CommonObject
     end
     
     # Recode normal text for #plain_text
-    def plain_text_recode(text)
+    def plain_text_recode(text, from_enc=nil, to_enc=nil)
         text
     end
     

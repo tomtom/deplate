@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     08-Mai-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.1316
+# @Last Change: 2010-08-17.
+# @Revision:    0.1339
 
 module Deplate::Names
     module_function
@@ -141,6 +141,9 @@ class Deplate::Command::INC < Deplate::Command
                 end
                 text = args['file']
             end
+
+            to_enc       = deplate.variables['encoding']
+            from_enc     = args['encoding'] || to_enc
             args['INCLUDED'] = src.file
             vars         = swap_variables(deplate, args)
             input_format = args['inputFormat']
@@ -150,6 +153,9 @@ class Deplate::Command::INC < Deplate::Command
                 if var
                     strings = deplate.variables[var]
                     if strings
+                        if from_enc != to_enc
+                            strings.map! {|s| plain_text_recode(s, from_enc, to_enc)}
+                        end
                         deplate.include_stringarray(strings, array, nil, src.file)
                     else
                         Deplate::Core.log(['Unknown doc variable', var], :error, src)
@@ -157,9 +163,11 @@ class Deplate::Command::INC < Deplate::Command
                 elsif !text or text == ''
                     Deplate::Core.log(['Malformed command', cmd, text], :error, src)
                 else
-                    fn = deplate.find_in_lib(text, :pwd => true)
-                    if fn
-                        deplate.include_file(array, fn, args)
+                    filename = deplate.find_in_lib(text, :pwd => true)
+                    if filename
+                        args[:from_enc] = from_enc
+                        args[:to_enc]   = to_enc
+                        deplate.include_file(array, filename, args)
                     else
                         Deplate::Core.log(['File not found', text], :error, src)
                     end
