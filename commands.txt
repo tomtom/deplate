@@ -2,8 +2,8 @@
 % commands.txt
 % @Author:      Tom Link (micathom AT gmail com)
 % @Created:     06-Dez-2004.
-% @Last Change: 2010-04-17.
-% @Revision:    0.191
+% @Last Change: 2010-08-22.
+% @Revision:    0.192
 
 * Commands
 #OPT: id=Commands
@@ -203,6 +203,9 @@ met -- see{ref: commonOption}.
               filter (see{ref: inputFilter}) for the included file.
             skip=N, head=N, TAIL=N :: Skip n lines, show the N 
               first or last lines.
+            encoding=ENCODING :: Encoding of the included file. If 
+              [[modules#iconv][iconv]] is loaded, the included file will 
+              be transcoded to the master document's encoding.
             $embeddedTextRx=REGEXP :: Transfor the included text using 
               this regular expression. This could be useful when 
               including source files. ''embeddedVerbatim'' can be used 

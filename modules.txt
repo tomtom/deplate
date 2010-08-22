@@ -1,5 +1,5 @@
 % vi: ft=viki:tw=72
-% @Last Change: 2008-11-29.
+% @Last Change: 2010-08-22.
 
 * Modules
 #OPT: id=Modules
@@ -188,6 +188,7 @@ The opposite of ''entities-decode''. Encode special characters.
 
 
 *** iconv: Convert text between encodings
+#iconv
 
 The source encoding is defined in the ''encoding'' variable (default: 
 "latin1"), the target encoding in the ''recodeEncoding'' variable 
