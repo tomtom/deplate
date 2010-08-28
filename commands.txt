@@ -2,8 +2,8 @@
 % commands.txt
 % @Author:      Tom Link (micathom AT gmail com)
 % @Created:     06-Dez-2004.
-% @Last Change: 2010-08-22.
-% @Revision:    0.192
+% @Last Change: 2010-08-28.
+% @Revision:    0.204
 
 * Commands
 #OPT: id=Commands
@@ -118,6 +118,7 @@ met -- see{ref: commonOption}.
       element (see{ref: optCmd}).{idx: #OPT; #PROP; #PP}
         - Synonyms: \#PROP, \#PP
 
+    #push
     \#PUSH: KEY=VALUE ... :: Basically the same as ''#VAR add=,: \
       KEY=VALUE''.{idx: #PUSH}
 
@@ -126,6 +127,15 @@ met -- see{ref: commonOption}.
 
     \#SET id=NAME: TEXT :: define a clip -- see also{ref: putRegion}
       {idx: #SET}
+
+    #style
+    \#STYLE: STYLE-SHEETS :: Include the comma-separated list of style 
+      sheets.
+      Currently the same as: ''#PUSH: css=STYLE-SHEETS.css'' (see also 
+      [[#push]]). This is the preferred way to set the document's style 
+      sheets as it doesn't interfere with themes. Don't include the 
+      filename suffix in the style-sheet names. For css files, the 
+      suffix has to be ".css".
 
     \#TITLE: TEXT :: define the document's title; the same as
       ''#VAR: title=TEXT''

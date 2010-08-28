@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     08-Mai-2004.
-# @Last Change: 2010-08-17.
-# @Revision:    0.1339
+# @Last Change: 2010-08-28.
+# @Revision:    0.1342
 
 module Deplate::Names
     module_function
@@ -265,6 +265,19 @@ class Deplate::Command::PUSH < Deplate::Command::VAR
     def self.accumulate(src, array, deplate, text, match, args, cmd)
         args['add'] ||= ','
         super
+    end
+end
+
+
+class Deplate::Command::STYLE < Deplate::Command
+    register_as 'STYLE'
+
+    class << self
+        def accumulate(src, array, deplate, text, match, args, cmd)
+            Deplate::Core.log("%s: %s" % [cmd, text], :debug, src)
+            css_files = Deplate::Core.split_list(text).map {|style| "#{style}.css"}
+            deplate.variables['css'] = [deplate.variables['css'], css_files].compact.join(', ')
+        end
     end
 end
 

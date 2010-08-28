@@ -1,5 +1,5 @@
 % vi: ft=viki:tw=72
-% @Last Change: 2009-02-06.
+% @Last Change: 2010-08-28.
 
 * Output Formats
 #OPT: id=Output
@@ -13,8 +13,9 @@ variables -- see{ref: docOpt}.
 
 This is the default formatter. It generates plain html; tidy gives some 
 warnings (mostly about nested lists), but no errors. Formatting has 
-to/should be done via a css.
-#IDX: tidy
+to/should be done via a css. The preferred way to include style-sheets 
+is by means of the [[commands#style][''#STYLE'']] command.
+#IDX: tidy; #STYLE
 
 Notes:
 #IDX: BibTeX
