@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2010-04-17.
-# @Revision:    0.4389
+# @Last Change: 2010-09-12.
+# @Revision:    0.4393
 
 # require 'cgi'
 require 'uri'
@@ -454,7 +454,7 @@ EOT
                     ev = ev.ord if RUBY_VERSION >= '1.9.1'
                     ev -= 96
                 elsif ev =~ /^([[:upper:]])$/
-                    ev = $1[0] - 64
+                    ev = $1[0]
                     ev = ev.ord if RUBY_VERSION >= '1.9.1'
                     ev -= 64
                 end
