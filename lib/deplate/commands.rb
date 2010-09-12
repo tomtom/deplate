@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     08-Mai-2004.
-# @Last Change: 2010-08-28.
-# @Revision:    0.1342
+# @Last Change: 2010-09-12.
+# @Revision:    0.1346
 
 module Deplate::Names
     module_function

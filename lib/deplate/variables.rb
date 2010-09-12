@@ -3,8 +3,8 @@
 # @Author:      Tom Link (micathom AT gmail com)
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     31-Dez-2005.
-# @Last Change: 2009-11-09.
-# @Revision:    0.86
+# @Last Change: 2010-09-12.
+# @Revision:    0.106
 
 require 'deplate/encoding'
 
@@ -43,7 +43,7 @@ class Deplate::Variables < Hash
             return
         end
         if name.kind_of?(String) and (m = /^(\S+)\[(\S+)?\]$/.match(name))
-            key   = m[1]
+            key   = real_name(m[1])
             field = m[2]
             var   = self[key]
             if !var
@@ -72,20 +72,31 @@ class Deplate::Variables < Hash
                 Deplate::Core.log(['Doc variable has wrong type', key, var.class], :error)
             end
         else
-            case name
+            rname = real_name(name)
+            case rname
             when 'encoding'
                 if RUBY_VERSION >= '1.9.1'
                     Encoding.default_external = Deplate::Encoding.ruby_enc_name(value)
                 end
             end
-            super(name, value)
+            case operator(name)
+            when '+'
+                self[rname] = (self[rname].to_i + value.to_i).to_s
+            when '&'
+                self[rname] = "#{self[rname]}, #{value}"
+            else
+                super(rname, value)
+            end
         end
     end
 
     def [](name)
         begin
-            if !name.kind_of?(String) or keys.include?(name)
+            rname = real_name(name)
+            if !name.kind_of?(String)
                 return super
+            elsif keys.include?(rname)
+                return super(rname)
             # elsif name =~ /^no(\S+)$/ and (keys.include?($1) or keys.include?(name))
             #     return !super($1)
             elsif name =~ /^\S+\(.*?\)$/
@@ -105,13 +116,13 @@ class Deplate::Variables < Hash
                     return @deplate.options.send(n)
                 end
             elsif (m = /^(\S+)\[(\S+)\]$/.match(name))
-                key   = m[1]
-                field = m[2]
+                key   = real_name(m[1])
+                field = real_name(m[2])
                 val   = self[key]
                 return extract(val, key, field)
             elsif (m = /^(\S+)\.(\S+)$/.match(name))
                 if @deplate.is_allowed?('.', :logger => self)
-                    key  = m[1]
+                    key  = real_name(m[1])
                     meth = m[2]
                     val  = self[key]
                     begin
@@ -128,6 +139,13 @@ class Deplate::Variables < Hash
         end
         return nil
     end
+
+    def has_key?(name)
+        super(real_name(name))
+    end
+
+
+    private
 
     def extract(val, key, field)
         if val.nil?
@@ -149,5 +167,34 @@ class Deplate::Variables < Hash
             Deplate::Core.log(['Variable has wrong type', key, val.class], :warning)
         end
     end
+
+    def real_name(name)
+        case name
+        when String
+            # if name[0..0] == '$'
+            #     name = [1..-1]
+            # end
+            name = name.to_s
+            if name =~ /[+&]$/
+                name = name[0..-2]
+            end
+            if name.empty?
+                nil
+            else
+                name
+            end
+        else
+            name
+        end
+    end
+
+    def operator(name)
+        if name =~ /[+&]$/
+            name[-1..-1]
+        else
+            nil
+        end
+    end
+
 end
 
