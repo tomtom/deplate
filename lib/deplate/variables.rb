@@ -4,7 +4,7 @@
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     31-Dez-2005.
 # @Last Change: 2010-09-12.
-# @Revision:    0.106
+# @Revision:    0.107
 
 require 'deplate/encoding'
 
@@ -83,7 +83,11 @@ class Deplate::Variables < Hash
             when '+'
                 self[rname] = (self[rname].to_i + value.to_i).to_s
             when '&'
-                self[rname] = "#{self[rname]}, #{value}"
+                if has_key?(rname)
+                    self[rname] = "#{self[rname]}, #{value}"
+                else
+                    self[rname] = value
+                end
             else
                 super(rname, value)
             end
