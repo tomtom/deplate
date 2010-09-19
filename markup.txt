@@ -1,5 +1,5 @@
 % vi: ft=viki:tw=72
-% @Last Change: 2009-02-15.
+% @Last Change: 2010-09-14.
 
 * Markup
 #OPT: id=Markup
@@ -246,8 +246,8 @@ file name from the heading.
         #A _ Some task
         #B1 _ Some other task
     - Do that
-        #A  x11-11-2050 Something was done!
-        #B1 11-11-2050  Some other task
+        #A  x1970-11-31 Something was done!
+        #Y1 1970-11-31  Some other task
 ---
 
 __NOTE:__ "#" (numbered, ordered lists), and "@" (ordered lists with 

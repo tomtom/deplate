@@ -2,8 +2,8 @@
 % commands.txt
 % @Author:      Tom Link (micathom AT gmail com)
 % @Created:     06-Dez-2004.
-% @Last Change: 2010-08-28.
-% @Revision:    0.204
+% @Last Change: 2010-09-19.
+% @Revision:    0.205
 
 * Commands
 #OPT: id=Commands
@@ -106,13 +106,16 @@ met -- see{ref: commonOption}.
       really is the same as ''#VAR id=keywords: WORDS''. Keywords should 
       be separated by [;,] (preferably ";").
 
-    \#LANG: language :: {idx: #LANG}Change the document's language. The 
-      language argument is the language identifier of the corresponding 
-      module, i.e., ''de'' for German, ''ru'' for Russian, ''zh-cn'' for 
-      Chinese and Chinese with automatic whitespace ...
+    \#LANG: language[.encoding] :: {idx: #LANG}Change the document's 
+      language. The language argument is the language identifier of the 
+      corresponding module, i.e., ''de'' for German, ''ru'' for Russian, 
+      ''zh-cn'' for Chinese and Chinese with automatic whitespace ...
         - Unless you load the language module from within the document 
           or load more than one language module, there is no need to  
           explicitely set the document's language.
+        - If ''encoding'' is supplied, the ''encoding'' variable is set 
+          to this value. I.e. ''de.utf8'' will load the module 
+          ''lang-de.uft8'' and set ''encoding'' to ''uft8''.
 
     \#OPT: KEY=VALUE :: Attach some metainformation to the previous 
       element (see{ref: optCmd}).{idx: #OPT; #PROP; #PP}
