@@ -4,7 +4,7 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Feb-2004.
-# @Last Change: 2010-09-12.
+# @Last Change: 2010-09-19.
 
 require 'uri'
 require 'optparse'
@@ -1925,6 +1925,9 @@ MESSAGE
     # Set the localization object.
     # lang:: The new language (string)
     def set_lang(lang)
+        if lang =~ /\.(\w+)$/
+            @variables['encoding'] = $1
+        end
         case lang
         when String
             msg_class = @@messages[lang]

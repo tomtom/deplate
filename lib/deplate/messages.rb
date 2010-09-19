@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     07-Mai-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.214
+# @Last Change: 2010-09-19.
+# @Revision:    0.215
 
 # The base class for localizations
 class Deplate::Messages
