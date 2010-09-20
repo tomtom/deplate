@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2010-04-17.
-# @Revision:    0.2203
+# @Last Change: 2010-09-20.
+# @Revision:    0.2206
 
 require "deplate/formatter"
 
@@ -565,6 +565,7 @@ class Deplate::Formatter::LaTeX < Deplate::Formatter
 
     ################################################ Elements {{{1
     def format_note(invoker)
+        initialize_deplate_sty
         elt    = invoker.elt
         marker = invoker.marker
         case marker
