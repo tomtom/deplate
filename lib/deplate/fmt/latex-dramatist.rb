@@ -1,6 +1,6 @@
 # encoding: ASCII
 # latex-dramatist.rb
-# @Last Change: 2009-12-05.
+# @Last Change: 2010-09-20.
 # Author::      Tom Link (micathom AT gmail com)
 # License::     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # Created::     2007-08-09.
@@ -32,6 +32,19 @@ class Deplate::Formatter::LaTeX_Dramatist < Deplate::Formatter::LaTeX
 
     def prepare_dramatist
         add_package('dramatist')
+        # output_at(:pre, :body_beg, %{\\pagestyle{myheadings}})
+        cast  = @deplate.msg('Cast')
+        if cast != 'Cast'
+            output_at(:pre, :body_beg, %{\\renewcommand{\\casttitlename}{#{cast}}})
+        end
+        act   = @deplate.msg('Act')
+        if act != 'Act'
+            output_at(:pre, :body_beg, %{\\renewcommand{\\actname}{#{act}}})
+        end
+        scene = @deplate.msg('Scene')
+        if scene != 'Scene'
+            output_at(:pre, :body_beg, %{\\renewcommand{\\scenename}{#{scene}}})
+        end
         # output_at(:pre, :body_beg, %{\\pagestyle{myheadings}})
     end
 
@@ -106,9 +119,9 @@ class Deplate::Formatter::LaTeX_Dramatist < Deplate::Formatter::LaTeX
             end
         when 'Description'
             if is_cast?(invoker)
-                full_name    = [item.item.upcase, item.body].compact.join(', ')
-                display_name = item.item
-                tex_name     = speaker(item.item)
+                full_name    = [display_name(item.item, !invoker.args['noUpcaseCast']).gsub(/[()]/, ''), item.body].compact.join(', ')
+                display_name = display_name(item.item, false).gsub(/[()]/, '')
+                tex_name     = speaker(speaker_name(item.item).gsub(/\(.+?\)\s*/, ''))
                 if level > 1
                     char = '%s\\GCharacter{%s}{%s}{%s}'
                     full_name << ','
@@ -131,9 +144,33 @@ class Deplate::Formatter::LaTeX_Dramatist < Deplate::Formatter::LaTeX
         return invoker.args['cast'] || invoker.tagged_as?('cast')
     end
 
-    
+
+    def display_name(name, upcase)
+        name = special_name(name, 0)
+        if upcase
+            name = name.upcase
+        end
+        name
+    end
+
+
+    def speaker_name(name)
+        special_name(name, 1)
+    end
+
+
+    def special_name(name, idx)
+        if name =~ /\//
+            names = name.split(/\s*\/\s*/, 2)
+            return names[idx]
+        else
+            name
+        end
+    end
+
+
     def speaker(name)
-        name.downcase
+        name.downcase.gsub(/[^[:alnum:]]/, '')
     end
 
 
