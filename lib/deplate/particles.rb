@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Mär-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.1948
+# @Last Change: 2010-10-04.
+# @Revision:    0.1955
 
 require "uri"
 require "deplate/common"
@@ -498,7 +498,7 @@ class Deplate::HyperLink < Deplate::Particle
         dest_abs = File.expand_path(dest, File.basename(src))
         dest_is_dir = (File.exist?(dest_abs) and File.stat(dest_abs).directory?)
         if !dest_is_dir and (dest_sfx == '' or dest_sfx == sfx or dest_sfx == File.extname(src))
-            dest1 = @deplate.file_with_suffix(dest, @deplate.options.suffix)
+            dest1 = @deplate.file_with_suffix(dest, @deplate.variables['suffix'] || @deplate.options.suffix)
             name  = dest1 if !dest_sfx.empty? and (name == dest or name == '')
             return :url, name, dest1, anchor
         else
