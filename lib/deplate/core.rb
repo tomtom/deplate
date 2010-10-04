@@ -4,7 +4,7 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Feb-2004.
-# @Last Change: 2010-09-20.
+# @Last Change: 2010-10-04.
 
 require 'uri'
 require 'optparse'
@@ -435,6 +435,7 @@ MESSAGE
                     log("options.pdftex = #{bool}")
                     options.pdftex = bool
                     options.variables['pdfOutput'] = true
+                    options.variables['suffix'] = 'pdf'
                 end
 
                 opts.separator ' '
