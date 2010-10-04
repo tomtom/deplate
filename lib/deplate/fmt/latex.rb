@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2010-09-20.
-# @Revision:    0.2206
+# @Last Change: 2010-10-04.
+# @Revision:    0.2213
 
 require "deplate/formatter"
 
@@ -398,11 +398,16 @@ class Deplate::Formatter::LaTeX < Deplate::Formatter
                 # end
             else
                 for l in label
+                    l = clean_label(l)
                     acc << "\\label{#{l}}"
                 end
             end
         end
         return acc.join
+    end
+
+    def clean_label(label)
+        label.gsub(/[^a-zA-Z_]/, '_')
     end
 
     def format_figure(invoker, inline=false, elt=nil)
@@ -868,7 +873,8 @@ class Deplate::Formatter::LaTeX < Deplate::Formatter
             # "%s~($\\Rightarrow{}$\\pageref{%s})" % [plain_text(name), anchor]
             # "%s~($\\Rightarrow{}$\\pageref{%s})" % [name, anchor]
             p = @deplate.parse_and_format(invoker.container, @deplate.msg('p.\\ '))
-            "#{name}~(#{p}\\pageref{#{anchor}})"
+            label = clean_label(anchor)
+            "#{name}~(#{p}\\pageref{#{label}})"
         end
     end
    
@@ -960,13 +966,13 @@ class Deplate::Formatter::LaTeX < Deplate::Formatter
     def format_ref(invoker)
         add_package('hyperref')
         args = invoker.args
-        text = invoker.text
+        label = clean_label(invoker.text)
         p = args['p']
         prefix = invoker.args['prefix'] || '~'
         if p
-            return "#{prefix}\\pageref{#{text}}"
+            return "#{prefix}\\pageref{#{label}}"
         else
-            return "#{prefix}\\ref{#{text}}"
+            return "#{prefix}\\ref{#{label}}"
         end
     end
 
