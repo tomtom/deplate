@@ -5,7 +5,7 @@
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Mär-2004.
 # @Last Change: 2010-10-04.
-# @Revision:    0.1955
+# @Revision:    0.1957
 
 require "uri"
 require "deplate/common"
@@ -451,10 +451,8 @@ class Deplate::HyperLink < Deplate::Particle
     # +++ the heuristic is fragile and sometimes gives wrong results
     def complete_wiki_ref(inter, name, dest, anchor)
         src = @container.source.file || ''
-        sfx = @deplate.variables['suffix']
-        if sfx
-            sfx = '.%s' % sfx
-        elsif @deplate.variables['useParentSuffix']
+        sfx = var_suffix
+        if !sfx and @deplate.variables['useParentSuffix']
             sfx = File.extname(src)
         end
         if dest.empty?
@@ -498,12 +496,17 @@ class Deplate::HyperLink < Deplate::Particle
         dest_abs = File.expand_path(dest, File.basename(src))
         dest_is_dir = (File.exist?(dest_abs) and File.stat(dest_abs).directory?)
         if !dest_is_dir and (dest_sfx == '' or dest_sfx == sfx or dest_sfx == File.extname(src))
-            dest1 = @deplate.file_with_suffix(dest, @deplate.variables['suffix'] || @deplate.options.suffix)
+            dest1 = @deplate.file_with_suffix(dest, var_suffix || @deplate.options.suffix)
             name  = dest1 if !dest_sfx.empty? and (name == dest or name == '')
             return :url, name, dest1, anchor
         else
             return :url, name, dest, anchor
         end
+    end
+
+    def var_suffix
+        sfx = @deplate.variables['suffix']
+        return sfx ?  '.%s' % sfx : nil
     end
 
     def indexing(idx)
