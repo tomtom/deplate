@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.2754
+# @Last Change: 2010-10-07.
+# @Revision:    0.2755
 # 
 # TODO:
 # - am Ende des Dokuments muss ein Stapel mit offenen tags abgearbeitet werden
@@ -578,10 +578,14 @@ class Deplate::Formatter::Structured < Deplate::Formatter
         for e in entries
             n = e[:note] ? "%s " % e[:note] : ""
             a = e[:name]
+            case a
+            when Array
+                a = a.join(', ')
+            end
             y = e[:year]
             p = e[:pages] ? ": %s" % e[:pages] : ""
             if a and y
-                m = "%s %s" % [a.join(', '), y].flatten
+                m = "%s %s" % [a, y].flatten
             else
                 m = a || y
             end
