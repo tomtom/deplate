@@ -81,6 +81,10 @@ class Deplate::Formatter::LaTeX < Deplate::Formatter
             lco << lang
         end
 
+        add_package('amsmath')
+        add_package('amsfonts')
+        add_package('amssymb')
+
         div = @deplate.variables['DIV'] || @deplate.variables['typeareaDIV']
         if div
             add_package("typearea", "DIV#{div}")
