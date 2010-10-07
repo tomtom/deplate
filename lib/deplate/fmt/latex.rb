@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2010-10-04.
-# @Revision:    0.2213
+# @Last Change: 2010-10-07.
+# @Revision:    0.2216
 
 require "deplate/formatter"
 
@@ -411,7 +411,7 @@ class Deplate::Formatter::LaTeX < Deplate::Formatter
     end
 
     def clean_label(label)
-        label.gsub(/[^a-zA-Z_]/, '_')
+        label.gsub(/[^a-zA-Z0-9_]/, '_')
     end
 
     def format_figure(invoker, inline=false, elt=nil)
