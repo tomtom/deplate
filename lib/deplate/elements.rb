@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     26-Mär-2004.
-# @Last Change: 2009-12-05.
-# @Revision:    0.4610
+# @Last Change: 2010-10-10.
+# @Revision:    0.4611
 
 require "deplate/abstract-class"
 

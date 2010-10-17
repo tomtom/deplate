@@ -1,5 +1,5 @@
 % vi: ft=viki:tw=72
-% @Last Change: 2010-09-20.
+% @Last Change: 2010-10-17.
 
 * Output Formats
 #OPT: id=Output
@@ -184,21 +184,29 @@ Cast:
         - Alternative names (after a slash) are used in the text for 
           dialog lines
     - Groups can be defined as follows:
-      #Verb <<---------
-        (A) Man :: A man
-        - Group A
-            Woman in Red / Red :: A woman
-            Man in Blue / Blue :: Another man
-        (A) Woman :: Another woman
-      #PP: tag=cast
-      #CAST
 
-      #ACT
-      * Somewhere
+#EXAMPLE: Play, drama: Cast
+#Verb <<---------
+    A Man :: A man
+    - Group A
+        Woman in Red :: A woman
+        Man in Blue :: Another man
+    A Woman :: Another woman
+    #PP: tag=cast
+#VAR: castShortNames[A Man]=Man
+#VAR: castShortNames[A Woman]=Woman
+#VAR: castShortNames[Man in Blue]=Blue
+#VAR: castShortNames[Woman in Red]=Red
+#CAST
 
-        Man :: Who cares?
-        Blue :: I don't.
-      ---------
+
+#ACT
+* Somewhere
+Somewhere on the countryside. Two men sit beneath a tree.
+
+    Man :: So, who cares?
+    Blue :: I don't.
+---------
 
 
 *** Sweave: Handle embedded R-code via Sweave

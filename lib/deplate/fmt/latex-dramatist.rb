@@ -1,6 +1,6 @@
 # encoding: ASCII
 # latex-dramatist.rb
-# @Last Change: 2010-09-20.
+# @Last Change: 2010-10-10.
 # Author::      Tom Link (micathom AT gmail com)
 # License::     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # Created::     2007-08-09.
@@ -119,9 +119,18 @@ class Deplate::Formatter::LaTeX_Dramatist < Deplate::Formatter::LaTeX
             end
         when 'Description'
             if is_cast?(invoker)
-                full_name    = [display_name(item.item, !invoker.args['noUpcaseCast']).gsub(/[()]/, ''), item.body].compact.join(', ')
-                display_name = display_name(item.item, false).gsub(/[()]/, '')
-                tex_name     = speaker(speaker_name(item.item).gsub(/\(.+?\)\s*/, ''))
+                cast_name = item.item
+                full_name = [display_name(item.item, !invoker.args['noUpcaseCast']), item.body].compact.join(', ')
+                if @deplate.variables['castShortNames'] and @deplate.variables['castShortNames'].has_key?(cast_name)
+                    display_name = @deplate.variables['castShortNames'][cast_name]
+                else
+                    display_name = cast_name
+                end
+                if @deplate.variables['castTexNames'] && @deplate.variables['castTexNames'].has_key?(cast_name)
+                    tex_name = @deplate.variables['castTexNames'][cast_name]
+                else
+                    tex_name = speaker(display_name)
+                end
                 if level > 1
                     char = '%s\\GCharacter{%s}{%s}{%s}'
                     full_name << ','
@@ -146,26 +155,10 @@ class Deplate::Formatter::LaTeX_Dramatist < Deplate::Formatter::LaTeX
 
 
     def display_name(name, upcase)
-        name = special_name(name, 0)
         if upcase
             name = name.upcase
         end
         name
-    end
-
-
-    def speaker_name(name)
-        special_name(name, 1)
-    end
-
-
-    def special_name(name, idx)
-        if name =~ /\//
-            names = name.split(/\s*\/\s*/, 2)
-            return names[idx]
-        else
-            name
-        end
     end
 
 
