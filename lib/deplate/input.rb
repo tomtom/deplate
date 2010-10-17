@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     10-Mär-2005.
-# @Last Change: 2010-09-12.
-# @Revision:    0.842
+# @Last Change: 2010-10-10.
+# @Revision:    0.845
 #
 # = Description
 # = Usage
@@ -579,7 +579,7 @@ class Deplate::Input < Deplate::CommonObject
     # @@rx_argstext  = /^\s*((#{@@rxsrc_args1})*?)(:\s*(.+))?$/
     # @@ri_text = 9
 
-    @@rxsrc_key    = %{[$@\\w]+(\\[\\S*?\\])?[&+]?}
+    @@rxsrc_key    = %{[$@\\w]+(\\[[^\\]]*\\])?[&+]?}
     # @@rxsrc_args1  = %{(#{@@rxsrc_key})(!|=(#{@@rxsrc_argval}))\\s*} % "=!:"
     # @@rxsrc_args2  = %{(#{@@rxsrc_key})(!|=(#{@@rxsrc_argval}))\\s*} % "=!"
     @@rxsrc_args1  = %{(#{@@rxsrc_key})((?>!)|(?>=)(#{@@rxsrc_argval}))\\s*} % "=!:"

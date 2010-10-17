@@ -3,8 +3,8 @@
 # @Author:      Tom Link (micathom AT gmail com)
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     31-Dez-2005.
-# @Last Change: 2010-09-12.
-# @Revision:    0.107
+# @Last Change: 2010-10-10.
+# @Revision:    0.108
 
 require 'deplate/encoding'
 
@@ -42,7 +42,7 @@ class Deplate::Variables < Hash
             Deplate::Core.log(['No permisson', name, value], :error)
             return
         end
-        if name.kind_of?(String) and (m = /^(\S+)\[(\S+)?\]$/.match(name))
+        if name.kind_of?(String) and (m = /^(\S+)\[([^\]]+)?\]$/.match(name))
             key   = real_name(m[1])
             field = m[2]
             var   = self[key]
