@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     02-Aug-2004.
-# @Last Change: 2010-04-17.
-# @Revision:    0.919
+# @Last Change: 2010-10-18.
+# @Revision:    0.921
 # 
 # = Description:
 # Misc classes
