@@ -3,8 +3,8 @@
 # @Author:      Tom Link (micathom AT gmail com)
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     2007-03-31.
-# @Last Change: 2010-10-18.
-# @Revision:    0.221
+# @Last Change: 2010-10-24.
+# @Revision:    0.228
 
 # require 'deplate/input/deplate.rb'
 
@@ -175,12 +175,13 @@ class Deplate::Input::Play::Dialog < Deplate::List::Description
         #     @item = acc.join
         # else
         # p = @item.match(/^\S+/)[0]
-        p = @item
+        character = @item.gsub(/\[.*?\]\s*/, '')
+        character.strip!
         @item = Deplate::Input::Play.styled_text('play-character', @item)
-        if @deplate.variables['castShortNames'] and @deplate.variables['castShortNames'].has_key?(p)
-            p = @deplate.variables['castShortNames'][p]
+        if @deplate.variables['castShortNames'] and @deplate.variables['castShortNames'].has_key?(character)
+            character = @deplate.variables['castShortNames'][character]
         end
-        @args['tag'] = [@args['tag'], "#{Deplate::Core.clean_name(p, :extra => ' ')}_speaks"].compact.join(',')
+        @args['tag'] = [@args['tag'], "#{Deplate::Core.clean_name(character, :extra => ' ')}_speaks"].compact.join(',')
         # update_styles('play')
         super
     end
