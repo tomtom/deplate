@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     02-Aug-2004.
-# @Last Change: 2010-10-18.
-# @Revision:    0.921
+# @Last Change: 2010-11-21.
+# @Revision:    0.922
 # 
 # = Description:
 # Misc classes
@@ -565,6 +565,18 @@ class Deplate::Base <  Deplate::CommonObject
         end
         return true
     end
+
+	def unify_args(args)
+        @args.update(args) do |k, o, n|
+            case k
+            when 'tag'
+                [o, n].join(',')
+            else
+                n
+            end
+        end
+		update_args
+	end
 
     class_attribute :formatter
     class_attribute :formatter2

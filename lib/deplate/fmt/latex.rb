@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     17-Mär-2004.
-# @Last Change: 2010-10-07.
-# @Revision:    0.2216
+# @Last Change: 2010-11-21.
+# @Revision:    0.2218
 
 require "deplate/formatter"
 

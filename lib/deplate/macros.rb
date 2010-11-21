@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     25-Mär-2004.
-# @Last Change: 2010-10-10.
-# @Revision:    0.1359
+# @Last Change: 2010-11-21.
+# @Revision:    0.1372
 
 require 'forwardable'
 
@@ -243,6 +243,8 @@ class Deplate::Macro::Arg < Deplate::Argument
             case val
             when String
                 @text = val
+            when Array
+                @text = val.join(' ')
             # when TrueClass
             #     @text = '{true}'
             # when FalseClass
@@ -255,7 +257,7 @@ class Deplate::Macro::Arg < Deplate::Argument
             end
             @text = Deplate::Core.escape_characters(@text, @args)
             if !@args['asString']
-                @elt = @deplate.parse(@container, @text, @alt, :pcontainer => self)
+                @elt = @deplate.parse(@container, @text, @alt, :pcontainer => self, :args => args)
             end
         end
     end

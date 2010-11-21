@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     10-Mär-2005.
-# @Last Change: 2010-10-10.
-# @Revision:    0.845
+# @Last Change: 2010-11-21.
+# @Revision:    0.854
 #
 # = Description
 # = Usage
@@ -502,7 +502,11 @@ class Deplate::Input < Deplate::CommonObject
                                 end
                                 txt = last + mx.pre_match
                                 begin
-                                    rt << e.new(@deplate, container, rt, m, alt, txt, rest)
+                                    elt = e.new(@deplate, container, rt, m, alt, txt, rest)
+                                    if args.has_key?(:args)
+                                        elt.unify_args(args[:args])
+                                    end
+                                    rt << elt
                                 rescue Exception => exc
                                     puts exc
                                     # puts exc.backtrace[0..10].join("\n")

@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     26-Mär-2004.
-# @Last Change: 2010-10-10.
-# @Revision:    0.4611
+# @Last Change: 2010-11-21.
+# @Revision:    0.4612
 
 require "deplate/abstract-class"
 
@@ -500,18 +500,6 @@ class Deplate::Element < Deplate::BaseElement
         end
     end
    
-	def unify_args(args)
-        @args.update(args) do |k, o, n|
-            case k
-            when 'tag'
-                [o, n].join(',')
-            else
-                n
-            end
-        end
-		update_args
-	end
-
     def unify_elt(other)
         if @elt.nil?
             @elt = other.elt
