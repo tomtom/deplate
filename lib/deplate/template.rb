@@ -94,6 +94,7 @@ end
 class Deplate::DeplateForTemplates < Deplate::Core
     @log_treshhold = 4
     @log_events    = []
+    @respect_line_cont = false
 end
 
 class Deplate::Template

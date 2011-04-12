@@ -170,7 +170,11 @@ MESSAGE
     # The IO where to display messages.
     @@log_destination   = $stderr
 
+    @respect_line_cont = true
+
     class << self
+        attr_reader :respect_line_cont
+
         # Do what has to be done. This is the method that gets called when 
         # invoking deplate from the command line. It checks the command line 
         # arguments, sets up a Deplate::Core object, and makes it convert the 
