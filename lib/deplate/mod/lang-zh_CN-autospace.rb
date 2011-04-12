@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     01-Aug-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.229
+# @Last Change: 2011-04-12.
+# @Revision:    0.248
 
 require 'deplate/zh_CN'
 
@@ -34,26 +34,32 @@ class Deplate::Core
 
     def module_initialize_zh_cn_autospace
         class << self
-            def join_particles(particles)
-                acc  = []
-                prev = ''
-                prev_cjk = false
-                particles.delete('')
-                particles.each_with_index do |e, i|
-                    if e == ' '
-                        enext = particles[i + 1]
-                        if prev == ' ' or enext == ' '
-                        elsif @formatter.cjk_smart_blanks and prev =~ Deplate::Core.cjk_rx_C and enext =~ Deplate::Core.cjk_rx_C
-                            acc << @formatter.cjk_nospace
+            alias :zh_cn_autospace_join_particles :join_particles
+
+            def join_particles(particles, container = nil)
+                if self.class.respect_line_cont and (container.nil? or container.line_cont)
+                    acc  = []
+                    prev = ''
+                    prev_cjk = false
+                    particles.delete('')
+                    particles.each_with_index do |e, i|
+                        if e == ' '
+                            enext = particles[i + 1]
+                            if prev == ' ' or enext == ' '
+                            elsif @formatter.cjk_smart_blanks and prev =~ Deplate::Core.cjk_rx_C and enext =~ Deplate::Core.cjk_rx_C
+                                acc << @formatter.cjk_nospace
+                            else
+                                acc << @formatter.cjk_space
+                            end
                         else
-                            acc << @formatter.cjk_space
+                            acc << e
+                            prev = e
                         end
-                    else
-                        acc << e
-                        prev = e
                     end
+                    return acc.join
+                else
+                    zh_cn_autospace_join_particles(particles, container)
                 end
-                return acc.join
             end
         end
     end
@@ -70,8 +76,13 @@ class Deplate::Core
 end
 
 class Deplate::Element
+    alias :zh_cn_autospace_join_lines :join_lines
     def join_lines(accum)
-        accum.join(' ')
+        if @deplate.class.respect_line_cont and self.line_cont
+            accum.join(' ')
+        else
+            zh_cn_autospace_join_lines(accum)
+        end
     end
 end
 
