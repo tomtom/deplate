@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     26-Mär-2004.
-# @Last Change: 2010-11-21.
-# @Revision:    0.4612
+# @Last Change: 2011-04-12.
+# @Revision:    0.4613
 
 require "deplate/abstract-class"
 
@@ -280,7 +280,7 @@ class Deplate::Element < Deplate::BaseElement
                     p.elt
                 end
             end
-            @deplate.join_particles(rv)
+            @deplate.join_particles(rv, self)
         end
     end
     
@@ -461,7 +461,7 @@ class Deplate::Element < Deplate::BaseElement
         end
         if defined?(@caption) && @caption
             elt = @caption.elt.collect {|p| p.process; p.elt}
-            @caption.elt = @deplate.join_particles(elt)
+            @caption.elt = @deplate.join_particles(elt, self)
         end
     end
     alias process_options process_etc
@@ -1606,7 +1606,7 @@ class Deplate::Element::Clip < Deplate::BaseElement
         end
         unless @elt
             @elt = @acc.collect{|p| p.process; p.elt}
-            @elt = @deplate.join_particles(@elt)
+            @elt = @deplate.join_particles(@elt, @invoker)
         end
         return self
     end

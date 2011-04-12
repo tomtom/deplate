@@ -4,7 +4,7 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Feb-2004.
-# @Last Change: 2010-10-04.
+# @Last Change: 2011-04-12.
 
 require 'uri'
 require 'optparse'
@@ -3071,19 +3071,19 @@ MESSAGE
     end
 
     # Join an array of particles into a string.
-    def join_particles(particles)
+    def join_particles(particles, container = nil)
         particles.join
     end
 
     # Return an array of unprocessed particles as string.
-    def format_particles(particles)
+    def format_particles(particles, container = nil)
         return join_particles(particles.collect{|e| e.process; e.elt})
     end
 
     # Parse +text+ and return a formatted string.
     def parse_and_format(container, text, alt=true, args={})
         t = parse(container, text, alt, args)
-        return format_particles(t)
+        return format_particles(t, container)
     end
 
     def parse_and_format_without_wikinames(container, text, alt=true)

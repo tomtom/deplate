@@ -101,7 +101,7 @@ class Deplate::Particle::NonCJK < Deplate::Particle
             self.class.part = particles
         end
         @elt = @deplate.parse_with_particles(@container, @elt, self.class.part)
-        @elt = @deplate.format_particles(@elt)
+        @elt = @deplate.format_particles(@elt, @container)
     end
 end
 

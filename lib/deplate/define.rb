@@ -5,7 +5,7 @@
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     19-Okt-2004.
 # @Last Change: 2011-04-12.
-# @Revision:    0.555
+# @Revision:    0.556
 
 require 'deplate/commands'
 require 'deplate/macros'
@@ -243,7 +243,7 @@ class Deplate::Define::Particle < Deplate::Particle
     end
 
     def process
-        @elt = @deplate.format_particles(@elt)
+        @elt = @deplate.format_particles(@elt, @container)
     end
 end
 

@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Mär-2004.
-# @Last Change: 2010-10-04.
-# @Revision:    0.1957
+# @Last Change: 2011-04-12.
+# @Revision:    0.1958
 
 require "uri"
 require "deplate/common"
@@ -162,7 +162,7 @@ class Deplate::SimpleParticle < Deplate::Particle
     end
     
     def process
-        @elt = @deplate.format_particles(@elt)
+        @elt = @deplate.format_particles(@elt, @container)
         fmt  = self.class.formatter
         if fmt
             @elt = format_particle(fmt, self, @elt)
@@ -224,7 +224,7 @@ class Deplate::Particle::Emphasize < Deplate::SimpleParticle
     set_rx(/^__((\\_|.)+?)__/)
     set_formatter :format_emphasize
     # def process
-    #     @elt = @deplate.format_particles(@elt)
+    #     @elt = @deplate.format_particles(@elt, @container)
     #     @elt = format_particle(:format_emphasize, self, @elt)
     # end
 end
@@ -906,7 +906,7 @@ class Deplate::DeprecatedParticle < Deplate::SimpleParticle
         pre, post = get_prepost(@match)
         acc = [
             plain_text(pre.join, false),
-            @deplate.format_particles(@elt),
+            @deplate.format_particles(@elt, @container),
             plain_text(post.join, false)
         ]
         @elt = acc.join
