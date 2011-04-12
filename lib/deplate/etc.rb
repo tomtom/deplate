@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     16-Okt-2005.
-# @Last Change: 2009-11-09.
-# @Revision:    0.328
+# @Last Change: 2011-04-12.
+# @Revision:    0.345
 
 require 'deplate/common'
 
@@ -32,6 +32,7 @@ end
 class Deplate::PseudoContainer < Deplate::BaseElement
     attr_accessor :registered_metadata
     attr_reader   :destination
+    attr_reader   :line_cont
     
     def initialize(deplate, args)
         super(deplate, args)
@@ -40,6 +41,7 @@ class Deplate::PseudoContainer < Deplate::BaseElement
         @registered_metadata = args[:metadata] || []
         @accum               = args[:accum] || []
         @destination         = ''
+        @line_cont           = args[:container].nil? ? true : args[:container].line_cont
     end
     
     def log(text, condition=nil)

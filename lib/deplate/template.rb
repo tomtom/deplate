@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     10-Aug-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.564
+# @Last Change: 2011-04-12.
+# @Revision:    0.571
 # 
 # Description:
 # 
@@ -446,7 +446,7 @@ class Deplate::Template
         if arg
             text = @deplate.variables[arg]
             if text
-                container = @container || Deplate::PseudoContainer.new(@deplate, :source => @source)
+                container = @container || Deplate::PseudoContainer.new(@deplate, :source => @source, :container => @container)
                 return @deplate.parse_and_format(container, text)
             end
         end
