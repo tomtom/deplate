@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     19-Okt-2004.
-# @Last Change: 2009-11-09.
-# @Revision:    0.551
+# @Last Change: 2011-04-12.
+# @Revision:    0.555
 
 require 'deplate/commands'
 require 'deplate/macros'
@@ -198,27 +198,31 @@ class Deplate::Regions::DefElement < Deplate::Define
     set_line_cont false
     
     def define
-        rx = deprecated_regnote('rx')
-        if rx
+        rxs = deprecated_regnote('rx')
+        if rxs
             @@def_element_counter += 1
             # template  = @accum.join("\n").gsub(/\'/, "\\\\\'")
             template  = @accum.join("\n")
-            # rx        = Regexp.new(rx).source.gsub(/\//, '\\\\/')
-            rx        = %r{^#{rx}}
             multiline = valid_switch(@args['multiline'], 'true')
             collapse  = valid_switch(@args['collapse'],  'false')
-            body = <<-EOR
-                set_rx(#{rx.inspect})
-                class_attribute :tpl, #{template.inspect}
-                def setup
-                    @multiliner = #{multiline}
-                    @collapse   = #{collapse}
-                    @accum      = [@match[0]]
-                end
-            EOR
-            @args[:register] = true
-            @args[:super]    = Deplate::Define::Element
-            cls = Deplate::Cache.element(@deplate, body, @args)
+            begin
+                # rx        = Regexp.new(rxs).source.gsub(/\//, '\\\\/')
+                rx        = %r{^#{rxs}}
+                body = <<-EOR
+                    set_rx(#{rx.inspect})
+                    class_attribute :tpl, #{template.inspect}
+                    def setup
+                        @multiliner = #{multiline}
+                        @collapse   = #{collapse}
+                        @accum      = [@match[0]]
+                    end
+                EOR
+                @args[:register] = true
+                @args[:super]    = Deplate::Define::Element
+                cls = Deplate::Cache.element(@deplate, body, @args)
+            rescue RegexpError => e
+                Deplate::Core.log(["Invalid regular expression %s" % rxs, e], :error, @source)
+            end
         end
     end
 end
