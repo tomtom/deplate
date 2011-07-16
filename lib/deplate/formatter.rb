@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     31-Okt-2004.
-# @Last Change: 2010-08-17.
-# @Revision:    0.2070
+# @Last Change: 2011-07-16.
+# @Revision:    0.2077
 
 require 'deplate/abstract-class'
 require 'deplate/common'
@@ -560,6 +560,7 @@ class Deplate::Formatter < Deplate::CommonObject
     
     # Recode normal text for #plain_text
     def plain_text_recode(text, from_enc=nil, to_enc=nil)
+        log(["No recoder available", from_enc, to_enc], :error) if from_enc != to_enc and !(from_enc.nil? or to_enc.nil?)
         text
     end
     
