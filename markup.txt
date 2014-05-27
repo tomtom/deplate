@@ -1,5 +1,5 @@
 % vi: ft=viki:tw=72
-% @Last Change: 2010-10-17.
+% @Last Change: 2012-02-17.
 
 * Markup
 #OPT: id=Markup
@@ -246,7 +246,7 @@ file name from the heading.
         #A Some task
         #B1 Some other task
     - Do that
-        #A  x1970-11-31 Something was done!
+        #X  1970-11-31 Something was done!
         #Y1 1970-11-31  Some other task
 ---
 
