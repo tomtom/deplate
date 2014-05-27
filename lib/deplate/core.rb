@@ -4,7 +4,7 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Feb-2004.
-# @Last Change: 2011-07-14.
+# @Last Change: 2012-08-24.
 
 require 'uri'
 require 'optparse'
@@ -33,6 +33,8 @@ class Deplate::Core
     VersionSfx = 'final'
     MicroRev   = '3177'
 
+    RBCONFIG = RUBY_VERSION >= '2.1.0' ? RbConfig : Config
+
     if ENV['HOME']
         CfgDir = File.join(ENV['HOME'].gsub(/\\/, '/'), '.deplate')
     elsif ENV['USERPROFILE']
@@ -51,7 +53,7 @@ USERPROFILE is set. I will look for configuration files in:
 MESSAGE
     end
     LibDir     = File.dirname(__FILE__)
-    DataDir    = File.join(Config::CONFIG['datadir'], 'deplate')
+    DataDir    = File.join(RBCONFIG::CONFIG['datadir'], 'deplate')
     EtcDirs    = []
     # FileCache  = File.join(CfgDir, 'file_list.dat')
     FileCache  = nil
