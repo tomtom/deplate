@@ -1,8 +1,4 @@
-#!/usr/bin/env ruby
-
-require 'rubygems'
-
-spec = Gem::Specification.new do |s|
+Gem::Specification.new do |s|
   s.name         = 'deplate'
   if ENV['TESTING']
       s.version  = `deplate --microversion`.chomp
@@ -61,12 +57,8 @@ EOF
       # 'VERSION.TXT',
   ]
   s.files += s.extra_rdoc_files
+  # s.add_dependency()
   s.bindir = 'bin'
   s.executables = ['deplate']
   s.default_executable = 'deplate'
-end
-
-if $0==__FILE__
-  Gem::manage_gems
-  Gem::Builder.new(spec).build
 end
