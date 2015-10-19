@@ -4,7 +4,7 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     24-Feb-2004.
-# @Last Change: 2012-08-24.
+# @Last Change: 2015-10-18.
 
 require 'uri'
 require 'optparse'
@@ -118,7 +118,6 @@ MESSAGE
         :head_identifier => 32,
         :head_title      => 33,
         :head_extra      => 34,
-        :user_head       => 35,
         :mod_head        => 40,
         :user_head       => 50,
         :htmlsite_prev   => 55,

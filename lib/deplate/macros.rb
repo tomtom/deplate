@@ -4,8 +4,8 @@
 # @Website:     http://deplate.sf.net/
 # @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 # @Created:     25-Mär-2004.
-# @Last Change: 2010-11-21.
-# @Revision:    0.1372
+# @Last Change: 2015-10-18.
+# @Revision:    2.1372
 
 require 'forwardable'
 
